@@ -11,11 +11,10 @@ export default function BaseLayout({ children }) {
             <Layout>
                 <Navbar />
 
-                <Layout style={{ padding: '0 24px 24px' }}>
+                <Layout style={{ padding: '0 14px 14px' }}>
                     <Content
-                    className="site-layout-background"
                     style={{
-                        padding: 24,
+                        padding: 14,
                         margin: 0,
                         minHeight: 280,
                     }}
