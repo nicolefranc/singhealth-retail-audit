@@ -12,6 +12,10 @@
   background-color: #fff;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .logo {
   height: 32px;
   margin: 16px;

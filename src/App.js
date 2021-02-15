@@ -1,33 +1,36 @@
 import './App.css';
-import { Layout } from 'antd';
-import Sidebar from './components/layout/Sidebar';
-import Navbar from './components/layout/Navbar';
-
-const { Content } = Layout;
+import BaseLayout from './components/layout/BaseLayout';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route
+  } from "react-router-dom";
+import Dashboard from './pages/Dashboard';
+import Tenants from './pages/Tenants';
+import Notifications from './pages/Notifications';
+import Settings from './pages/Settings';
+import { routes } from './const';
 
 function App() {
 	return (
-		<>
-			<Layout className="h-screen">
-				<Sidebar />
-				<Layout>
-					<Navbar />
-
-					<Layout style={{ padding: '0 24px 24px' }}>
-						<Content
-						className="site-layout-background"
-						style={{
-							padding: 24,
-							margin: 0,
-							minHeight: 280,
-						}}
-						>
-						Content
-						</Content>
-					</Layout>
-				</Layout>
-			</Layout>
-		</>
+		<Router>
+			<BaseLayout>
+				<Switch>
+					<Route exact path={routes.DEFAULT}>
+						<Dashboard />
+					</Route>
+					<Route path={routes.TENANTS}>
+						<Tenants />
+					</Route>
+					<Route path={routes.NOTIFICATIONS}>
+						<Notifications />
+					</Route>
+					<Route path={routes.SETTINGS}>
+						<Settings />
+					</Route>
+				</Switch>
+			</BaseLayout>
+		</Router>
 	);
 }
 
