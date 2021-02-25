@@ -3,7 +3,17 @@ import Title from "antd/lib/typography/Title";
 import { useState } from 'react';
 import CameraButton from '../components/CameraButton';
 
+
+//NEW
+import React from 'react'
+import {Button} from 'antd';
+import { Link} from 'react-router-dom';
+import { routes } from '../const';
+//
+
 export default function Tenants() {
+
+
     const [imgSources, setImgSources] = useState([]);
 
     const handleCapture = (target) => {
@@ -34,6 +44,15 @@ export default function Tenants() {
                 </Image.PreviewGroup>
                 <CameraButton handleCapture={handleCapture} />
             </div>
+            
+            {/* <div>
+                <Button onClick={navigateTo}>Audit</Button> 
+            </div> */}
+
+            <Link to={routes.CHECKLIST}> 
+                Audit
+            </Link>
+            
         </>
     )
 }

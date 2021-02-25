@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
+import Checklist from './components/checklist/Checklist';
 import { routes } from './const';
 
 function App() {
@@ -28,9 +29,16 @@ function App() {
 					<Route path={routes.SETTINGS}>
 						<Settings />
 					</Route>
+					<Route path={routes.CHECKLIST}>
+        				<Checklist />
+      				</Route>
 				</Switch>
 			</BaseLayout>
+
+			
+
 		</Router>
+
 	);
 }
 

@@ -3,4 +3,5 @@ export const routes = {
     TENANTS: '/tenants',
     NOTIFICATIONS: '/notifications',
     SETTINGS: '/settings',
+    CHECKLIST: '/checklist'
 }
