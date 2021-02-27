@@ -9,7 +9,9 @@ import Dashboard from './pages/Dashboard';
 import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
-import Checklist from './components/checklist/Checklist';
+import ChecklistNonFB from './components/checklist/ChecklistNonFB';
+import ChecklistFB from './components/checklist/ChecklistFB';
+import ChecklistTemplates from './components/checklist/ChecklistTemplates';
 import { routes } from './const';
 
 function App() {
@@ -29,8 +31,14 @@ function App() {
 					<Route path={routes.SETTINGS}>
 						<Settings />
 					</Route>
-					<Route path={routes.CHECKLIST}>
-        				<Checklist />
+					<Route path={routes.CHECKLIST_NONFB}>
+        				<ChecklistNonFB />
+      				</Route>
+					<Route path={routes.CHECKLIST_FB}>
+        				<ChecklistFB />
+      				</Route>
+					<Route path={routes.TEMPLATES}>
+        				<ChecklistTemplates />
       				</Route>
 				</Switch>
 			</BaseLayout>

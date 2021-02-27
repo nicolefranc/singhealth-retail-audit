@@ -75,3 +75,12 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.padding-top{
+  padding-top:20px;
+}
+
+.button {
+  padding-bottom: 20px;
+  background: rgb(241, 90, 34);
+}

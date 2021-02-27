@@ -28,7 +28,7 @@ export default function Tenants() {
         <>
             <Title>Tenants</Title>
             <Divider />
-            <div>
+            {/* <div>
                 <Image.PreviewGroup>
                     { imgSources.map(imgSource => (
                             <Image
@@ -43,14 +43,10 @@ export default function Tenants() {
                     }
                 </Image.PreviewGroup>
                 <CameraButton handleCapture={handleCapture} />
-            </div>
-            
-            {/* <div>
-                <Button onClick={navigateTo}>Audit</Button> 
             </div> */}
 
-            <Link to={routes.CHECKLIST}> 
-                Audit
+            <Link to={routes.TEMPLATES}> 
+                <Button>Audit</Button>
             </Link>
             
         </>

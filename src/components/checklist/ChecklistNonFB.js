@@ -1,9 +1,9 @@
-import Title from "antd/lib/typography/Title";
 import '../../App.css';
-import { Collapse, Divider,List,Typography } from 'antd';
+import { Collapse, Divider,List,Input } from 'antd';
 import React from 'react';
+// import {ThreeStateCheckbox} from './Checkbox';
 
-export default function Checklist() {
+export default function ChecklistNonFB() {
     //FOR LINE ITEMS:
     const { Panel } = Collapse;
     const data1_1 = [
@@ -102,7 +102,13 @@ export default function Checklist() {
         console.log(`checked: ${checked}`);
     };
 
-    //
+    //FOR REMARKS INPUT BOX
+    const { TextArea } = Input;
+
+    const onChange = e => {
+    console.log(e);
+    };
+    
 
     return(
         <>
@@ -216,6 +222,10 @@ export default function Checklist() {
                 </Collapse>
             </div>
 
+            <div class="padding-top">
+                <TextArea placeholder="Remarks" allowClear onChange={onChange} />
+            </div>
+            
             <Divider />
 
             <div class="row">
