@@ -1,14 +1,17 @@
 import { Layout } from 'antd';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
 
 const { Content } = Layout;
 
 export default function BaseLayout({ children }) {
+    const breakpoint = useBreakpoint();
+
     return (
-        <Layout className="h-screen">
+        <Layout>
             <Sidebar />
-            <Layout>
+            <Layout style={breakpoint.lg ? { marginLeft: '200px' } : {}}>
                 <Navbar />
 
                 <Layout style={{ padding: '0 14px 14px' }}>
