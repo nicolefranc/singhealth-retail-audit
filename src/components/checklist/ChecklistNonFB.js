@@ -1,61 +1,15 @@
 import '../../App.css';
 import { Collapse, Divider,List,Input } from 'antd';
 import React from 'react';
+import {dataNonFB} from './ChecklistData';
 // import {ThreeStateCheckbox} from './Checkbox';
 
 export default function ChecklistNonFB() {
-    //FOR LINE ITEMS:
-    const { Panel } = Collapse;
-    const data1_1 = [
-        'Shop is open and ready to service patients/visitors according to operating hours.',
-        'Staff Attendance: adequate staff for peak and non-peak hours.',
-        'At least one (1) clearly assigned person in-charge on site.',
-    ];
-    const data1_2 = [
-        'Staff uniform/attire is not soiled.',
-        'Staff who are unfit for work due to illness should not report to work.',
-        'Staff who are fit for work but suffering from the lingering effects of a cough and/or cold should cover their mouths with a surgical mask.',
-    ];
-    const data2_1=[
-        'Adequate and regular pest control:\n-Pest control record.',
-        'Goods and equipment are within shop boundary.',
-        'Store display/ Shop front is neat and tidy.',
-        'Work/ serving area is neat, clean and free of spillage.',
-        'Uncluttered circulation space free of refuse/ furniture.',
-        'Fixtures and fittings including shelves, cupboards and drawers are clean and dry and in a good state.',
-        'Ceiling/ ceiling boards are free from stains/ dust with no gaps.',
-        'Fans and air-con units are in proper working order and clean and free from dust. Proper maintenance and routine cleaning are carried out regularly.',
-        'Equipment is clean, in good condition and serviced.',
-        'Surfaces, walls and ceilings within customer areas are dry and clean.',
-        'Floor within customer areas is clean and dry.',
-        'Waste is properly managed and disposed:\n-Waste bins are not over-filled.\n-Waste Management: Proper disposal of general waste.',
-    ];
-    const data3_1=[
-        'MSDS for all industrial chemicals are available and up to date.',
-        'Proper chemicals storage.',
-        'All detergent and bottles containing liquids are labelled appropriately.',
-        'All personnel to wear safety shoes and safety attire where necessary.',
-        'Knives and sharp objects are kept at a safe place.',
-        'Area under the sink should not be cluttered with items other than washing agents.',
-        'Delivery personnel do not stack goods above the shoulder level.',
-        'Stacking of goods does not exceed 600mm from the ceiling and heavy items at the bottom, light items on top.',
-        'Proper signage/ label (fire, hazards, warnings, food stuff) and Exit signs in working order.',
-    ];
-    const data3_2=[
-        'Fire extinguishers access is unobstructed; Fire extinguishers are not expired and employees know how to use them.',
-        'Escape route and exits are unobstructed.',
-        'First aid box is available and well-equipped.',      
-    ];
-    const data3_3=[
-        'Electrical sockets are not overloaded – one plug to one socket.',
-        'Plugs and cords are intact and free from exposure/ tension with PSB safety mark.',
-        'Power points that are in close proximity to flammable and/or water sources are installed with a plastic cover.',
-        'Electrical panels / DBs are covered.',
-    ];
-
+    
+    //FOR DROPDOWN
+    const { Panel } = Collapse; 
 
     //FOR CHECKBOX:
-
     const updateInput = (ref, checked) => {
         const input = ref.current;
         if (input) {
@@ -124,7 +78,7 @@ export default function ChecklistNonFB() {
                         <Collapse accordion defaultActiveKey="1">
                             <Panel header="Professionalism" key="1">
                                 <List
-                                    dataSource={data1_1}
+                                    dataSource={dataNonFB.data1_1}
                                     renderItem={item => (
                                         <List.Item>
                                             {item}
@@ -138,7 +92,7 @@ export default function ChecklistNonFB() {
 
                             <Panel header="Staff Hygiene" key="2">
                                 <List
-                                    dataSource={data1_2}
+                                    dataSource={dataNonFB.data1_2}
                                     renderItem={item => (
                                         <List.Item>
                                             {item}
@@ -157,7 +111,7 @@ export default function ChecklistNonFB() {
                         <Collapse accordion defaultActiveKey="1">
                             <Panel header="General Environment Cleanliness" key="1">
                                 <List
-                                    dataSource={data2_1}
+                                    dataSource={dataNonFB.data2_1}
                                     renderItem={item => (
                                         <List.Item>
                                             {item}
@@ -176,7 +130,7 @@ export default function ChecklistNonFB() {
                         <Collapse accordion defaultActiveKey="1">
                             <Panel header="General Safety" key="1">
                                 <List
-                                    dataSource={data3_1}
+                                    dataSource={dataNonFB.data3_1}
                                     renderItem={item => (
                                         <List.Item>
                                             {item}
@@ -190,7 +144,7 @@ export default function ChecklistNonFB() {
 
                             <Panel header="Fire & Emergency Safety" key="2">
                                 <List
-                                    dataSource={data3_2}
+                                    dataSource={dataNonFB.data3_2}
                                     renderItem={item => (
                                         <List.Item>
                                             {item}
@@ -204,7 +158,7 @@ export default function ChecklistNonFB() {
 
                             <Panel header="Electrical Safety" key="3">
                                 <List
-                                    dataSource={data3_3}
+                                    dataSource={dataNonFB.data3_3}
                                     renderItem={item => (
                                         <List.Item>
                                             {item}

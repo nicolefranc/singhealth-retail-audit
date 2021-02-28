@@ -62,6 +62,10 @@
   justify-content: end;
 }
 
+.parent-width{
+  width:;
+}
+
 /* OVERRIDES */
 #nav-drawer .ant-drawer-body {
   background-color: #001529 !important;
@@ -81,6 +85,16 @@
 }
 
 .button {
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   background: rgb(241, 90, 34);
+  color:#fff;
 }
+
+.row-equal {
+  width: 100%;
+  display: flex;
+  flex:1;
+  flex-direction: row;
+  align-content: stretch;
+}
+
