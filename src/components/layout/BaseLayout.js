@@ -6,7 +6,7 @@ const { Content } = Layout;
 
 export default function BaseLayout({ children }) {
     return (
-        <Layout className="h-screen">
+        <Layout>
             <Sidebar />
             <Layout>
                 <Navbar />
