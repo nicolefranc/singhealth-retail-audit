@@ -1,35 +1,44 @@
-import { List, Avatar } from 'antd';
+import { Table, Tag } from 'antd';
+import { unrectifiedAudits } from './TenantData';
+
 
 export default function ScrollList() {
 
-    const data = [
-        {
-          title: 'Tenant 1',
-        },
-        {
-          title: 'Tenant 2',
-        },
-        {
-          title: 'Tenant 3',
-        },
-        {
-          title: 'Tenant 4',
-        },
-      ];
+    const columns = [
+      {
+        title: 'Tenant',
+        dataIndex: 'tenant',
+        width: 150,
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        render: status => (
+          <>
+            {status.map(status => {
+              let color = 'blue';
+              if (status === 'Due') {
+                color = 'volcano';
+              }
+              else if(status === 'Rectified'){
+                color = 'green';
+              }
+              else if(status ==='Unrectified'){
+                color = 'geekblue'
+              }
+              return (
+                <Tag color={color} key={status}>
+                  {status.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </>
+        ),
+      },
+    ];
 
     return(
-        <List
-        itemLayout="horizontal"
-        dataSource={data}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-              title={<a href="https://ant.design">{item.title}</a>}
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-            />
-          </List.Item>
-        )}
-      />
+      <Table columns={columns} dataSource={unrectifiedAudits} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
     )
 }
