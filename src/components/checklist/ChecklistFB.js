@@ -2,9 +2,13 @@ import '../../App.css';
 import { Collapse, Divider,List,Input } from 'antd';
 import React from 'react';
 import {dataFB} from './ChecklistData';
+import fnb from '../../data/report';
+import LineItem from './LineItem';
+import Subcategory from './Subcategory';
+import Checklist from './Checklist';
 
-export default function ChecklistFB() {
-    
+export default function ChecklistFB({ data }) {
+    console.log(fnb);
     //FOR DROPDOWN
     const { Panel } = Collapse; 
 
@@ -62,44 +66,32 @@ export default function ChecklistFB() {
     console.log(e);
     };
 
+    console.log(fnb[0]);
+
     return(
         <>
-           <h2>Audit Checklist (F&B)</h2> 
+            <h2>Audit Checklist (F&B)</h2> 
 
-           <Divider />
-
+            <Divider />  
             <div>
-                <Collapse accordion defaultActiveKey="1">
+                <Checklist data={fnb} />
+                {/* <Collapse accordion defaultActiveKey="1">
 
                     <Panel header="1. Professionalism & Staff Hygiene (10%)" key="1">
 
                         <Collapse accordion defaultActiveKey="1">
-                            <Panel header="Professionalism" key="1">
-                                <List
-                                    dataSource={dataFB.data1_1}
-                                    renderItem={item => (
-                                        <List.Item>
-                                            {item}
-                                            <ThreeStateCheckbox checked={checked} onChange={handleChange}>
-                                                {item}
-                                            </ThreeStateCheckbox>
-                                        </List.Item>
-                                    )}
-                                />
-                            </Panel>
+                            <Subcategory subcategory={fnb[0]['subcategories'][0]} />
+                            {
+                                fnb[0].subcategories.map((subcategory, index) => {
+                                    console.log(index);
+                                    return <Panel header={subcategory.subcategory} key={index+1}>
+                                        <LineItem lineItems={subcategory.lineItems} />
+                                    </Panel>
+                                })
+                            }
 
                             <Panel header="Staff Hygiene" key="2">
-                                <List
-                                    dataSource={dataFB.data1_2}
-                                    renderItem={item => (
-                                        <List.Item>
-                                            {item}
-                                            <ThreeStateCheckbox checked={checked} onChange={handleChange}>
-                                                {item}
-                                            </ThreeStateCheckbox>
-                                        </List.Item>
-                                    )}
-                                />
+                                <LineItem lineItems={fnb[0].subcategories[1].lineItems} />
                             </Panel>
                         </Collapse>
   
@@ -254,7 +246,7 @@ export default function ChecklistFB() {
 
                     </Panel>
 
-                </Collapse>
+                </Collapse> */}
             </div>
                                 
             <div class="padding-top">
