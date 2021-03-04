@@ -1,28 +1,22 @@
-import { Divider, Image } from "antd";
+import React from 'react';
+import { Divider, Image, Button} from "antd";
 import Title from "antd/lib/typography/Title";
 import { useState } from 'react';
 import CameraButton from '../components/CameraButton';
-
-
-//NEW
-import React from 'react'
-import {Button} from 'antd';
 import { Link} from 'react-router-dom';
 import { routes } from '../const';
-//
 
 export default function Tenants() {
 
+    // const [imgSources, setImgSources] = useState([]);
 
-    const [imgSources, setImgSources] = useState([]);
-
-    const handleCapture = (target) => {
-        if (target.files && target.files.length !== 0) {
-            const file = target.files[0];
-            const imgUrl = URL.createObjectURL(file);
-            setImgSources([ imgUrl, ...imgSources ]);
-        }
-    }
+    // const handleCapture = (target) => {
+    //     if (target.files && target.files.length !== 0) {
+    //         const file = target.files[0];
+    //         const imgUrl = URL.createObjectURL(file);
+    //         setImgSources([ imgUrl, ...imgSources ]);
+    //     }
+    // }
 
     return (
         <>
@@ -46,7 +40,7 @@ export default function Tenants() {
             </div> */}
 
             <Link to={routes.TEMPLATES}> 
-                <Button>Audit</Button>
+                <Button className="bg-orange text-white">Audit</Button>
             </Link>
             
         </>
