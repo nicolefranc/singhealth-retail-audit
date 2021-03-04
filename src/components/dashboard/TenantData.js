@@ -1,4 +1,5 @@
 import { Table, Tag } from 'antd';
+import {Link} from 'react-router-dom';
 
 
 export var PerformanceAll = [
@@ -139,6 +140,7 @@ export var Performance = [
     { month: 'December', score: 4.9 }
 ];
 
+// For Staffs' Dashboard
 export var unrectifiedAudits = [];
 for (let i = 0; i<30; i++){
     if (i%2 === 0){
@@ -167,7 +169,7 @@ export const tenantColumns = [
       title: 'Tenant',
       dataIndex: 'tenant',
       width: 150,
-      render: tenants => <a>{tenants}</a>,
+      render: tenants => <Link to='/DashBoardTenant'>{tenants}</Link>,
     },
     {
       title: 'Status',
@@ -196,6 +198,7 @@ export const tenantColumns = [
     },
   ];
 
+//For Tenant's Dashboard
 export var pastReports = [];
 for (let i = 0; i<30; i++){
     if (i%2 === 0){
