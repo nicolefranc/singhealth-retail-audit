@@ -1,3 +1,6 @@
+import { Table, Tag } from 'antd';
+
+
 export var PerformanceAll = [
     {
     month: 'Jan',
@@ -138,13 +141,13 @@ export var Performance = [
 
 export var unrectifiedAudits = [];
 for (let i = 0; i<30; i++){
-    if (i%2 == 0){
+    if (i%2 === 0){
     unrectifiedAudits.push({
         key: i,
         tenant: `Tenant ${i}`,
         status: ['Rectified']});
     }
-    else if (i%3 == 0){
+    else if (i%3 === 0){
         unrectifiedAudits.push({
             key: i,
             tenant: `Tenant ${i}`,
@@ -157,3 +160,102 @@ for (let i = 0; i<30; i++){
             status: ['Unrectified']});
     }
 }
+
+
+export const tenantColumns = [
+    {
+      title: 'Tenant',
+      dataIndex: 'tenant',
+      width: 150,
+      render: tenants => <a>{tenants}</a>,
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: status => (
+        <>
+          {status.map(status => {
+            let color = 'blue';
+            if (status === 'Due') {
+              color = 'volcano';
+            }
+            else if(status === 'Rectified'){
+              color = 'green';
+            }
+            else if(status ==='Unrectified'){
+              color = 'geekblue'
+            }
+            return (
+              <Tag color={color} key={status}>
+                {status.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+  ];
+
+export var pastReports = [];
+for (let i = 0; i<30; i++){
+    if (i%2 === 0){
+    pastReports.push({
+        key: i,
+        report: `Report ${i}`,
+        date: '17/02/2021',
+        status: ['Rectified']});
+    }
+    else if (i%3 === 0){
+        pastReports.push({
+            key: i,
+            report: `Report ${i}`,
+            date: '17/02/2021',
+            status: ['Unrectified', 'Due']});
+    }
+    else {
+        pastReports.push({
+            key: i,
+            report: `Report ${i}`,
+            date: '17/02/2021',
+            status: ['Unrectified']});
+    }
+}
+
+export const reportColumns = [
+    {
+      title: 'Report',
+      dataIndex: 'report',
+      width: 150,
+      render: reports => <a>{reports}</a>,
+    },
+    {
+        title: 'Date',
+        dataIndex: 'date',
+        width: 150,
+      },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: status => (
+        <>
+          {status.map(status => {
+            let color = 'blue';
+            if (status === 'Due') {
+              color = 'volcano';
+            }
+            else if(status === 'Rectified'){
+              color = 'green';
+            }
+            else if(status ==='Unrectified'){
+              color = 'geekblue'
+            }
+            return (
+              <Tag color={color} key={status}>
+                {status.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+  ];

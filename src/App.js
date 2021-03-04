@@ -10,6 +10,7 @@ import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import { routes } from './const';
+import DashboardTenant from './pages/DashBoardTenant';
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 					<Route path={routes.SETTINGS}>
 						<Settings />
 					</Route>
+					<Route path="/DashboardTenant" component={DashboardTenant}/>
 				</Switch>
 			</BaseLayout>
 		</Router>

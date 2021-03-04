@@ -50,12 +50,44 @@
   margin-top: 2rem;
 }
 
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+.mt-12 {
+  margin-top: 3rem;
+}
+
+.mb-16 {
+  margin-bottom: 4rem;
+}
+
+.mt-16 {
+  margin-top: 4rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
 .mt-20 {
   margin-top: 5rem;
 }
 
+.ml-20{
+  margin-left: 5rem;
+}
+
+.ml-68{
+  margin-left: 17rem;
+}
+
 .flex {
   display: flex;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
 }
 
 .items-center {
@@ -76,6 +108,10 @@
 
 .justify-end {
   justify-content: end;
+}
+
+.object-right {
+  object-position: right;
 }
 
 /* OVERRIDES */
