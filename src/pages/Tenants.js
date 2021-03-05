@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Button, Col, Row, Input } from "antd";
+import { Button, Col, Row, Input, Divider } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import TenantCard from "../components/tenants/TenantCard";
-import { RESPONSIVE_GUTTER } from "../const";
+import { RESPONSIVE_GUTTER, routes } from "../const";
+import { Link } from "react-router-dom";
 
 const tenants = [
     {
@@ -39,6 +40,7 @@ export default function Tenants() {
     return (
         <>
             <Title>Tenants</Title>
+            <Divider />
             <Row gutter={16} justify="space-between">
                 <Col className="mb-4">
                     <Search
@@ -64,6 +66,11 @@ export default function Tenants() {
                     ))
                 }
             </Row>
+
+            <Link to={routes.TEMPLATES}> 
+                <Button className="bg-orange text-white">Audit</Button>
+            </Link>
+            
         </>
     )
 }

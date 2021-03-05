@@ -16,8 +16,16 @@
   background-color: #001529;
 }
 
+.bg-orange {
+  background: #f15a22;
+}
+
 .uppercase {
   text-transform: uppercase;
+}
+
+.font-bold{
+  font-weight: 700;
 }
 
 .logo {
@@ -109,6 +117,12 @@
 
 .pb-0 {
   padding-bottom: 0;
+}
+.pt-10{
+  padding-top:10px;
+}
+.pt-20{
+  padding-top:20px;
 }
 
 /* Margin */
@@ -202,3 +216,25 @@
   background-color: #001529 !important;
   padding: 0;
 }
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  position: relative;
+  padding: 12px 16px;
+  padding-left: 40px;
+  color: white;
+  line-height: 1.5715;
+  cursor: pointer;
+  -webkit-transition: all 0.3s, visibility 0s;
+  transition: all 0.3s, visibility 0s;
+}
+
+/* for checklist */
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.text-right{
+  text-align: right;
+}	
