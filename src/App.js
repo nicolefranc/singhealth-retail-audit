@@ -11,6 +11,7 @@ import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import { routes } from './const';
 import DashboardTenant from './pages/DashBoardTenant';
+import Login from './pages/Login';
 
 function App() {
 	return (
@@ -18,7 +19,7 @@ function App() {
 			<BaseLayout>
 				<Switch>
 					<Route exact path={routes.DEFAULT}>
-						<Dashboard />
+						< Dashboard/>
 					</Route>
 					<Route path={routes.TENANTS}>
 						<Tenants />
@@ -30,6 +31,7 @@ function App() {
 						<Settings />
 					</Route>
 					<Route path="/DashboardTenant" component={DashboardTenant}/>
+					<Route path="/Login" component={Login}/>
 				</Switch>
 			</BaseLayout>
 		</Router>

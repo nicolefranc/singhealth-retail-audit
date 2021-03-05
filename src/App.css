@@ -46,6 +46,14 @@
   margin-top: 1.5rem;
 }
 
+.ml-6{
+  margin-left: 1.5rem;
+}
+
+.mr-6{
+  margin-right: 1.5rem;
+}
+
 .mt-8 {
   margin-top: 2rem;
 }
@@ -58,12 +66,28 @@
   margin-top: 3rem;
 }
 
+.ml-12{
+  margin-left: 3rem;
+}
+
+.mr-12{
+  margin-right: 3rem;
+}
+
 .mb-16 {
   margin-bottom: 4rem;
 }
 
 .mt-16 {
   margin-top: 4rem;
+}
+
+.ml-16{
+  margin-left: 4rem;
+}
+
+.mr-16{
+  margin-right: 4rem;
 }
 
 .mb-20 {
@@ -112,6 +136,15 @@
 
 .object-right {
   object-position: right;
+}
+
+.fab-container {
+  position:fixed;
+  bottom: 50px;
+  z-index: 999;
+  cursor: pointer;
+  width:auto;
+  background-color: aqua;
 }
 
 /* OVERRIDES */

@@ -3,7 +3,7 @@ import DropdownTenant from "../components/dashboard/DropdownTenant";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import ScrollList from "../components/dashboard/ScrollList";
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
-import { Typography, Button } from 'antd';
+import { Typography, Button, Affix} from 'antd';
 
 const { Text} = Typography;
 
@@ -32,6 +32,11 @@ export default function DashboardTenant() {
 
                 <Title className='mt-12' level={4}>Past Audits</Title>
                 <ScrollList columns={reportColumns} data={pastReports}/>
+            </div>
+
+            <div className='flex justify-between'>
+                <Button type="primary">Affix bottom</Button>
+                <Button type="primary">Affix bottom</Button>
             </div>
         </>
     )
