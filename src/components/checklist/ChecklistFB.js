@@ -1,7 +1,6 @@
 import React from 'react';
 import { Divider} from 'antd';
 import {fnb} from '../../data/report';
-import Subcategory from './Subcategory';
 
 export default function ChecklistFB({ data }) {
     console.log(fnb);

@@ -2,7 +2,6 @@ import '../../App.css';
 import { Divider} from 'antd';
 import React from 'react';
 import {nonFnb} from '../../data/report';
-import Subcategory from './Subcategory';
 
 export default function ChecklistNonFB() {
     console.log(nonFnb);

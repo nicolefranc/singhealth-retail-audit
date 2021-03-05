@@ -106,6 +106,11 @@
 .font-extrabold	{font-weight: 800;}
 .font-black	{font-weight: 900;}
 
+/* Width */
+.w-full {
+  width: 100%;
+}
+
 /* Padding */
 .p-0 {
   padding: 0;

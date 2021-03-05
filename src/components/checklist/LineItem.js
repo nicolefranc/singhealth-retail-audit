@@ -43,7 +43,7 @@ export default function LineItem({ lineItems }) {
             onClick={handleClick} />
         );
     };
-    const [checked, setChecked] = React.useState(true);
+    const [checked] = React.useState(true);
     const handleChange = (checked) => {
         console.log(`checked: ${checked}`);
     };

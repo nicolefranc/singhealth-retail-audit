@@ -68,7 +68,7 @@ function ChecklistCovid({ data }) {
     console.log(e);
     };
     
-    const { Text, Link } = Typography;
+    const { Text } = Typography;
 
     console.log(data);
     return (
