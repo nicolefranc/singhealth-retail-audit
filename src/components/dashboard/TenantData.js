@@ -5,122 +5,122 @@ import {Link} from 'react-router-dom';
 export var PerformanceAll = [
     {
     month: 'Jan',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 125,
     },
     {
     month: 'Jan',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 51,
     },
     {
     month: 'Feb',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 132,
     },
     {
     month: 'Feb',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 91,
     },
     {
     month: 'Mar',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 141,
     },
     {
     month: 'Mar',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 34,
     },
     {
     month: 'Apr',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 158,
     },
     {
     month: 'Apr',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 47,
     },
     {
     month: 'May',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 133,
     },
     {
     month: 'May',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 63,
     },
     {
     month: 'June',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 143,
     },
     {
     month: 'June',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 58,
     },
     {
     month: 'July',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 176,
     },
     {
     month: 'July',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 56,
     },
     {
     month: 'Aug',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 194,
     },
     {
     month: 'Aug',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 77,
     },
     {
     month: 'Sep',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 115,
     },
     {
     month: 'Sep',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 99,
     },
     {
     month: 'Oct',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 134,
     },
     {
     month: 'Oct',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 106,
     },
     {
     month: 'Nov',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 110,
     },
     {
     month: 'Nov',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 88,
     },
     {
     month: 'Dec',
-    key: 'tenant1',
+    key: 'tenant 1',
     score: 91,
     },
     {
     month: 'Dec',
-    key: 'tenant2',
+    key: 'tenant 2',
     score: 56,
     },
 ];
@@ -262,3 +262,28 @@ export const reportColumns = [
       ),
     },
   ];
+
+
+//DropdownTenant Data
+export const dropdownTenant = [
+  {
+    value: 0,
+    label: 'All tenants'
+  },
+  {
+    value: 1,
+    label: 'tenant 1'
+  },
+  {
+    value: 2,
+    label: 'tenant 2'
+  },
+  {
+    value: 3,
+    label: 'tenant 3'
+  },
+  {
+    value: 4,
+    label: 'tenant 4'
+  },
+];
