@@ -9,6 +9,8 @@ export default function ChecklistNonFB() {
 
     const {Checklist} = require('./Checklist.js'); //import Checklist function
 
+    
+
     return(
         <>
             <h2>Audit Checklist (Non-F&B)</h2> 
@@ -16,6 +18,7 @@ export default function ChecklistNonFB() {
             <Divider />
 
             <Checklist data={nonFnb} />
+
         </>
     )
 }

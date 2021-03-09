@@ -65,7 +65,7 @@ export default function LineItem({ lineItems }) {
             dataSource={lineItemsString}
             renderItem={item => (
                 <List.Item>
-                    <div className="row justify-between">
+                    <div className="flex flex-row flex-wrap w-full justify-between">
                         {item}
                     <ThreeStateCheckbox checked={checked} onChange={handleChange}/>
                     </div>

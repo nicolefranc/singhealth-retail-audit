@@ -83,7 +83,7 @@ const fnb = [
                         complied: true,
                     },
                     {
-                        lineItem: 'Adequate and regular pest control.\n-Pest control record.',
+                        lineItem:"Adequate and regular pest control.\n-Pest control record.",
                         complied: true,
                     },
                     {

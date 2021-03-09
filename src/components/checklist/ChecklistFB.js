@@ -1,5 +1,7 @@
 import React from 'react';
-import { Divider} from 'antd';
+import { Divider,Button} from 'antd';
+import { routes } from '../../const';
+import { Link} from 'react-router-dom';
 import {fnb} from '../../data/report';
 import Subcategory from './Subcategory';
 
@@ -15,6 +17,10 @@ export default function ChecklistFB({ data }) {
             <Divider />  
             
             <Checklist data={fnb} />
+
+            {/* <Link to={routes.PHOTOS}> 
+                <Button className="bg-orange text-white">Next</Button>
+            </Link> */}
         </>
     )
 }

@@ -13,6 +13,7 @@ import ChecklistNonFB from './components/checklist/ChecklistNonFB';
 import ChecklistFB from './components/checklist/ChecklistFB';
 import ChecklistCOVID from './components/checklist/ChecklistCOVID';
 import ChecklistTemplates from './components/checklist/ChecklistTemplates';
+import ChecklistPhotos from './components/checklist/ChecklistPhotos';
 import { routes } from './const';
 
 function App() {
@@ -44,6 +45,9 @@ function App() {
       				</Route>
 					<Route path={routes.TEMPLATES}>
         				<ChecklistTemplates />
+      				</Route>
+					<Route path={routes.PHOTOS}>
+        				<ChecklistPhotos />
       				</Route>
 				</Switch>
 			</BaseLayout>

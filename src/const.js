@@ -7,4 +7,5 @@ export const routes = {
     CHECKLIST_FB:'/checklist-fb',
     CHECKLIST_COVID:'/checklist-covid',
     TEMPLATES: '/checklist-templates',
+    PHOTOS:'/checklist-photos'
 }
