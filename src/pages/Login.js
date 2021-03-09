@@ -36,6 +36,16 @@ export default function Login(props) {
     password: "",
   });
 
+  const [loginAs, setLoginAs] = useState("Staff");
+
+  function handleLoginAs(event) {
+    setLoginAs(event.target.value);
+    LOGIN_USER = (event.target.value === "Staff") ? LOGIN_AUDITOR : LOGIN_TENANT;
+    console.log(LOGIN_USER);
+  }
+
+  var LOGIN_USER = (loginAs === "Staff") ? LOGIN_AUDITOR : LOGIN_TENANT;
+
   const [loginUser, { loading, data }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
       context.login(userData);
@@ -61,11 +71,6 @@ export default function Login(props) {
     console.log(values);
   }
 
-  const [loginAs, setLoginAs] = useState("Staff");
-
-  function handleLoginAs(event) {
-    setLoginAs(event.target.value);
-  }
   return (
     <>
       {/* <div className="flex justify-between">
@@ -83,12 +88,15 @@ export default function Login(props) {
           onFinish={onSubmit}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item label="Login As" name="loginAs">
-            <Radio.Group>
-              <Radio.Button value="tenant">Tenant</Radio.Button>
-              <Radio.Button value>Staff</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
+          <p>Login As</p>
+          <Radio.Group value={loginAs} label="Login As">
+            <Radio.Button value="tenant" onClick={handleLoginAs}>
+              Tenant
+            </Radio.Button>
+            <Radio.Button value="Staff" onClick={handleLoginAs}>
+              Staff
+            </Radio.Button>
+          </Radio.Group>
 
           <Form.Item label="Email" required tooltip="This is a required field">
             <Input
@@ -122,7 +130,7 @@ export default function Login(props) {
             <div className="ui error message">
               <ul className="list">
                 {Object.values(errors).map((value) => (
-                  <Alert message={value} type="error"/>
+                  <Alert message={value} type="error" />
                 ))}
               </ul>
             </div>
@@ -138,9 +146,24 @@ export default function Login(props) {
   );
 }
 
-const LOGIN_USER = gql`
+const LOGIN_AUDITOR = gql`
   mutation loginAuditor($email: String!, $password: String!) {
     loginAuditor(email: $email, password: $password) {
+      id
+      role
+      institutions
+      email
+      password
+      createdAt
+      activated
+      token
+      name
+    }
+  }
+`;
+const LOGIN_TENANT = gql`
+  mutation loginTenant($email: String!, $password: String!) {
+    loginTenant(email: $email, password: $password) {
       id
       role
       institutions
