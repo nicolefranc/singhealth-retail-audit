@@ -60,6 +60,12 @@ export default function Login(props) {
   function onFinish(values) {
     console.log(values);
   }
+
+  const [loginAs, setLoginAs] = useState("Staff");
+
+  function handleLoginAs(event) {
+    setLoginAs(event.target.value);
+  }
   return (
     <>
       {/* <div className="flex justify-between">
