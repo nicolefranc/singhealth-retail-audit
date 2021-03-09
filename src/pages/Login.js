@@ -3,7 +3,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import {useState} from 'react';
 import Dashboard from './Dashboard';
 import { Redirect } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+// import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
 const LOGIN_USER = gql`
@@ -34,21 +34,27 @@ export default function Login(){
 //   }
 
     const onFinish = (values) => {
-        loginUser();
+        // loginUser();
         console.log('Success:', values);
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+    const [loginAs, setLoginAs] = useState('Staff');
 
-    function loginUserCallback() {
-        loginUser();
+    function handleLoginAs(event){
+        console.log(event.target.value);
+        setLoginAs(event.target.value)
     }
 
-    const [loginUser] = useMutation(LOGIN_USER, {
-        variables: {email: "ee", password: 'ff'}
-    });
+    function loginUserCallback() {
+        // loginUser();
+    }
+
+    // const [loginUser] = useMutation(LOGIN_USER, {
+    //     variables: {email: "ee", password: 'ff'}
+    // });
 
     return(
         <>
@@ -68,12 +74,12 @@ export default function Login(){
             onFinish = {onFinish}
             onFinishFailed = {onFinishFailed}
             >
-        <Form.Item label="Login As" name="loginAs">
-            <Radio.Group>
-            <Radio.Button value="tenant">Tenant</Radio.Button>
-            <Radio.Button value>Staff</Radio.Button>
+
+            
+            <Radio.Group value={loginAs} label="Login As" >
+            <Radio.Button value="tenant" onClick={handleLoginAs}>Tenant</Radio.Button>
+            <Radio.Button value="Staff" onClick={handleLoginAs}>Staff</Radio.Button>
             </Radio.Group>
-        </Form.Item>
 
         <Form.Item name='email' label="Email" required tooltip="This is a required field">
             <Input placeholder="input email" />
