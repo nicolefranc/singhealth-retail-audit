@@ -1,4 +1,4 @@
-import { Form, Input, Button, Radio, Checkbox } from "antd";
+import { Form, Input, Button, Radio, Checkbox, Alert } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import React, { useContext, useState } from "react";
 import Dashboard from "./Dashboard";
@@ -42,7 +42,7 @@ export default function Login(props) {
       props.history.push("/");
     },
     onError(err) {
-      console.log("values are",values);
+      console.log("values are", values);
       console.log(err);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
@@ -84,12 +84,7 @@ export default function Login(props) {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item
-            
-            label="Email"
-            required
-            tooltip="This is a required field"
-          >
+          <Form.Item label="Email" required tooltip="This is a required field">
             <Input
               placeholder="input email"
               onChange={onChange}
@@ -117,7 +112,15 @@ export default function Login(props) {
           <Form.Item name="remember" valuePropName="checked">
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-
+          {Object.keys(errors).length > 0 && (
+            <div className="ui error message">
+              <ul className="list">
+                {Object.values(errors).map((value) => (
+                  <Alert message={value} type="error"/>
+                ))}
+              </ul>
+            </div>
+          )}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
