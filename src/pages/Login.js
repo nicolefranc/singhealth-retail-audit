@@ -165,8 +165,6 @@ const LOGIN_TENANT = gql`
   mutation loginTenant($email: String!, $password: String!) {
     loginTenant(email: $email, password: $password) {
       id
-      role
-      institutions
       email
       password
       createdAt
