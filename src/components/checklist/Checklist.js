@@ -2,6 +2,7 @@ import React from 'react';
 import '../../App.css';
 import { Collapse, Input , Divider, Typography} from "antd";
 import LineItem from "./LineItem";
+import Item from './Item';
 
 function Checklist({ data }) {
     // data is an array of category objects
@@ -25,18 +26,19 @@ function Checklist({ data }) {
                                 category.subcategories.map((subcategory, index) => {
                                     console.log(index);
                                     return <Panel header={subcategory.subcategory} key={index+1} className="bg-orange ">
-                                        <LineItem lineItems={subcategory.lineItems}/>
+                                        {/* <LineItem lineItems={subcategory.lineItems}/> */}
+                                        <Item items={subcategory.lineItems}/>
                                     </Panel>
                                 })
                             }
                         </Collapse>
                 
-                        <div class="pt-10 font-bold text-right">Score: __/{category.weightage}%</div>
+                        <div className="pt-10 font-bold text-right">Score: __/{category.weightage}%</div>
                     </Panel>
                 ))}
             </Collapse>
             
-            <div class="pt-20">
+            <div className="pt-20">
                 <TextArea placeholder="Remarks" allowClear onChange={onChange} />
             </div> 
 
@@ -45,13 +47,11 @@ function Checklist({ data }) {
             <div className="font-bold text-right">Total: ___/100%</div>
             {/* {data.map((category,weightage) => {   
                 console.log(weightage); 
-                return <div class="row justify-between">
+                return <div className="row justify-between">
                     <div>{category.category}</div>
                     <div>__/{category.weightage}%</div>
                 </div>
             })} */}
-
-            <break/>
         </>
     )
 }
@@ -87,7 +87,7 @@ function ChecklistCovid({ data }) {
                 })}
             </Collapse>
 
-            <div class="pt-20">
+            <div className="pt-20">
                 <TextArea placeholder="Remarks" allowClear onChange={onChange} />
             </div>   
         </>
