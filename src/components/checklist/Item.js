@@ -14,9 +14,9 @@ export default function Item({ items }) {
     const toggleCompliance = (complied, index) => {
         // Given the index, update the complied field in line item object
         let lineItem = lineItems[index];
-        console.log(lineItem);
+        // console.log(lineItem);
 
-        console.log(index);
+        // console.log(index);
         if (complied) { // Not compliant
             lineItem.complied = false;
         } else if (complied === false) { // N/A
@@ -37,7 +37,7 @@ export default function Item({ items }) {
         ]
     }
 
-    console.log(lineItems);
+    // console.log(lineItems);
     return (
         <List dataSource={itemsSrc} renderItem={(item, index) => (
             <List.Item>

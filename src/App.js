@@ -14,6 +14,7 @@ import ChecklistFB from './components/checklist/ChecklistFB';
 import ChecklistCOVID from './components/checklist/ChecklistCOVID';
 import ChecklistTemplates from './components/checklist/ChecklistTemplates';
 import { routes } from './const';
+import Report from './pages/Report';
 
 function App() {
 	return (
@@ -33,15 +34,15 @@ function App() {
 						<Settings />
 					</Route>
 
-					<Route path={routes.CHECKLIST_NONFB}>
-        				<ChecklistNonFB />
-      				</Route>
-					<Route path={routes.CHECKLIST_FB}>
+					<Route path={routes.REPORT}>
+						<Report />
+					</Route>
+					{/* <Route path={routes.CHECKLIST_FB}>
         				<ChecklistFB />
       				</Route>
 					<Route path={routes.CHECKLIST_COVID}>
         				<ChecklistCOVID />
-      				</Route>
+      				</Route> */}
 					<Route path={routes.TEMPLATES}>
         				<ChecklistTemplates />
       				</Route>

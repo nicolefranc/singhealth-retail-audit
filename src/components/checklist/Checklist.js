@@ -3,8 +3,12 @@ import '../../App.css';
 import { Collapse, Input , Divider, Typography} from "antd";
 import LineItem from "./LineItem";
 import Item from './Item';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../../redux/actions';
 
 function Checklist({ data }) {
+    const counter = useSelector(state => state.counter);
+    const dispatch = useDispatch();
     // data is an array of category objects
     
     const { Panel } = Collapse; //for dropdown
@@ -14,21 +18,22 @@ function Checklist({ data }) {
     console.log(e);
     };
 
-    console.log(data);
+    // console.log(data);
     return (
         <>
             <Collapse accordion defaultActiveKey='1' >
-                {data.map((category, index,weightage) => (     
+                {data.map((category, index) => (     
 
                     <Panel header={category.category} key={index + 1} className="bg-orange ">
                         <Collapse accordion defaultActiveKey="1" >
                             {   
                                 category.subcategories.map((subcategory, index) => {
-                                    console.log(index);
+                                    // console.log(index);
                                     return <Panel header={subcategory.subcategory} key={index+1} className="bg-orange ">
                                         {/* <LineItem lineItems={subcategory.lineItems}/> */}
                                         <Item items={subcategory.lineItems}/>
                                     </Panel>
+                                    // return <Subcategory key={index} index={index} subcategory={subcategory} />
                                 })
                             }
                         </Collapse>
@@ -65,12 +70,12 @@ function ChecklistCovid({ data }) {
     
     const { TextArea } = Input; //for remarks input box
     const onChange = e => {
-    console.log(e);
+        console.log(e);
     };
     
     const { Text, Link } = Typography;
 
-    console.log(data);
+    // console.log(data);
     return (
         <>
             <h2>COVID SAFE MANAGEMENT MEASURES COMPLIANCE CHECKLIST GUIDE</h2> 
@@ -80,8 +85,8 @@ function ChecklistCovid({ data }) {
 
             <Collapse accordion defaultActiveKey='1'>
                 {data.map((category, index) => {
-                    console.log(index);     
-                    return <Panel header={category.category} key={index + 1} className="bg-orange text-white">
+                    // console.log(index);     
+                    return <Panel header={category.category} key={index + 1}>
                         <LineItem lineItems={category.lineItems} />
                     </Panel>
                 })}
