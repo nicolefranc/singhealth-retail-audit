@@ -6,7 +6,7 @@ import { Typography, Button, Popconfirm, message } from 'antd';
 
 const { Text} = Typography;
 
-export default function DashboardTenant() {
+export default function TenantDetail() {
 
     function confirm(e) {
         console.log(e);
@@ -17,6 +17,17 @@ export default function DashboardTenant() {
         <>
             <div className='flex justify-between'>
             <Title >Dashboard Tenant X </Title>
+            <Button type="primary" danger>
+            <Popconfirm
+                title="Are you sure to delete tenant x?"
+                onConfirm={confirm}
+                onCancel= {null}
+                okText="Yes"
+                cancelText="No"
+                >
+                Delete
+            </Popconfirm>
+            </Button>
             </div>
 
             <div className='mb-6 flex justify-between'>
@@ -36,7 +47,9 @@ export default function DashboardTenant() {
                 <Title className='mt-12' level={4}>Past Audits</Title>
                 <ScrollList columns={reportColumns} data={pastReports}/>
             </div>
-     
+        
+                <Button className="fab-container-left" type="ghost" block={true}>Audit</Button>
+                <Button className="fab-container-right"  type="primary" block={true}>Notify</Button>   
         </>
     )
 }

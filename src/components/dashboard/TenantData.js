@@ -169,7 +169,7 @@ export const tenantColumns = [
       title: 'Tenant',
       dataIndex: 'tenant',
       width: 150,
-      render: tenants => <Link to='/DashBoardTenant'>{tenants}</Link>,
+      render: tenants => <Link to='/TenantDetail'>{tenants}</Link>,
     },
     {
       title: 'Status',

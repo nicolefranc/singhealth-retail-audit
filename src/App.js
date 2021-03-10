@@ -12,6 +12,7 @@ import Settings from './pages/Settings';
 import { routes } from './const';
 import DashboardTenant from './pages/DashBoardTenant';
 import Login from './pages/Login';
+import TenantDetail from './pages/TenantDetail';
 
 function App() {
 	return (
@@ -30,6 +31,7 @@ function App() {
 					<Route path={routes.SETTINGS}>
 						<Settings />
 					</Route>
+					<Route path="/TenantDetail" component={TenantDetail}/>
 					<Route path="/DashboardTenant" component={DashboardTenant}/>
 					<Route path="/Login" component={Login}/>
 				</Switch>
