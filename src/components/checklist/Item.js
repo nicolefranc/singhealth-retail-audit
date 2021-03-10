@@ -1,32 +1,45 @@
 import { List } from "antd";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCompliant } from "../../redux/actions/report";
 import Checkbox from "./Checkbox";
 
-export default function Item({ items }) {
+export default function Item({ items, cIndex, sIndex }) {
     const [lineItems, setLineItems] = useState(items); // Array of line item objects
     const [compliance] = useState(null);
+    const dispatch = useDispatch();
+
+    console.log(`Item load: ${cIndex}, ${sIndex}`);
 
     let itemsSrc = [];
     items.forEach(lineItemObj => {
         itemsSrc = [...itemsSrc, lineItemObj.lineItem];
     });
 
+    // payload.checklist[cIndex].subcategories[sIndex].lineItems
     const toggleCompliance = (complied, index) => {
         // Given the index, update the complied field in line item object
-        let lineItem = lineItems[index];
-        // console.log(lineItem);
+        let lineItem = {...lineItems[index]};
+        let compliance;
 
-        // console.log(index);
+        // console.log(cIndex, sIndex);
         if (complied) { // Not compliant
+            compliance = false;
             lineItem.complied = false;
         } else if (complied === false) { // N/A
+            compliance = null;
             lineItem.complied = null;
         } else if (complied === null) { // Compliant
+            compliance = true;
             lineItem.complied = true;
         }
 
+        // console.log(lineItem);
+
         // Update the lineItems array
-        setLineItems(updateLineItems(lineItem, index));
+        const lineItemsArr = updateLineItems(lineItem, index)
+        setLineItems(lineItemsArr);
+        toggleCompliant(cIndex, sIndex, compliance, lineItemsArr)(dispatch);
     }
 
     const updateLineItems = (lineItem, index) => {
@@ -37,7 +50,7 @@ export default function Item({ items }) {
         ]
     }
 
-    // console.log(lineItems);
+    console.log(lineItems);
     return (
         <List dataSource={itemsSrc} renderItem={(item, index) => (
             <List.Item>

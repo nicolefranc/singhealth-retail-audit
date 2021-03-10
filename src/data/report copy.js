@@ -2,6 +2,7 @@ const fnb = [
     {
         category: "1. Professionalism & Staff Hygiene (10%)",
         weightage: 10,
+        score: 10,
         subcategories: [
             {
                 subcategory: "Professionalism",
@@ -66,6 +67,7 @@ const fnb = [
     {
         category: "2. Housekeeping & General Cleanliness (20%)",
         weightage: 20,
+        score: 20,
         subcategories: [
             {
                 subcategory: "General Environment Cleanliness",
@@ -150,6 +152,7 @@ const fnb = [
     {
         category: "3. Food Hygiene (35%)",
         weightage: 35,
+        score: 35,
         subcategories: [
             {
                 subcategory: "Storage & Preparation of Food",
@@ -315,6 +318,7 @@ const fnb = [
     {
         category: "4. Healthier Choice in line with HPB’s Healthy Eating’s Initiative (15%)",
         weightage: 15,
+        score: 15,
         subcategories: [
             {
                 subcategory: "Food",
@@ -375,6 +379,7 @@ const fnb = [
     {
         category: "5. Workplace Safety & Health (20%)",
         weightage: 20,
+        score: 20,
         subcategories: [
             {
                 subcategory: "General Safety",
@@ -471,6 +476,7 @@ const nonFnb = [
     {
         category: "1. Professionalism & Staff Hygiene (20%)",
         weightage: 20,
+        score: 20,
         subcategories: [
             {
                 subcategory: "Professionalism",
@@ -511,6 +517,7 @@ const nonFnb = [
     {
         category: "2. Housekeeping & General Cleanliness (40%)",
         weightage: 40,
+        score: 40,
         subcategories: [
             {
                 subcategory: "General Environment Cleanliness",
@@ -570,6 +577,7 @@ const nonFnb = [
     {
         category: "3. Workplace Safety & Health (40%)",
         weightage: 40,
+        score: 40,
         subcategories: [
             {
                 subcategory: "General Safety",

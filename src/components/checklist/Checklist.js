@@ -22,25 +22,30 @@ function Checklist({ data }) {
     return (
         <>
             <Collapse accordion defaultActiveKey='1' >
-                {data.map((category, index) => (     
+                {data.map((category, cIndex) => {    
+                    let indexes = { 'category': cIndex } 
 
-                    <Panel header={category.category} key={index + 1} className="bg-orange ">
-                        <Collapse accordion defaultActiveKey="1" >
-                            {   
-                                category.subcategories.map((subcategory, index) => {
-                                    // console.log(index);
-                                    return <Panel header={subcategory.subcategory} key={index+1} className="bg-orange ">
-                                        {/* <LineItem lineItems={subcategory.lineItems}/> */}
-                                        <Item items={subcategory.lineItems}/>
-                                    </Panel>
-                                    // return <Subcategory key={index} index={index} subcategory={subcategory} />
-                                })
-                            }
-                        </Collapse>
-                
-                        <div className="pt-10 font-bold text-right">Score: __/{category.weightage}%</div>
-                    </Panel>
-                ))}
+                    return (<Panel header={category.category} key={cIndex + 1} className="bg-orange ">
+                            <Collapse accordion defaultActiveKey="1" >
+                                {   
+                                    category.subcategories.map((subcategory, sIndex) => {
+                                        // console.log('Subcat: ' + sIndex);
+                                        indexes['subcategory'] = sIndex
+                                        // console.log(indexes);
+                                        return <Panel header={subcategory.subcategory} key={sIndex+1} className="bg-orange ">
+                                            {/* <LineItem lineItems={subcategory.lineItems}/> */}
+                                            {console.log(indexes)}
+                                            <Item items={subcategory.lineItems} cIndex={cIndex} sIndex={sIndex} />
+                                        </Panel>
+                                        // return <Subcategory key={index} index={index} subcategory={subcategory} />
+                                    })
+                                }
+                            </Collapse>
+                    
+                            <div className="pt-10 font-bold text-right">Score: __/{category.weightage}%</div>
+                        </Panel>
+                    )}
+                )}
             </Collapse>
             
             <div className="pt-20">
