@@ -9,10 +9,11 @@ export default function CameraButton({ handleCapture }) {
                 onChange={e => handleCapture(e.target)}
                 style={{ display: "none" }} />
             <label htmlFor="cameraInput">
-                <Button type="primary" shape="circle" size="large" style={{ width: 60, height: 60 }}
-                    icon={<CameraOutlined style={{ fontSize: "26px", paddingTop: "4px" }} />}
-                    />
+                <Button icon={<CameraOutlined />}>Take Photo</Button>
             </label>
         </>
     )
 }
+
+// type="primary" shape="circle" size="large" style={{ width: 60, height: 60 }}
+// icon={<CameraOutlined style={{ fontSize: "26px", paddingTop: "4px" }} />}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../../App.css';
 import { Collapse, Input , Divider, Typography, Button} from "antd";
 import LineItem from "./LineItem";
@@ -7,16 +7,18 @@ import { Link} from 'react-router-dom';
 
 function Checklist({ data }) {
     // data is an array of category objects
-    
-    const { Panel } = Collapse; //for dropdown
 
-    const { TextArea } = Input; //for 'remarks' input box
+    //for dropdown
+    const { Panel } = Collapse; 
+
+    //for 'remarks' input box
+    const { TextArea } = Input; 
 
     console.log(data);
     return (
-        <div className="flex flex-col h-screen">
+        <>  
             <Collapse accordion defaultActiveKey='1' >
-                {data.map((category, index,weightage) => (     
+                {data.map((category, index) => (     
 
                     <Panel header={category.category} key={index + 1} className="bg-orange ">
                         <Collapse accordion defaultActiveKey="1" >
@@ -38,16 +40,15 @@ function Checklist({ data }) {
             <div className="pt-20">
                 <TextArea placeholder="Remarks" allowClear/>
             </div>
+            
+            <div className="flex flex-row justify-between pt-20">
+                <div className="font-bold text-right">Total: ___/100%</div>
 
-            <Divider />
-
-            <div className="font-bold text-right">Total: ___/100%</div>
-
-            <Link to={routes.PHOTOS} className="justify-end flex "> 
-                <Button className="bg-orange text-white ">Next</Button>
-            </Link>
-
-        </div>
+                <Link to={routes.PHOTOS} >
+                    <Button className="bg-orange text-white float-right">Next</Button>
+                </Link>  
+            </div>
+        </>
     )
 }
 
@@ -67,7 +68,7 @@ function ChecklistCovid({ data }) {
 
     console.log(data);
     return (
-        <div className="flex">
+        <div className="flex flex-col  h-screen">
             <h2>COVID Safe Management Measures Compliance Checklist</h2> 
             <Text type="secondary">For any non-compliance, auditor(s) shall remind auditee (operator) on immediate rectification and adherence.</Text>
             
@@ -86,11 +87,12 @@ function ChecklistCovid({ data }) {
                 <TextArea placeholder="Remarks" allowClear onChange={onChange} />
             </div>
               
-
-            <Link to={routes.PHOTOS} className="justify-end flex"> 
-                <Button className="bg-orange text-white ">Next</Button>
-            </Link>
-
+            <div className="justify-end pt-20 ">
+                <Link to={routes.PHOTOS} >
+                    <Button className="bg-orange text-white float-right">Next</Button>
+                </Link>
+            </div>
+            
         </div>
         
     )

@@ -1,19 +1,28 @@
 import Photo from "./Photo";
-import {Button} from "antd";
+import {Button,Typography, Divider} from "antd";
 import { routes } from '../../const';
 import { Link} from 'react-router-dom';
 
 export default function ChecklistPhotos() {
 
+    const { Title } = Typography;
+
     return(
         <>
-            <h2>PHOTOS OF NON-COMPLIANCE</h2>
+            <Title level={2}>PHOTOS OF NON-COMPLIANCE</Title>
             
             <Photo  />
 
-            <Link to={routes.PHOTOS} className="justify-end flex"> 
-                <Button className="bg-orange text-white ">Next</Button>
-            </Link>
+            <Divider/>
+
+            <div className="flex flex-row justify-between">
+                <Link to={routes.PHOTOS} >
+                    <Button>Save as Draft</Button>
+                </Link>
+                <Link to={routes.PHOTOS} >
+                    <Button className="bg-orange text-white">Submit</Button>
+                </Link>
+            </div>
         </>
         
     )
