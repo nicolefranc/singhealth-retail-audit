@@ -1,6 +1,6 @@
 import { List } from "antd";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleCompliant } from "../../redux/actions/report";
 import Checkbox from "./Checkbox";
 

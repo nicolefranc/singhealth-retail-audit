@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import { Collapse, Input , Divider, Typography} from "antd";
-import LineItem from "./LineItem";
+import { Collapse, Input , Divider } from "antd";
 import Item from './Item';
-import { useDispatch, useSelector } from 'react-redux';
-import { increment } from '../../redux/actions';
+import { useSelector } from 'react-redux';
+import { round } from '../../utils/utils';
 
-function Checklist({ data }) {
-    const counter = useSelector(state => state.counter);
-    const dispatch = useDispatch();
+export default function Checklist({ data }) {
     // data is an array of category objects
+    const checklist = useSelector(state => state.report.checklist);
+    let scores = [];
+    const [total, setTotal] = useState(0);
+    
+    useEffect(() => {
+        if (checklist) {
+            let total = 0;
+            scores = checklist.map(category => {
+                total += category.score;
+                return category.score
+            });
+            setTotal(total);
+            console.log(scores);
+
+        }
+    }, [checklist]);
     
     const { Panel } = Collapse; //for dropdown
 
     const { TextArea } = Input; //for 'remarks' input box
     const onChange = e => {
-    console.log(e);
+        console.log(e);
     };
 
-    // console.log(data);
     return (
         <>
             <Collapse accordion defaultActiveKey='1' >
                 {data.map((category, cIndex) => {    
-                    let indexes = { 'category': cIndex } 
+                    let indexes = { 'category': cIndex }
+                    let score = checklist ? round(checklist[cIndex].score, 1): 0; 
 
                     return (<Panel header={category.category} key={cIndex + 1} className="bg-orange ">
                             <Collapse accordion defaultActiveKey="1" >
@@ -42,7 +55,7 @@ function Checklist({ data }) {
                                 }
                             </Collapse>
                     
-                            <div className="pt-10 font-bold text-right">Score: __/{category.weightage}%</div>
+                            <div className="pt-10 font-bold text-right">Score: {score}/{category.weightage}%</div>
                         </Panel>
                     )}
                 )}
@@ -53,59 +66,10 @@ function Checklist({ data }) {
             </div> 
 
             <Divider />
-
-            <div className="font-bold text-right">Total: ___/100%</div>
-            {/* {data.map((category,weightage) => {   
-                console.log(weightage); 
-                return <div className="row justify-between">
-                    <div>{category.category}</div>
-                    <div>__/{category.weightage}%</div>
-                </div>
-            })} */}
+            {
+                
+                <div className="font-bold text-right">Total: {round(total, 1)}/100%</div>
+            }
         </>
     )
-}
-
-
-function ChecklistCovid({ data }) {
-    // data is an array of category objects
-
-    const { Panel } = Collapse; //for dropdown
-
-    
-    const { TextArea } = Input; //for remarks input box
-    const onChange = e => {
-        console.log(e);
-    };
-    
-    const { Text, Link } = Typography;
-
-    // console.log(data);
-    return (
-        <>
-            <h2>COVID SAFE MANAGEMENT MEASURES COMPLIANCE CHECKLIST GUIDE</h2> 
-            <Text type="secondary">For any non-compliance, auditor(s) shall remind auditee (operator) on immediate rectification and adherence.</Text>
-            
-            <Divider />
-
-            <Collapse accordion defaultActiveKey='1'>
-                {data.map((category, index) => {
-                    // console.log(index);     
-                    return <Panel header={category.category} key={index + 1}>
-                        <LineItem lineItems={category.lineItems} />
-                    </Panel>
-                })}
-            </Collapse>
-
-            <div className="pt-20">
-                <TextArea placeholder="Remarks" allowClear onChange={onChange} />
-            </div>   
-        </>
-        
-    )
-}
-
-export {
-    Checklist,
-    ChecklistCovid,
 }

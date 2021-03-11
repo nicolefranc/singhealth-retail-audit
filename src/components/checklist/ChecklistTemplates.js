@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from "antd/lib/typography/Title";
 import { routes } from '../../const';
-import {Divider,Button,Checkbox} from 'antd';
+import { Divider, Button } from 'antd';
 import { Link} from 'react-router-dom';
 
 

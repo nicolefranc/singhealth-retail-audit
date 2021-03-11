@@ -1,4 +1,4 @@
-import { Checklist } from "../components/checklist/Checklist";
+import Checklist from "../components/checklist/Checklist";
 import { fnb } from "../data/report";
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
