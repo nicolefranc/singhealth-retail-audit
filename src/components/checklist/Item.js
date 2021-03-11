@@ -9,7 +9,7 @@ export default function Item({ items, cIndex, sIndex }) {
     const [compliance] = useState(null);
     const dispatch = useDispatch();
 
-    console.log(`Item load: ${cIndex}, ${sIndex}`);
+    // console.log(`Item load: ${cIndex}, ${sIndex}`);
 
     let itemsSrc = [];
     items.forEach(lineItemObj => {
@@ -38,8 +38,14 @@ export default function Item({ items, cIndex, sIndex }) {
 
         // Update the lineItems array
         const lineItemsArr = updateLineItems(lineItem, index)
+        const compliant = lineItemsArr.filter(item => item.complied);
+        const notNA = lineItemsArr.filter(item => item.complied !== null)
+        let compliantCount = compliant.length;
+        let totalCount = notNA.length;
+        // console.log(`Compliant items: ${compliant.length}`);
+        // console.log(`Total items: ${notNA.length}`);
         setLineItems(lineItemsArr);
-        toggleCompliant(cIndex, sIndex, compliance, lineItemsArr)(dispatch);
+        toggleCompliant(cIndex, sIndex, compliance, compliantCount, totalCount, lineItemsArr)(dispatch);
     }
 
     const updateLineItems = (lineItem, index) => {
@@ -50,7 +56,7 @@ export default function Item({ items, cIndex, sIndex }) {
         ]
     }
 
-    console.log(lineItems);
+    // console.log(lineItems);
     return (
         <List dataSource={itemsSrc} renderItem={(item, index) => (
             <List.Item>

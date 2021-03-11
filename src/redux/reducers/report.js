@@ -6,61 +6,39 @@ const reportReducer = (state = {}, action) => {
         case INIT_NEW_REPORT:
             return action.payload;
         case TOGGLE_COMPLIANT:
-            const { cIndex, sIndex, compliance, lineItems } = action.payload;
-            // console.log(`Reducer: ${cIndex}, ${sIndex}`);
+            const { cIndex, sIndex, compliance, compliantCount, totalCount, lineItems } = action.payload;
             let weightage = state.checklist[cIndex].weightage;
-            let score = state.checklist[cIndex].score;
-            let itemsCount = lineItems.length;
-            let rawScore = (score / weightage) * itemsCount;
-            // let rawWeight = ;
-            // console.log('Line items below:');
-            console.log(`Weightage: ${weightage}`);
-            console.log(`Score: ${score}`);
-            console.log(`Raw score: ${rawScore}`);
-            // console.log(`Raw weight: ${rawWeight}`);
-            console.log('==================================');
-            // console.log(state.checklist[cIndex].subcategories[sIndex])
-            // console.log(state);
-            switch (compliance) {
-                case false:
-                    rawScore = rawScore > 0 ? rawScore - 1 : 0;
-                    score = (rawScore / itemsCount) * weightage;
-                    console.log(`New raw score: ${rawScore}`);
-                    console.log(`New score (in %): ${score}`);
-                    break;
-                case null:
-                    itemsCount = itemsCount > 0 ? itemsCount - 1 : 0;
-                    score = (rawScore / itemsCount) * weightage;
-                    console.log(`New item count: ${itemsCount}`);
-                    console.log(`New raw score: ${rawScore}`);
-                    console.log(`New score (in %): ${score}`);
-                    break;
-                default:
-                    if (score === weightage) {
-                        return score;
-                    } else {
-                        rawScore = rawScore < itemsCount ? rawScore + 1 : itemsCount;
-                        score = (rawScore / itemsCount) * weightage;
-                        console.log(`New raw score: ${rawScore}`);
-                        console.log(`New score (in %): ${score}`);
-                    }
-            }
+            let totalComplied = 0;
+            let totalApplicable = 0;
+            let subcatScore = (compliantCount === 0 || totalCount === 0) ? 0 : (compliantCount / totalCount) * 100;
+            const subcategories = [
+                            ...state.checklist[cIndex].subcategories.slice(0, sIndex),
+                            {
+                                ...state.checklist[cIndex].subcategories[sIndex],
+                                subcatScore,
+                                lineItems: lineItems
+                            },
+                            ...state.checklist[cIndex].subcategories.slice(sIndex + 1)
+                        ]
+            subcategories.map((subcategory, index) => {
+                totalComplied += subcategory.lineItems.filter(item => item.complied).length;
+                totalApplicable += subcategory.lineItems.filter(item => item.complied != null).length;
+                console.log(`Total complied at index ${index}: ${totalComplied}`);
+                console.log(`Total Applicable at index ${index}: ${totalApplicable}`);
+            })
+            
+            console.log(`Total Complied: ${totalComplied}`);
+            console.log(`Total Applicable: ${totalApplicable}`);
+            console.log(`Total Score (in %): ${(totalComplied / totalApplicable) * weightage}`);
+            const score = (totalComplied / totalApplicable) * weightage;
             return {
                 ...state,
                 checklist: [
                     ...state.checklist.slice(0, cIndex),
                     {
                         ...state.checklist[cIndex],
-                        weightage,
                         score,
-                        subcategories: [
-                            ...state.checklist[cIndex].subcategories.slice(0, sIndex),
-                            {
-                                ...state.checklist[cIndex].subcategories[sIndex],
-                                lineItems: lineItems
-                            },
-                            ...state.checklist[cIndex].subcategories.slice(sIndex + 1)
-                        ]
+                        subcategories
                     },
                     ...state.checklist.slice(cIndex + 1)
                 ]

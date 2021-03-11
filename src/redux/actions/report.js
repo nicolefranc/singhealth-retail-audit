@@ -7,7 +7,7 @@ export const initReport = (report) => (dispatch) => {
     });
 };
 
-export const toggleCompliant = (cIndex, sIndex, compliance, lineItems) => (dispatch) => {
+export const toggleCompliant = (cIndex, sIndex, compliance, compliantCount, totalCount, lineItems) => (dispatch) => {
     // console.log(`Action: ${cIndex}, ${sIndex}`)
     dispatch({
         type: TOGGLE_COMPLIANT,
@@ -15,6 +15,8 @@ export const toggleCompliant = (cIndex, sIndex, compliance, lineItems) => (dispa
             cIndex,
             sIndex,
             compliance,
+            compliantCount,
+            totalCount,
             lineItems
         }
     });
