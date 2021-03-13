@@ -12,28 +12,28 @@ import { AuthProvider } from "./context/auth";
 
 function App() {
   return (
-<AuthProvider>
-<Router>
-      <BaseLayout>
-        <Switch>
-          <Route exact path={routes.DEFAULT}>
-            <Dashboard />
-          </Route>
-          <Route path={routes.TENANTS}>
-            <Tenants />
-          </Route>
-          <Route path={routes.NOTIFICATIONS}>
-            <Notifications />
-          </Route>
-          <Route path={routes.SETTINGS}>
-            <Settings />
-          </Route>
-          <Route path="/DashboardTenant" component={DashboardTenant} />
-          <Route path="/Login" component={Login} />
-        </Switch>
-      </BaseLayout>
-    </Router>
-</AuthProvider>
+    <AuthProvider>
+      <Router>
+        <BaseLayout>
+          <Switch>
+            <Route exact path={routes.DEFAULT}>
+              <Dashboard />
+            </Route>
+            <Route path={routes.TENANTS}>
+              <Tenants />
+            </Route>
+            <Route path={routes.NOTIFICATIONS}>
+              <Notifications />
+            </Route>
+            <Route path={routes.SETTINGS}>
+              <Settings />
+            </Route>
+            <Route path="/DashboardTenant" component={DashboardTenant} />
+            <Route path="/Login" component={Login} />
+          </Switch>
+        </BaseLayout>
+      </Router>
+    </AuthProvider>
   );
 }
 
