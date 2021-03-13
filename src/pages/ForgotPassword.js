@@ -3,7 +3,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import React, { useContext, useState } from "react";
 import Dashboard from "./Dashboard";
 import { Redirect } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 
 import { AuthContext } from "../context/auth";
@@ -26,20 +26,19 @@ export default function ForgotPassword(props) {
 
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     email: "",
-    password: "",
   });
 
   const [loginAs, setLoginAs] = useState("Staff");
 
   function handleLoginAs(event) {
     setLoginAs(event.target.value);
-    LOGIN_USER = event.target.value === "Staff" ? LOGIN_AUDITOR : LOGIN_TENANT; //to change the graphql query depending on what the user want's to "login as"
-    console.log(LOGIN_USER);
+    QUERY_USER = event.target.value === "Staff" ? QUERY_AUDITOR : QUERY_TENANT; //to change the graphql query depending on what the user want's to "login as"
+    console.log(QUERY_USER);
   }
 
-  var LOGIN_USER = loginAs === "Staff" ? LOGIN_AUDITOR : LOGIN_TENANT;
+  var QUERY_USER = loginAs === "Staff" ?QUERY_AUDITOR :QUERY_TENANT;
 
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+  const [loginUser, { loading }] = useMutationQUERY_USER, {
     update(cache, result) {
       // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
       // here we will use the result of the query a store it locally when 'context.login' is being called.
@@ -93,20 +92,12 @@ export default function ForgotPassword(props) {
             </Radio.Button>
           </Radio.Group>
 
-          <Form.Item
-            label="Email"
-            required
-            tooltip={{
-              title: "This is a required field",
-              icon: <InfoCircleOutlined />,
-            }}
-          >
+          <Form.Item label="Email" required tooltip="This is a required field">
             <Input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
+              placeholder="input email"
               onChange={onChange}
-              value={values.password}
+              name="email"
+              value={values.email}
             />
           </Form.Item>
            
@@ -131,9 +122,9 @@ export default function ForgotPassword(props) {
 }
 
 // over here I define the gql queries. one for auditor one for tenant. I change them in my useState hook. "loginAs"
-const LOGIN_AUDITOR = gql`
-  mutation loginAuditor($email: String!, $password: String!) {
-    loginAuditor(email: $email, password: $password) {
+const QUERY_AUDITOR = gql`
+  mutation getAuditorByEmail($email: String!) {
+    getAuditorByEmail(email: $email) {
       id
       role
       institutions
@@ -146,9 +137,9 @@ const LOGIN_AUDITOR = gql`
     }
   }
 `;
-const LOGIN_TENANT = gql`
-  mutation loginTenant($email: String!, $password: String!) {
-    loginTenant(email: $email, password: $password) {
+const QUERY_TENANT = gql`
+  query getTenantByEmail($email: String!) {
+    getTenantByEmail(email: $email) {
       id
       email
       password
