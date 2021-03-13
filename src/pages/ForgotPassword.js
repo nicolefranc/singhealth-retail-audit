@@ -10,60 +10,7 @@ import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 
 export default function ForgotPassword(props) {
-  const context = useContext(AuthContext);
-  const [errors, setErrors] = useState({});
-
-  //   const [form] = Form.useForm();
-  const [requiredMark, setRequiredMarkType] = useState("staff");
-
-  const onRequiredTypeChange = ({ requiredMarkValue }) => {
-    setRequiredMarkType(requiredMarkValue);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-    email: "",
-  });
-
-  const [loginAs, setLoginAs] = useState("Staff");
-
-  function handleLoginAs(event) {
-    setLoginAs(event.target.value);
-    QUERY_USER = event.target.value === "Staff" ? QUERY_AUDITOR : QUERY_TENANT; //to change the graphql query depending on what the user want's to "login as"
-    console.log(QUERY_USER);
-  }
-
-  var QUERY_USER = loginAs === "Staff" ?QUERY_AUDITOR :QUERY_TENANT;
-
-  const [loginUser, { loading }] = useMutationQUERY_USER, {
-    update(cache, result) {
-      // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
-      // here we will use the result of the query a store it locally when 'context.login' is being called.
-      context.login(result.data);
-      props.history.push("/");
-    },
-    onError(err) {
-      //any error will be thrown here
-      console.log("values are", values);
-      console.log(err);
-      try {
-        // seterrors allow me to print the error to the react 'alert' component (for instance, the red bar you see when you key in wrong credentials)
-        // because sometimes it doesn't work (like the graphql errors return me smth undefined), i put it in a try and catch block haha
-        setErrors(err.graphQLErrors[0].extensions.exception.errors);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    variables: values,
-  });
-
-  function loginUserCallback() {
-    //we need this function here because of some sequence thing, so please don't change the order of the functions above LOL
-    loginUser();
-  }
+ 
 
   return (
     <>
@@ -123,7 +70,7 @@ export default function ForgotPassword(props) {
 
 // over here I define the gql queries. one for auditor one for tenant. I change them in my useState hook. "loginAs"
 const QUERY_AUDITOR = gql`
-  mutation getAuditorByEmail($email: String!) {
+  query getAuditorByEmail($email: String!) {
     getAuditorByEmail(email: $email) {
       id
       role
