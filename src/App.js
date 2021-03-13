@@ -8,10 +8,12 @@ import Settings from "./pages/Settings";
 import { routes } from "./const";
 import DashboardTenant from "./pages/DashBoardTenant";
 import Login from "./pages/Login";
+import { AuthProvider } from "./context/auth";
 
 function App() {
   return (
-    <Router>
+<AuthProvider>
+<Router>
       <BaseLayout>
         <Switch>
           <Route exact path={routes.DEFAULT}>
@@ -31,6 +33,7 @@ function App() {
         </Switch>
       </BaseLayout>
     </Router>
+</AuthProvider>
   );
 }
 

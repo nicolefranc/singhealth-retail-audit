@@ -46,22 +46,28 @@ export default function Login(props) {
 
   var LOGIN_USER = (loginAs === "Staff") ? LOGIN_AUDITOR : LOGIN_TENANT;
 
-  const [loginUser, { loading, data }] = useMutation(LOGIN_USER, {
-    update(_, { data: { login: userData } }) {
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    update(_, {data:{login: userData}}) {
       context.login(userData);
+      console.log(userData);
       props.history.push("/");
     },
     onError(err) {
       console.log("values are", values);
       console.log(err);
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      try{
+        setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      } catch(err){
+        console.log(err);
+        // console.log("userdata is ",data);
+      }
     },
     variables: values,
   });
-  if (data) {
-    props.history.push("/");
-    console.log(data);
-  }
+  // if (data) {
+  //   props.history.push("/");
+  //   console.log(data);
+  // }
 
   function loginUserCallback() {
     loginUser();
