@@ -8,7 +8,9 @@ import Settings from "./pages/Settings";
 import { routes } from "./const";
 import DashboardTenant from "./pages/DashBoardTenant";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import { AuthProvider } from "./context/auth";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             </Route>
             <Route path="/DashboardTenant" component={DashboardTenant} />
             <Route path="/Login" component={Login} />
+            <Route path="/Register" component={Register} />
+            <Route path="/ForgotPassword" component={ForgotPassword} />
           </Switch>
         </BaseLayout>
       </Router>
