@@ -126,6 +126,14 @@
   flex: 1 1 auto;
 }
 
+.flex-row{
+  flex-direction: row;
+}
+
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
 .items-center {
   align-items: center;
 }
@@ -154,9 +162,13 @@
   right:100%
 }
 
-.fab-container-left {
+.w-full{
+  width: 100%;
+}
+
+.fab-container {
   position: fixed;
-  bottom: 50px;
+  bottom: 40px;
   z-index: 999;
   cursor: pointer;
   width:25%;
@@ -166,7 +178,7 @@
 .fab-container-right {
   position: fixed;
   right: 50px;
-  bottom: 50px;
+  bottom: 40px;
   z-index: 999;
   cursor: pointer;
   width:25%;

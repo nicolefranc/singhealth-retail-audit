@@ -1,4 +1,4 @@
-import { Table, Tag } from 'antd';
+import { Table, Tag, Select } from 'antd';
 import {Link} from 'react-router-dom';
 
 
@@ -264,7 +264,8 @@ export const reportColumns = [
   ];
 
 
-//DropdownTenant Data
+//DropdownTenant Data React-select no longer working
+
 export const dropdownTenant = [
   {
     value: 0,
@@ -287,3 +288,4 @@ export const dropdownTenant = [
     label: 'tenant 4'
   },
 ];
+

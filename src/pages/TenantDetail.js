@@ -2,9 +2,10 @@ import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import ScrollList from "../components/dashboard/ScrollList";
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message } from 'antd';
+import { Typography, Button, Popconfirm, message, Layout } from 'antd';
 
-const { Text} = Typography;
+const { Footer, Content } = Layout;
+const { Text } = Typography;
 
 export default function TenantDetail() {
 
@@ -36,6 +37,7 @@ export default function TenantDetail() {
             </div>
         
             <div className='mb-20' >
+
                 <PerformanceGraph content={Performance} type= {undefined}/>
 
                 <div className='mt-12'>
@@ -47,9 +49,18 @@ export default function TenantDetail() {
                 <Title className='mt-12' level={4}>Past Audits</Title>
                 <ScrollList columns={reportColumns} data={pastReports}/>
             </div>
-        
-                <Button className="fab-container-left" type="ghost" block={true}>Audit</Button>
-                <Button className="fab-container-right"  type="primary" block={true}>Notify</Button>   
+
+            <div className='justify-between flex'>
+
+                <div className='fab-container' style={{width: '30%'}}>
+                    <Button className='ml-16' shape='round' size='large' type="primary" block={true}>Audit</Button> 
+                </div>
+
+                <div className='fab-container-right mr-16' style={{width: '30%'}}>
+                    <Button shape='round' size='large' type="primary" block={true}>Notify</Button> 
+                </div>  
+
+            </div>
         </>
     )
 }

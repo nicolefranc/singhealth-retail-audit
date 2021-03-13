@@ -13,6 +13,7 @@ import { routes } from './const';
 import DashboardTenant from './pages/DashBoardTenant';
 import Login from './pages/Login';
 import TenantDetail from './pages/TenantDetail';
+import RequestExtension from './components/RequestExtension';
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 					<Route path="/TenantDetail" component={TenantDetail}/>
 					<Route path="/DashboardTenant" component={DashboardTenant}/>
 					<Route path="/Login" component={Login}/>
+					<Route path="/RequestExtension" component={RequestExtension}/>
 				</Switch>
 			</BaseLayout>
 		</Router>

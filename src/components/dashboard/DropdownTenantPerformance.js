@@ -1,27 +1,42 @@
-import { Menu, Dropdown, message } from 'antd';
+import { Menu, message, Select} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import Select from 'react-select';
+// import Select from 'react-select';
 import { useState } from 'react';
 import PerformanceGraph from './PerformanceGraph';
 import {PerformanceAll, Performance, dropdownTenant} from './TenantData';
 
 export default function DropdownTenantPerformance({dropdownTenant}) {
 
+    const { Option } = Select;
+
     const [selectedValue, setSelectedValue] = useState(0);
 
     const handleChange = e => {
-      setSelectedValue(e.value);
+      setSelectedValue(dropdownTenant[e].value);
+    }
+
+    function onSearch(val) {
+      console.log('search:', val);
     }
 
     return(
       <>
         <div className='mb-6'>
-          <Select
-            className = 'mb-16'
-            value={dropdownTenant.find(x => x.value === selectedValue)}
-            options={dropdownTenant}
+
+          <Select 
+            className='mb-12'  
+            showSearch
+            onSearch ={onSearch}
+            defaultValue= {dropdownTenant[0].label}
             onChange={handleChange} 
-            >  
+            style={{ width: 200 }}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            >
+            {dropdownTenant.map(tenant => (
+            <Option key={tenant.value}>{tenant.label}</Option>
+            ))}
           </Select>
 
           <PerformanceGraph
@@ -33,4 +48,4 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
         </div>
         </>
     )
-}
+        }
