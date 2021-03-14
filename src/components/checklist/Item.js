@@ -1,76 +1,66 @@
-import React,{ useState } from 'react';
-import { List,Modal,Button,Divider,Image,Upload,Input} from "antd";
-import CameraButton from '../../components/CameraButton';
-import { UploadOutlined} from '@ant-design/icons';
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Divider, Image, List, Upload } from "antd";
+import TextArea from "antd/lib/input/TextArea";
+import Modal from "antd/lib/modal/Modal";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { toggleCompliant } from "../../redux/actions/report";
+import CameraButton from "../CameraButton";
+import Checkbox from "./Checkbox";
 
-export default function LineItem({ lineItems }) {
+export default function Item({ items, cIndex, sIndex }) {
+    const [lineItems, setLineItems] = useState(items); // Array of line item objects
+    const [compliance] = useState(null);
+    const dispatch = useDispatch();
 
-    //TEMPORARY CHECKBOX!! TO BE REPLACED
-    const updateInput = (ref, checked) => {
-        console.log(ref);
-        const input = ref.current;
-        if (input) {
-            input.checked = checked;
-            input.indeterminate = checked == null;
-        }
-    };
-    const ThreeStateCheckbox = ({ name, checked, toggleCompliance}) => {
-        const inputRef = React.useRef(null);
-        const checkedRef = React.useRef(checked);
-        React.useEffect(() => {
-            checkedRef.current = checked;
-            updateInput(inputRef, checked);
-        }, [checked]);
+    // console.log(`Item load: ${cIndex}, ${sIndex}`);
 
-        const handleClick = () => {
-            switch (checkedRef.current) {
-                case false:
-                    checkedRef.current = null;
-                    break;
-                case null:
-                    checkedRef.current = true;
-                    break;
-                default: // true
-                    checkedRef.current = false;
-                break;
-          }
-          updateInput(inputRef, checkedRef.current);
-          if (toggleCompliance) {
-            toggleCompliance(checkedRef.current);
-          }
-        };
-
-        console.log(checkedRef);
-        return (
-            <input 
-            ref={inputRef}
-            type="checkbox"
-            name={name}
-            onClick={handleClick} />
-        );
-    };
-    const [compliance, setCompliance] = React.useState(true);
-    const toggleCompliance = (checked) => {
-        console.log(`checked: ${checked}`);
-    };
-    //
-    
-    // console.log(lineItems);
-
-    let lineItemsString = [];
-
-    lineItems.forEach(lineItemObj => {
-        lineItemsString = [...lineItemsString, lineItemObj.lineItem];
+    let itemsSrc = [];
+    items.forEach(lineItemObj => {
+        itemsSrc = [...itemsSrc, lineItemObj.lineItem];
     });
 
-    // console.log(lineItemsString);
+    // payload.checklist[cIndex].subcategories[sIndex].lineItems
+    const toggleCompliance = (complied, index) => {
+        // Given the index, update the complied field in line item object
+        let lineItem = {...lineItems[index]};
+        let compliance;
+
+        // console.log(cIndex, sIndex);
+        if (complied) { // Not compliant
+            compliance = false;
+            lineItem.complied = false;
+        } else if (complied === false) { // N/A
+            compliance = null;
+            lineItem.complied = null;
+        } else if (complied === null) { // Compliant
+            compliance = true;
+            lineItem.complied = true;
+        }
+
+        // console.log(lineItem);
+
+        // Update the lineItems array
+        const lineItemsArr = updateLineItems(lineItem, index)
+        const compliant = lineItemsArr.filter(item => item.complied);
+        const notNA = lineItemsArr.filter(item => item.complied !== null)
+        let compliantCount = compliant.length;
+        let totalCount = notNA.length;
+        // console.log(`Compliant items: ${compliant.length}`);
+        // console.log(`Total items: ${notNA.length}`);
+        setLineItems(lineItemsArr);
+        toggleCompliant(cIndex, sIndex, compliance, compliantCount, totalCount, lineItemsArr)(dispatch);
+    }
+
+    const updateLineItems = (lineItem, index) => {
+        return [
+            ...lineItems.slice(0, index),
+            lineItem,
+            ...lineItems.slice(index + 1)
+        ]
+    }
 
 
-    //TEMPORARY FOR PHOTO POPUP
-    //for remarks
-    const { TextArea } = Input; 
-
-    // for pop up
     const [visible,setVisible]=useState(false);
     
     const showModal = () => {
@@ -95,23 +85,21 @@ export default function LineItem({ lineItems }) {
             setImgSources([ imgUrl, ...imgSources ]);
         }
     }
-    //
 
     return (
         <>
-            <List
-                dataSource={lineItemsString}
-                renderItem={item => (
-                    <List.Item>
-                        <div className="flex flex-col">
-                            {item}
+            <List dataSource={itemsSrc} renderItem={(item, index) => (
+                <List.Item>
+                    <div className="flex row justify-between items-center w-full">
+                        <p>{ item }</p>
+                        <Checkbox index={index} compliance={compliance} toggleCompliance={toggleCompliance} />
+                    </div>
 
-                            {/* TEMPORARY FOR PHOTO POPUP */}
-                            <Button onClick={showModal} style={{width: 100}}>Add Photo</Button>
-                        </div>
-                    </List.Item>
-                )}  
-            />
+                    <Button onClick={showModal} style={{width: 100}}>Add Photo</Button>
+                </List.Item>
+            )} />
+
+
 
             {/* TEMPORARY FOR PHOTO POPUP */}
             <Modal
@@ -154,7 +142,6 @@ export default function LineItem({ lineItems }) {
                     <TextArea placeholder="Remarks" autoSize className="mt-20" />
                 </div>    
             </Modal>
-
         </>
     )
 }

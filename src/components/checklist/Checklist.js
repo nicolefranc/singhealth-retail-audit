@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import { Collapse, Input , Divider, Typography, Button} from "antd";
-import LineItem from "./LineItem";
+import { Collapse, Input , Divider, Button } from "antd";
+import Item from './Item';
+import { useSelector } from 'react-redux';
+import { round } from '../../utils/utils';
+import { Link } from 'react-router-dom';
 import { routes } from '../../const';
-import { Link} from 'react-router-dom';
 
-function Checklist({ data }) {
+export default function Checklist({ data }) {
     // data is an array of category objects
 
     //for dropdown
@@ -13,101 +15,71 @@ function Checklist({ data }) {
 
     //for 'remarks' input box
     const { TextArea } = Input; 
+    const checklist = useSelector(state => state.report.checklist);
+    const [total, setTotal] = useState(0);
+    
+    useEffect(() => {
+        let scores = [];
+        if (checklist) {
+            let total = 0;
+            scores = checklist.map(category => {
+                total += category.score;
+                return category.score
+            });
+            setTotal(total);
+            console.log(scores);
 
-    console.log(data);
+        }
+    }, [checklist]);
+    
+    const onChange = e => {
+        console.log(e);
+    };
+
     return (
         <>  
             <Collapse accordion defaultActiveKey='1' >
-                {data.map((category, index) => (     
+                {data.map((category, cIndex) => {    
+                    let indexes = { 'category': cIndex }
+                    console.log(cIndex);
+                    console.log(`Category score for ${category.category} is ${category.score}`)
+                    let score = checklist ? round(checklist[cIndex].score, 1): 0; 
 
-                    <Panel header={category.category} key={index + 1} className="bg-orange ">
-                        <Collapse accordion defaultActiveKey="1" >
-                            {   
-                                category.subcategories.map((subcategory, index) => {
-                                    console.log(index);
-                                    return <Panel header={subcategory.subcategory} key={index+1} className="bg-orange ">
-                                        <LineItem lineItems={subcategory.lineItems}/>
-                                    </Panel>
-                                })
-                            }
-                        </Collapse>
-                
-                        <div class="pt-10 font-bold text-right">Score: __/{category.weightage}%</div>
-                    </Panel>
-                ))}
+                    return (<Panel header={category.category} key={cIndex + 1} className="bg-orange ">
+                            <Collapse accordion defaultActiveKey="1" >
+                                {   
+                                    category.subcategories.map((subcategory, sIndex) => {
+                                        // console.log('Subcat: ' + sIndex);
+                                        indexes['subcategory'] = sIndex
+                                        // console.log(indexes);
+                                        return <Panel header={subcategory.subcategory} key={sIndex+1} className="bg-orange ">
+                                            {/* <LineItem lineItems={subcategory.lineItems}/> */}
+                                            {console.log(indexes)}
+                                            <Item items={subcategory.lineItems} cIndex={cIndex} sIndex={sIndex} />
+                                        </Panel>
+                                        // return <Subcategory key={index} index={index} subcategory={subcategory} />
+                                    })
+                                }
+                            </Collapse>
+                    
+                            <div className="pt-10 font-bold text-right">Score: {score}/{category.weightage}%</div>
+                        </Panel>
+                    )}
+                )}
             </Collapse>
             
             <div className="pt-20">
-                <TextArea placeholder="Remarks" allowClear/>
-            </div>
-            
-            <div className="flex flex-row justify-between pt-20">
-                <div className="font-bold text-right">Total: ___/100%</div>
+                <TextArea placeholder="Remarks" allowClear onChange={onChange} />
+            </div> 
 
-                <Link to={routes.PHOTOS} >
-                    <Button className="bg-orange text-white float-right">Next</Button>
-                </Link>  
-            </div>
+            <Divider />
+            {
+                
+                <div className="font-bold text-right">Total: {round(total, 1)}/100%</div>
+            }
+            <Link to={routes.PHOTOS} >
+                <Button className="bg-orange text-white float-right">Next</Button>
+            </Link>  
         </>
     )
 }
-
-
-function ChecklistCovid({ data }) {
-    // data is an array of category objects
-
-    const { Panel } = Collapse; //for dropdown
-
-    
-    const { TextArea } = Input; //for remarks input box
-    const onChange = e => {
-    console.log(e);
-    };
-    
-    const { Text, Link } = Typography;
-
-    console.log(data);
-    return (
-        <div className="flex flex-col  h-screen">
-            <h2>COVID Safe Management Measures Compliance Checklist</h2> 
-            <Text type="secondary">For any non-compliance, auditor(s) shall remind auditee (operator) on immediate rectification and adherence.</Text>
-            
-            <Divider />
-
-            <Collapse accordion defaultActiveKey='1'>
-                {data.map((category, index) => {
-                    console.log(index);     
-                    return <Panel header={category.category} key={index + 1} className="bg-orange text-white">
-                        <LineItem lineItems={category.lineItems} />
-                    </Panel>
-                })}
-            </Collapse>
-
-            <div className="pt-20">
-                <TextArea placeholder="Remarks" allowClear onChange={onChange} />
-            </div>
-              
-            <div className="justify-end pt-20 ">
-                <Link to={routes.PHOTOS} >
-                    <Button className="bg-orange text-white float-right">Next</Button>
-                </Link>
-            </div>
-            
-        </div>
-        
-    )
-}
-
-export {
-    Checklist,
-    ChecklistCovid,
-}
-
-
-{/* {data.map((category,weightage) => {   
-        console.log(weightage); 
-        return <div class="row justify-between">
-            <div>{category.category}</div>
-            <div>__/{category.weightage}%</div>
-        </div>
-    })} */}
