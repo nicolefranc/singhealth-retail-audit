@@ -12,22 +12,23 @@ import { Link } from "react-router-dom";
 
 export default function Report() {
     const dispatch = useDispatch();
-    const { reportType } = useParams();
+    const { tenantId, reportType } = useParams();
     const templateType = reportType;
     const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
         variables: { templateType }
-    })
+    });
+    const tenantQuery = useQuery(FETCH_TENANT, {
+        variables: { tenantId }
+    });
 
-
-
-    if (loading) {
+    if (loading || tenantQuery.loading) {
         console.log("loading");
         return (
             <Skeleton loading={true} />
         )
     }
 
-    else if (error) {
+    else if (error || tenantQuery.error) {
         <Result
             status="500"
             title="500"
@@ -37,17 +38,31 @@ export default function Report() {
     }
 
     const { getReportTemplate } = data;
+    const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
     const { Title } = Typography;
-        
-    initReport(getReportTemplate)(dispatch);
+    
+    const report = {...getReportTemplate};
+    report.tenantId = getTenantById.id;
 
+    initReport(report, tenantId)(dispatch);
+    
     return (
         <> 
-            <Title>Name of Tenant</Title>
+            <Title>{ getTenantById.name }</Title>
             <Checklist data={ getReportTemplate.checklist} />
         </>
     )
 }
+
+const FETCH_TENANT = gql`
+    query($tenantId: String!) {
+        getTenantById(id: $tenantId) {
+            id
+            name
+            institution
+        }
+    }
+`
 
 const FETCH_REPORT_TEMPLATE_QUERY = gql`
     query($templateType: String!) {
