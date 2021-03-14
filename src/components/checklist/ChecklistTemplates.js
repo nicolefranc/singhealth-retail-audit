@@ -1,8 +1,8 @@
 import React from 'react';
 import Title from "antd/lib/typography/Title";
 import { routes } from '../../const';
-import { Divider,Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Divider, Button } from 'antd';
+import { Link} from 'react-router-dom';
 
 
 export default function ChecklistTemplates() {
@@ -14,22 +14,20 @@ export default function ChecklistTemplates() {
 
             <h2>Audit Checklist:</h2>
             <div >
-                <Link to={routes.CHECKLIST_NONFB}> 
-                    <Button block className="bg-orange text-white">Non-F&B</Button>
+                <Link to={`${routes.REPORT}/non-fnb`}> 
+                    <Button block className="bg-orange text-white">Non-F&amp;B</Button>
                 </Link>
-                <Link to={routes.CHECKLIST_FB}> 
-                    <Button block className="bg-orange text-white">F&B</Button>
+                <Link to={`${routes.REPORT}/fnb`}>
+                    <Button block className="bg-orange text-white">F&amp;B</Button>
                 </Link>
             </div>
 
             <br />
 
             <h2>COVID Safe Management Measures Compliance Checklist:</h2>
-            <Link to={routes.CHECKLIST_COVID}> 
+            <Link to={`${routes.REPORT}/covid-ß19`}> 
                 <Button block className="bg-orange text-white">COVID-19 Checklist</Button>
             </Link>       
-
-            
         </>
     )
 }

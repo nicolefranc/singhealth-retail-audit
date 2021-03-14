@@ -39,6 +39,7 @@ export default function Tenants() {
     return (
         <>
             <Title>Tenants</Title>
+
             <Divider />
             <Row gutter={16} justify="space-between">
                 <Col className="mb-4">

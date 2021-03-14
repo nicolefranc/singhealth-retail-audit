@@ -9,11 +9,10 @@ import Dashboard from './pages/Dashboard';
 import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
-import ChecklistNonFB from './components/checklist/ChecklistNonFB';
-import ChecklistFB from './components/checklist/ChecklistFB';
-import ChecklistCOVID from './components/checklist/ChecklistCOVID';
 import ChecklistTemplates from './components/checklist/ChecklistTemplates';
+import ChecklistPhotos from './components/checklist/ChecklistPhotos';
 import { routes } from './const';
+import Report from './pages/Report';
 
 function App() {
 	return (
@@ -32,19 +31,11 @@ function App() {
 					<Route path={routes.SETTINGS}>
 						<Settings />
 					</Route>
-
-					<Route path={routes.CHECKLIST_NONFB}>
-        				<ChecklistNonFB />
+					<Route path={routes.PHOTOS}>
+        				<ChecklistPhotos />
       				</Route>
-					<Route path={routes.CHECKLIST_FB}>
-        				<ChecklistFB />
-      				</Route>
-					<Route path={routes.CHECKLIST_COVID}>
-        				<ChecklistCOVID />
-      				</Route>
-					<Route path={routes.TEMPLATES}>
-        				<ChecklistTemplates />
-      				</Route>
+					<Route path='/report/:reportType' component={Report} />
+					<Route path={routes.TEMPLATES} component={ChecklistTemplates} />
 				</Switch>
 			</BaseLayout>
 
