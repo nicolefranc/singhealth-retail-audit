@@ -10,6 +10,12 @@ export default function Sidebar() {
             breakpoint="lg"
             collapsedWidth="0"
             trigger={null}
+            style={{
+                overflow: 'auto',
+                height: '100vh',
+                position: 'fixed',
+                left: 0,
+            }}
         >
             <div className="logo" />
             <MenuItems />
