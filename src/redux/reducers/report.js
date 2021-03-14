@@ -1,7 +1,7 @@
 import { INIT_NEW_REPORT, TOGGLE_COMPLIANT } from "../redux-consts";
 
 const reportReducer = (state = {}, action) => {
-    console.log(action);
+    // console.log(action);
     switch(action.type) {
         case INIT_NEW_REPORT:
             return action.payload;
@@ -23,13 +23,13 @@ const reportReducer = (state = {}, action) => {
             subcategories.map((subcategory, index) => {
                 totalComplied += subcategory.lineItems.filter(item => item.complied).length;
                 totalApplicable += subcategory.lineItems.filter(item => item.complied != null).length;
-                console.log(`Total complied at index ${index}: ${totalComplied}`);
-                console.log(`Total Applicable at index ${index}: ${totalApplicable}`);
+                // console.log(`Total complied at index ${index}: ${totalComplied}`);
+                // console.log(`Total Applicable at index ${index}: ${totalApplicable}`);
             })
             
-            console.log(`Total Complied: ${totalComplied}`);
-            console.log(`Total Applicable: ${totalApplicable}`);
-            console.log(`Total Score (in %): ${(totalComplied / totalApplicable) * weightage}`);
+            // console.log(`Total Complied: ${totalComplied}`);
+            // console.log(`Total Applicable: ${totalApplicable}`);
+            // console.log(`Total Score (in %): ${(totalComplied / totalApplicable) * weightage}`);
             const score = (totalComplied / totalApplicable) * weightage;
             return {
                 ...state,

@@ -8,10 +8,12 @@ import { useEffect } from "react";
 
 // Actions
 import { initReport } from "../redux/actions/report";
+import { useParams } from "react-router";
 
 export default function Report() { // TODO: accept report type from query params later
     const dispatch = useDispatch();
-    const templateType = "fnb";
+    const { reportType } = useParams();
+    const templateType = reportType;
     const query = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
         variables: { templateType }
     })

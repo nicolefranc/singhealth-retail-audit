@@ -31,12 +31,8 @@ function App() {
 						<Settings />
 					</Route>
 
-					<Route path={routes.REPORT}>
-						<Report />
-					</Route>
-					<Route path={routes.TEMPLATES}>
-        				<ChecklistTemplates />
-      				</Route>
+					<Route path='/report/:reportType' component={Report} />
+					<Route path={routes.TEMPLATES} component={ChecklistTemplates} />
 				</Switch>
 			</BaseLayout>
 

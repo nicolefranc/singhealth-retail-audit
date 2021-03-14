@@ -8,10 +8,10 @@ import { round } from '../../utils/utils';
 export default function Checklist({ data }) {
     // data is an array of category objects
     const checklist = useSelector(state => state.report.checklist);
-    let scores = [];
     const [total, setTotal] = useState(0);
     
     useEffect(() => {
+        let scores = [];
         if (checklist) {
             let total = 0;
             scores = checklist.map(category => {
@@ -36,6 +36,8 @@ export default function Checklist({ data }) {
             <Collapse accordion defaultActiveKey='1' >
                 {data.map((category, cIndex) => {    
                     let indexes = { 'category': cIndex }
+                    console.log(cIndex);
+                    console.log(`Category score for ${category.category} is ${category.score}`)
                     let score = checklist ? round(checklist[cIndex].score, 1): 0; 
 
                     return (<Panel header={category.category} key={cIndex + 1} className="bg-orange ">
