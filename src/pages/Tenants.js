@@ -1,29 +1,11 @@
 import { useState } from "react";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import { Button, Col, Row, Input, Divider } from "antd";
+import { Button, Col, Row, Input, Divider, Skeleton, Spin } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import TenantCard from "../components/tenants/TenantCard";
 import { RESPONSIVE_GUTTER } from "../const";
-
-const tenants = [
-    {
-        name: "Tenant 1",
-        date: "29 April 2021",
-        status: "Due"
-    },
-    {
-        name: "Tenant 2",
-        date: "22 March 2021",
-        status: "Unrectified"
-    },
-    {
-        name: "Tenant 3",
-        date: "22 June 2021",
-        status: "Rectified"
-    },
-]
 
 const { Search } = Input;
 
@@ -64,11 +46,14 @@ export default function Tenants() {
             
             <Row gutter={RESPONSIVE_GUTTER} justify="start" align="middle">
                 {
-                    getAllTenants && getAllTenants.map((tenant, index) => (
+                    getAllTenants ? getAllTenants.map((tenant, index) => (
                         <Col key={index} xs={24} md={12} lg={8}>
                             <TenantCard content={tenant} checkboxVisible={checkboxVisibility} />
                         </Col>
-                    ))
+                    )) : 
+                    <div className="flex w-full justify-center items-center">
+                        <Spin tip="Loading..." size="large" />
+                    </div>
                 }
             </Row>
         </>

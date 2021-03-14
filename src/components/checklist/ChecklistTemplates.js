@@ -2,10 +2,13 @@ import React from 'react';
 import Title from "antd/lib/typography/Title";
 import { routes } from '../../const';
 import { Divider, Button } from 'antd';
-import { Link} from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 
 
 export default function ChecklistTemplates() {
+    const { tenantId } = useParams();
+    const baseRoute = routes.REPORT.concat(`/${tenantId}`);
+    console.log(baseRoute);
     return (
         <>
             <Title>Select Template:</Title>
@@ -14,10 +17,10 @@ export default function ChecklistTemplates() {
 
             <h2>Audit Checklist:</h2>
             <div >
-                <Link to={`${routes.REPORT}/non-fnb`}> 
+                <Link to={`${baseRoute}/non-fnb`}> 
                     <Button block className="bg-orange text-white">Non-F&amp;B</Button>
                 </Link>
-                <Link to={`${routes.REPORT}/fnb`}>
+                <Link to={`${baseRoute}/fnb`}>
                     <Button block className="bg-orange text-white">F&amp;B</Button>
                 </Link>
             </div>
@@ -25,7 +28,7 @@ export default function ChecklistTemplates() {
             <br />
 
             <h2>COVID Safe Management Measures Compliance Checklist:</h2>
-            <Link to={`${routes.REPORT}/covid-ß19`}> 
+            <Link to={`${baseRoute}/covid-19`}> 
                 <Button block className="bg-orange text-white">COVID-19 Checklist</Button>
             </Link>       
         </>

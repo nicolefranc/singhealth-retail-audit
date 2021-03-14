@@ -1,40 +1,52 @@
 import Checklist from "../components/checklist/Checklist";
-import { fnb } from "../data/report";
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Skeleton } from "antd";
+import { Button, Result, Skeleton, Typography } from "antd";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 // Actions
 import { initReport } from "../redux/actions/report";
 import { useParams } from "react-router";
+import { routes } from "../const";
+import { Link } from "react-router-dom";
 
-export default function Report() { // TODO: accept report type from query params later
+export default function Report() {
     const dispatch = useDispatch();
     const { reportType } = useParams();
     const templateType = reportType;
-    const query = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
+    const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
         variables: { templateType }
     })
 
-    useEffect(() => {
-        // dispatch(initReport(query.data));
-        if(query.data)
-            initReport(query.data.getReportTemplate)(dispatch);
-    }, [dispatch, query.data]);
 
-    // if (query.data) {
-    //     console.log(query.data.getReportTemplate);
-        // initReport(query.data)(dispatch);
-    // }
 
-    return query.data ? (
+    if (loading) {
+        console.log("loading");
+        return (
+            <Skeleton loading={true} />
+        )
+    }
+
+    else if (error) {
+        <Result
+            status="500"
+            title="500"
+            subTitle="Sorry, something went wrong."
+            extra={<Link to={routes.TENANTS}><Button type="primary">Back to Tenants</Button></Link>}
+        />
+    }
+
+    const { getReportTemplate } = data;
+    const { Title } = Typography;
+        
+    initReport(getReportTemplate)(dispatch);
+
+    return (
         <> 
-            <h1>{ query.data.getReportTemplate.templateType }</h1>
-            <Checklist data={query.data.getReportTemplate.checklist} />
+            <Title>Name of Tenant</Title>
+            <Checklist data={ getReportTemplate.checklist} />
         </>
-    ) : <Skeleton loading={true} />
+    )
 }
 
 const FETCH_REPORT_TEMPLATE_QUERY = gql`

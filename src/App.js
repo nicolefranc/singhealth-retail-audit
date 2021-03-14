@@ -34,8 +34,8 @@ function App() {
 					<Route path={routes.PHOTOS}>
         				<ChecklistPhotos />
       				</Route>
-					<Route path='/report/:reportType' component={Report} />
-					<Route path={routes.TEMPLATES} component={ChecklistTemplates} />
+					<Route path='/report/:tenantId/:reportType' component={Report} />
+					<Route path='/report/:tenantId' component={ChecklistTemplates} />
 				</Switch>
 			</BaseLayout>
 
