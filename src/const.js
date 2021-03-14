@@ -1,5 +1,7 @@
 export const routes = {
     DEFAULT: '/',
+    LOGIN: '/login',
+    DASHBOARD: '/dashboard',
     TENANTS: '/tenants',
     NOTIFICATIONS: '/notifications',
     SETTINGS: '/settings',

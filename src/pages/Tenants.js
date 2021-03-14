@@ -1,7 +1,7 @@
 import { useState } from "react";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import { Button, Col, Row, Input, Divider, Skeleton, Spin } from "antd";
+import { Button, Col, Row, Input, Divider, Spin } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import TenantCard from "../components/tenants/TenantCard";

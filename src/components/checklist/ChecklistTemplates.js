@@ -25,12 +25,12 @@ export default function ChecklistTemplates() {
                 </Link>
             </div>
 
-            <br />
+            {/* <br />
 
             <h2>COVID Safe Management Measures Compliance Checklist:</h2>
             <Link to={`${baseRoute}/covid-19`}> 
                 <Button block className="bg-orange text-white">COVID-19 Checklist</Button>
-            </Link>       
+            </Link>        */}
         </>
     )
 }
