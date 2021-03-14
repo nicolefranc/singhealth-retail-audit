@@ -1,4 +1,6 @@
 import { useState } from "react";
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 import { Button, Col, Row, Input, Divider } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
@@ -27,6 +29,8 @@ const { Search } = Input;
 
 export default function Tenants() {
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
+    const { data } = useQuery(FETCH_ALL_TENANTS);
+    const { getAllTenants } = data ? data : [];
 
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)
@@ -57,9 +61,10 @@ export default function Tenants() {
                     onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }</Button>
                 </Col>
             </Row>
+            
             <Row gutter={RESPONSIVE_GUTTER} justify="start" align="middle">
                 {
-                    tenants.map((tenant, index) => (
+                    getAllTenants && getAllTenants.map((tenant, index) => (
                         <Col key={index} xs={24} md={12} lg={8}>
                             <TenantCard content={tenant} checkboxVisible={checkboxVisibility} />
                         </Col>
@@ -69,3 +74,13 @@ export default function Tenants() {
         </>
     )
 }
+
+const FETCH_ALL_TENANTS = gql`
+    query fetchAllTenants {
+        getAllTenants {
+            id
+            name
+            institution
+        }
+    }
+`
