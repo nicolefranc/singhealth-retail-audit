@@ -1,18 +1,22 @@
-import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
-import App from './App';
 import React from 'react';
+import App from './App';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { Provider } from 'react-redux';
+import store from './store';
 
-const httplink = createHttpLink({
-    uri: "http://localhost:5000"
-})
+const httpLink = createHttpLink({
+    uri: 'http://localhost:5000' // pointing to the server
+});
 
 const client = new ApolloClient({
-    link: httplink,
+    link: httpLink,
     cache: new InMemoryCache()
-})
+});
 
 export default (
     <ApolloProvider client={client}>
-        <App/>
+        <Provider store={store}>
+            <App />
+        </Provider>
     </ApolloProvider>
 )

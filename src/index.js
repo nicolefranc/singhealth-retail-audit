@@ -1,29 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-// import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+// import { Provider } from 'react-redux';
+// import store from './store';
 import ApolloProvider from './ApolloProvider';
 
-// import {
-//   ApolloClient,
-//   InMemoryCache,
-//   ApolloProvider,
-//   createHttpLink,
-// } from "@apollo/client";
-
-// const httplink = createHttpLink({
-//   uri: "http://localhost:5000",
-// });
-
-// const client = new ApolloClient({
-//   link: httplink,
-//   cache: new InMemoryCache(),
-// });
 
 ReactDOM.render(
   <React.StrictMode>
-    {ApolloProvider}
+    { ApolloProvider }
   </React.StrictMode>,
   document.getElementById("root")
 );

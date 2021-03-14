@@ -5,12 +5,15 @@ import Dashboard from "./Dashboard";
 import { Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import { useDispatch } from 'react-redux';
 
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
+import { login } from "../redux/actions/auth";
 
 export default function Login(props) {
   const context = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
   //   const [form] = Form.useForm();
@@ -43,15 +46,14 @@ export default function Login(props) {
     update(cache, result) {
       // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
       // here we will use the result of the query a store it locally when 'context.login' is being called.
-      if (result.data.loginAuditor) {
-        console.log(result.data.loginAuditor);
-        context.login(result.data.loginAuditor);
-        props.history.push("/");
-      } else {
-        console.log(result.data.loginTenant);
-        context.login(result.data.loginTenant);
-        props.history.push("/");
-      }
+      // context.login(result.data);
+      console.log(result);
+      if (result.data.loginAuditor)
+        login(result.data.loginAuditor)(dispatch);
+      else if (result.data.loginTenant)
+        login(result.data.loginTenant)(dispatch);
+      else console.error("Something is wrong with the login.");
+      props.history.push("/");
     },
     onError(err) {
       //any error will be thrown here
