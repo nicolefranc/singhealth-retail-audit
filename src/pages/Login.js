@@ -43,7 +43,8 @@ export default function Login(props) {
     update(cache, result) {
       // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
       // here we will use the result of the query a store it locally when 'context.login' is being called.
-      context.login(result.data);
+      console.log(result.data.loginAuditor);
+      context.login(result.data.loginAuditor);
       props.history.push("/");
     },
     onError(err) { //any error will be thrown here 
