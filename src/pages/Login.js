@@ -1,15 +1,20 @@
-import { Form, Input, Button, Radio, Checkbox, Alert } from "antd";
+import { Row, Col, Form, Input, Button, Radio, Checkbox, Alert, Typography } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import React, { useContext, useState } from "react";
 import Dashboard from "./Dashboard";
 import { Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+
+import SingHealth_Logo from "../assets/images/SingHealth_Logo.png";
+
 import { useDispatch } from 'react-redux';
 
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 import { login } from "../redux/actions/auth";
+
+const {Title} = Typography;
 
 export default function Login(props) {
   const context = useContext(AuthContext);
@@ -81,7 +86,14 @@ export default function Login(props) {
             <Button className='ml-16' size='large'>Login as Tenant</Button>
             <Button className='mr-16' size='large'>Login as Staff</Button>
         </div> */}
-      <div>
+
+      
+      <div className='flex justify-center mb-12 '>
+
+        <img src={SingHealth_Logo} style={{maxWidth: '100%', maxHeight: '100%'}}/>
+
+      </div>
+
         <Form
           layout="vertical"
           initialValues={{
@@ -92,8 +104,9 @@ export default function Login(props) {
           onFinish={onSubmit}
           onFinishFailed={onFinishFailed}
         >
-          <p>Login As</p>
-          <Radio.Group value={loginAs} label="Login As">
+          <div className='flex justify-center mb-6'>
+          <Title style={{paddingRight: '1rem', paddingTop: '0.25rem'}} level={5}>Login As</Title>
+          <Radio.Group className='mb-6' value={loginAs} label="Login As">
             <Radio.Button value="tenant" onClick={handleLoginAs}>
               Tenant
             </Radio.Button>
@@ -101,7 +114,11 @@ export default function Login(props) {
               Staff
             </Radio.Button>
           </Radio.Group>
+          </div>
 
+          
+
+          <div className='pl-10 pr-10'>
           <Form.Item label="Email" required tooltip="This is a required field">
             <Input
               placeholder="input email"
@@ -127,25 +144,30 @@ export default function Login(props) {
               value={values.password}
             />
           </Form.Item>
-          <Form.Item name="remember" valuePropName="checked">
+
+          <Form.Item name="remember" valuePropName="checked" className='mb-4'>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
+
           {Object.keys(errors).length > 0 && (
             <div className="ui error message">
-              <ul className="list">
+              <ul className="list p-3">
                 {Object.values(errors).map((value) => (
-                  <Alert message={value} type="error" />
+                  <Alert className='p-2 mb-4' message={value} type="error" />
                 ))}
               </ul>
             </div>
           )}
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
+
+          </div>
         </Form>
-      </div>
+      
     </>
   );
 }
