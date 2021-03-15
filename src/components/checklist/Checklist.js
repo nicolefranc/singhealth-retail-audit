@@ -38,14 +38,14 @@ export default function Checklist({ data }) {
 
     return (
         <>  
-            <Collapse accordion defaultActiveKey='1' >
+            <Collapse accordion defaultActiveKey='1'  >
                 {data.map((category, cIndex) => {    
                     let indexes = { 'category': cIndex }
                     console.log(cIndex);
                     console.log(`Category score for ${category.category} is ${category.score}`)
                     let score = checklist ? round(checklist[cIndex].score, 1): 0; 
 
-                    return (<Panel header={category.category} key={cIndex + 1} >
+                    return (<Panel header={category.category} key={cIndex + 1}>
                             <Collapse accordion defaultActiveKey="1" >
                                 {   
                                     category.subcategories.map((subcategory, sIndex) => {
