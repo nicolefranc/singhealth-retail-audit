@@ -6,7 +6,6 @@ import {
 	Route,
 	Redirect
   } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import Dashboard from './pages/Dashboard';
 import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';

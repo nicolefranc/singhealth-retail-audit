@@ -18,10 +18,10 @@ export default function ChecklistTemplates() {
             <h2>Audit Checklist:</h2>
             <div >
                 <Link to={`${baseRoute}/non-fnb`}> 
-                    <Button block className="bg-orange text-white">Non-F&amp;B</Button>
+                    <Button block >Non-F&amp;B</Button>
                 </Link>
                 <Link to={`${baseRoute}/fnb`}>
-                    <Button block className="bg-orange text-white">F&amp;B</Button>
+                    <Button block >F&amp;B</Button>
                 </Link>
             </div>
 
