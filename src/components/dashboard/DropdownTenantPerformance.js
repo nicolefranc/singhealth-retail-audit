@@ -5,8 +5,21 @@ import { useState } from 'react';
 import PerformanceGraph from './PerformanceGraph';
 import {PerformanceAll, Performance, dropdownTenant} from './TenantData';
 
-export default function DropdownTenantPerformance({dropdownTenant}) {
+import { useQuery, useMutation } from "@apollo/client";
+import gql from "graphql-tag";
 
+export default function DropdownTenantPerformance({dropdownTenant}) {
+  
+  /*
+  const {error, loading, data} = useQuery(GET_TENANTS);
+  const performanceAll = [];
+  for (let i = 0; i < data.getAllTenants.length; i ++){
+    performanceAll.push(data.getAllTenants.performance);
+  }
+  
+  console.log(performanceAll)
+  */
+ 
     const { Option } = Select;
 
     const [selectedValue, setSelectedValue] = useState(0);
@@ -40,7 +53,7 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
           </Select>
 
           <PerformanceGraph
-            content= {!selectedValue? PerformanceAll: Performance}
+            content= {!selectedValue? PerformanceAll: Performance} //
             type={!selectedValue? 'all' : null}
             >
           </PerformanceGraph>
@@ -48,4 +61,18 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
         </div>
         </>
     )
-        }
+  }
+
+  const GET_TENANTS = gql`
+  query{
+    getAllTenants{
+      name
+      institution
+      performance{
+        month
+        key
+        score
+      }
+    }
+  }
+  ` 

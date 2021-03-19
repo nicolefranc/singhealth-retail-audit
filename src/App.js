@@ -44,8 +44,8 @@ function App() {
 						<Route path={routes.PHOTOS}>
 							<ChecklistPhotos />
 						</Route>
-						<Route path='/report/:reportType' component={Report} />
-						<Route path={routes.TEMPLATES} component={ChecklistTemplates} />
+						<Route path='/report/:tenantId/:reportType' component={Report} />
+						<Route exact path='/report/:tenantId' component={ChecklistTemplates} />
 
 						<Route path="/TenantDetail" component={TenantDetail}/>
 						<Route path="/DashboardTenant" component={DashboardTenant}/>

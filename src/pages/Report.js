@@ -1,41 +1,68 @@
 import Checklist from "../components/checklist/Checklist";
-import { fnb } from "../data/report";
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Skeleton } from "antd";
+import { Button, Result, Skeleton, Typography } from "antd";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 // Actions
 import { initReport } from "../redux/actions/report";
 import { useParams } from "react-router";
+import { routes } from "../const";
+import { Link } from "react-router-dom";
 
-export default function Report() { // TODO: accept report type from query params later
+export default function Report() {
     const dispatch = useDispatch();
-    const { reportType } = useParams();
+    const { tenantId, reportType } = useParams();
     const templateType = reportType;
-    const query = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
+    const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
         variables: { templateType }
-    })
+    });
+    const tenantQuery = useQuery(FETCH_TENANT, {
+        variables: { tenantId }
+    });
 
-    useEffect(() => {
-        // dispatch(initReport(query.data));
-        if(query.data)
-            initReport(query.data.getReportTemplate)(dispatch);
-    }, [dispatch, query.data]);
+    if (loading || tenantQuery.loading) {
+        console.log("loading");
+        return (
+            <Skeleton loading={true} />
+        )
+    }
 
-    // if (query.data) {
-    //     console.log(query.data.getReportTemplate);
-        // initReport(query.data)(dispatch);
-    // }
+    else if (error || tenantQuery.error) {
+        <Result
+            status="500"
+            title="500"
+            subTitle="Sorry, something went wrong."
+            extra={<Link to={routes.TENANTS}><Button type="primary">Back to Tenants</Button></Link>}
+        />
+    }
 
-    return query.data ? (
+    const { getReportTemplate } = data;
+    const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
+    const { Title } = Typography;
+    
+    const report = {...getReportTemplate};
+    report.tenantId = getTenantById.id;
+
+    initReport(report, tenantId)(dispatch);
+    
+    return (
         <> 
-            <h1>{ query.data.getReportTemplate.templateType }</h1>
-            <Checklist data={query.data.getReportTemplate.checklist} />
+            <Title>{ getTenantById.name }</Title>
+            <Checklist data={ getReportTemplate.checklist} />
         </>
-    ) : <Skeleton loading={true} />
+    )
 }
+
+const FETCH_TENANT = gql`
+    query($tenantId: String!) {
+        getTenantById(id: $tenantId) {
+            id
+            name
+            institution
+        }
+    }
+`
 
 const FETCH_REPORT_TEMPLATE_QUERY = gql`
     query($templateType: String!) {

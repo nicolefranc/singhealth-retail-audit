@@ -90,7 +90,7 @@ export default function Login(props) {
       
       <div className='flex justify-center mb-12 '>
 
-        <img src={SingHealth_Logo} style={{maxWidth: '100%', maxHeight: '100%'}}/>
+        <img src={SingHealth_Logo} className="p-4" style={{maxWidth: '100%', maxHeight: '100%'}}/>
 
       </div>
 

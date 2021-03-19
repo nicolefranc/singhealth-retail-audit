@@ -1,5 +1,6 @@
 import { INIT_NEW_REPORT, TOGGLE_COMPLIANT } from "../redux-consts"
 
+// TODO: Implement save to localstorage
 export const initReport = (report) => (dispatch) => {
     dispatch({
         type: INIT_NEW_REPORT,
