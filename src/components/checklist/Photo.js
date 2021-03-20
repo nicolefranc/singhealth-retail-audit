@@ -13,6 +13,7 @@ export default function Photo(){
 
     const nonCompliances = useSelector(state => state.images);
     const lineItemIds = Object.keys(nonCompliances);
+    
 
     // for pop up
     const [visible,setVisible]=useState(false);
@@ -46,7 +47,7 @@ export default function Photo(){
             {/* <h4 className="shadow bg-white mb-20">Staff Attendance: adequate staff for peak and non-peak hours.</h4> */}
             {
                 lineItemIds.map(item => {
-                    const images = nonCompliances[item].images;
+                    const { images, remarks } = nonCompliances[item];
                     console.log(images);
                     
                     return (
@@ -66,7 +67,7 @@ export default function Photo(){
                                     <EditOutlined key="editphoto" onClick={showModal}/>
                                 ]}
                             >
-                                <Meta description="(insert remarks here)" />
+                                <Meta description={remarks || 'No remarks'} />
                             </Card>
                         </>
                     )

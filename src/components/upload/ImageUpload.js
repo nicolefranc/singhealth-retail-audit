@@ -11,7 +11,6 @@ export default function ImageUpload({ id }) {
     // const [files, setFiles] = useState([]);
     const files = useSelector(state => state.images[id] ? state.images[id].images : []);
     const dispatch = useDispatch();
-    const render = [];
 
     const props = {
         onRemove: file => {

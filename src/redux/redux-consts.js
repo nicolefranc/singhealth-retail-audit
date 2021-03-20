@@ -9,3 +9,4 @@ export const LOGOUT = 'LOGOUT';
 export const ADD_IMAGE = 'ADD_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const RESET_IMAGE_STATE = 'RESET_IMAGE_STATE';
+export const UPDATE_REMARKS = 'UPDATE_REMARKS'

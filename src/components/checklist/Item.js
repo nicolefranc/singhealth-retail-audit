@@ -4,10 +4,12 @@ import TextArea from "antd/lib/input/TextArea";
 import Modal from "antd/lib/modal/Modal";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { updateRemarks } from "../../redux/actions/image";
 import { toggleCompliant } from "../../redux/actions/report";
 import CameraButton from "../CameraButton";
 import CustomModal from "../modals/CustomModal";
 import ImageUpload from "../upload/ImageUpload";
+import NonCompliances from "../upload/NonCompliances";
 import Checkbox from "./Checkbox";
 
 export default function Item({ items, cIndex, sIndex }) {
@@ -72,10 +74,11 @@ export default function Item({ items, cIndex, sIndex }) {
     };
 
     const handleOk = () => {
-        setVisible(false)
+        setVisible(false);
     };
 
     const handleCancel = () => {
+        // TODO: RESET IMAGE STATE
         setVisible(false);
     };
 
@@ -129,7 +132,7 @@ export default function Item({ items, cIndex, sIndex }) {
                     handleOk, handleCancel
                 }}
             >
-                <ImageUpload id={itemSelected} />
+                <NonCompliances id={itemSelected} />
             </CustomModal>
                 {/* <div className="flex flex-col">
                     <div>
