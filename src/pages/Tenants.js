@@ -1,11 +1,11 @@
 import { useState } from "react";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import { Button, Col, Row, Input, Divider, Spin } from "antd";
+import { Button, Col, Row, Input, Divider, Spin, Result } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import TenantCard from "../components/tenants/TenantCard";
-import { RESPONSIVE_GUTTER } from "../const";
+import { RESPONSIVE_GUTTER, routes } from "../const";
 
 import {
     SwipeableList,
@@ -15,14 +15,31 @@ import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { noOp } from '@sandstreamdev/std/function';
 import SwipeListItem from '../components/swipe/SwipeListItem';
 import SwipeContent from '../components/swipe/SwipeContent';
+import { Link } from "react-router-dom";
 
 
 const { Search } = Input;
 
 export default function Tenants() {
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    const { data } = useQuery(FETCH_ALL_TENANTS);
-    const { getAllTenants } = data ? data : [];
+    const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
+    
+    if (loading) return (
+        <div className="flex w-full justify-center items-center">
+            <Spin tip="Loading..." size="large" />
+        </div> 
+    )
+
+    else if (error) {
+        <Result
+            status="500"
+            title="500"
+            subTitle="Sorry, something went wrong."
+            extra={<Link to={routes.TENANTS}><Button type="primary">Refresh</Button></Link>}
+        />
+    }
+
+    const { getAllTenants } = data;
 
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)
