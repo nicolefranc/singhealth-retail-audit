@@ -15,6 +15,7 @@ export default function TenantCard({ content, checkboxVisible }) {
     if (content)
         return (
             <div >
+
                 <Card extra={ checkboxVisible && <Checkbox onChange={handleCheckbox} /> }>
                     <div className="flex flex-row justify-between">
                         <h3 className="uppercase mb-0 font-bold">{content.name}</h3>
@@ -31,10 +32,8 @@ export default function TenantCard({ content, checkboxVisible }) {
                             <Button type="primary" block>Audit</Button>
                         </Link>
                     </div>
-                    {/* <Button block>View</Button> */}
                 </Card>
 
-                
             </div>
         )
     
