@@ -65,7 +65,7 @@ export default function Photo({}){
                 onCancel={handleCancel}
                 footer={[
                     <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                    <Button key="save" className="bg-orange text-white" onClick={handleOk}>Save</Button>,
+                    <Button key="save" className="" onClick={handleOk}>Save</Button>,
                 ]}
             >
                 <CameraButton handleCapture={handleCapture}/>

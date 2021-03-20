@@ -20,7 +20,7 @@ export default function ChecklistPhotos() {
                     <Button>Save as Draft</Button>
                 </Link>
                 <Link to={routes.PHOTOS} >
-                    <Button className="bg-orange text-white">Submit</Button>
+                    <Button className="">Submit</Button>
                 </Link>
             </div>
         </>
