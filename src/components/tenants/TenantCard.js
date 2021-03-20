@@ -1,4 +1,4 @@
-import { Button, Card, Skeleton, Tag } from "antd";
+import { Button, Card, Divider, Skeleton,Tag } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { Link } from "react-router-dom";
 import { routes } from "../../const";
@@ -14,12 +14,17 @@ export default function TenantCard({ content, checkboxVisible }) {
 
     if (content)
         return (
-            <div className="mb-4">
-                <Card title={content.name} bordered={false} 
-                    extra={ checkboxVisible && <Checkbox onChange={handleCheckbox} /> }>
-                    {/* style={{ width: 300 }}> */}
-                    <h3 className="text-sm uppercase mb-0">{ content.institution }</h3>
-                    {/* <Tag color={color}>{ content.status }</Tag> */}
+            <div >
+                <Card extra={ checkboxVisible && <Checkbox onChange={handleCheckbox} /> }>
+                    <div className="flex flex-row justify-between">
+                        <h3 className="uppercase mb-0 font-bold">{content.name}</h3>
+                        <Tag color="red">Unrectified</Tag>
+                    </div>
+                    <div className="flex flex-row ">
+                        <h3 className="text-sm uppercase mb-0 mr-2">{ content.institution }</h3>
+                        <Tag >Last Audit: 19/3/2021</Tag>
+                    </div>
+                    
                     <div className="flex justify-between mt-4">
                         <Button block className="mr-2">Notify</Button>
                         <Link to={`report/${tenantId}`} className="w-full ml-2">
@@ -28,6 +33,8 @@ export default function TenantCard({ content, checkboxVisible }) {
                     </div>
                     {/* <Button block>View</Button> */}
                 </Card>
+
+                
             </div>
         )
     
