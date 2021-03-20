@@ -6,11 +6,14 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleCompliant } from "../../redux/actions/report";
 import CameraButton from "../CameraButton";
+import CustomModal from "../modals/CustomModal";
+import ImageUpload from "../upload/ImageUpload";
 import Checkbox from "./Checkbox";
 
 export default function Item({ items, cIndex, sIndex }) {
     const [lineItems, setLineItems] = useState(items); // Array of line item objects
     const [compliance] = useState(null);
+    const [itemSelected, setItemSelected] = useState(null);
     const dispatch = useDispatch();
 
     // console.log(`Item load: ${cIndex}, ${sIndex}`);
@@ -63,8 +66,9 @@ export default function Item({ items, cIndex, sIndex }) {
 
     const [visible,setVisible]=useState(false);
     
-    const showModal = () => {
+    const showModal = (index) => {
         setVisible(true);
+        setItemSelected(items[index].id);
     };
 
     const handleOk = () => {
@@ -86,6 +90,8 @@ export default function Item({ items, cIndex, sIndex }) {
         }
     }
 
+    console.log(imgSources);
+
     return (
         <>
             <List dataSource={itemsSrc} renderItem={(item, index) => (
@@ -95,25 +101,37 @@ export default function Item({ items, cIndex, sIndex }) {
                         <Checkbox index={index} compliance={compliance} toggleCompliance={toggleCompliance} />
                     </div>
 
-                    <Button onClick={showModal} style={{width: 100}}>Add Photo</Button>
+                    <Button onClick={() => showModal(index)} style={{width: 100}}>Add Photo</Button>
                 </List.Item>
             )} />
 
 
 
             {/* TEMPORARY FOR PHOTO POPUP */}
-            <Modal
+            {/* <Modal
                 visible={visible}
                 title="Add Photo of Non-Compliance"
                 centered
                 onOk={handleOk}
                 onCancel={handleCancel}
                 footer={[
-                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                    <Button key="save" className="" onClick={handleOk}>Save</Button>,
+                    
                 ]}
+            > */}
+            <CustomModal
+                title="Upload Photo of Non-compliance"
+                visible={visible}
+                actions={[
+                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                    <Button key="save" onClick={handleOk}>Save</Button>,
+                ]}
+                functions={{
+                    handleOk, handleCancel
+                }}
             >
-                <div className="flex flex-col">
+                <ImageUpload id={itemSelected} />
+            </CustomModal>
+                {/* <div className="flex flex-col">
                     <div>
                         <CameraButton handleCapture={handleCapture}/>
                         
@@ -140,8 +158,8 @@ export default function Item({ items, cIndex, sIndex }) {
                     </Image.PreviewGroup>
 
                     <TextArea placeholder="Remarks" autoSize className="mt-20" />
-                </div>    
-            </Modal>
+                </div>     */}
+            {/* </Modal> */}
         </>
     )
 }

@@ -10,12 +10,15 @@ import { useParams } from "react-router";
 import { routes } from "../const";
 import { Link } from "react-router-dom";
 
+
+
+
 export default function Report() {
     const dispatch = useDispatch();
     const { tenantId, reportType } = useParams();
-    const templateType = reportType;
+    const type = reportType;
     const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
-        variables: { templateType }
+        variables: { type }
     });
     const tenantQuery = useQuery(FETCH_TENANT, {
         variables: { tenantId }
@@ -29,14 +32,20 @@ export default function Report() {
     }
 
     else if (error || tenantQuery.error) {
-        <Result
-            status="500"
-            title="500"
-            subTitle="Sorry, something went wrong."
-            extra={<Link to={routes.TENANTS}><Button type="primary">Back to Tenants</Button></Link>}
-        />
+        console.log(error.message);
+        const statusCode = error.message.substring(error.message.length - 3);
+        const message = error.message.split(':')[0];
+        return (
+            <Result
+                status="500"
+                title={statusCode}
+                subTitle={message}
+                extra={<Link to={routes.TENANTS}><Button type="primary">Back to Tenants</Button></Link>}
+            />
+        )
     }
 
+    console.log(data);
     const { getReportTemplate } = data;
     const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
     const { Title } = Typography;
@@ -65,24 +74,9 @@ const FETCH_TENANT = gql`
 `
 
 const FETCH_REPORT_TEMPLATE_QUERY = gql`
-    query($templateType: String!) {
-        getReportTemplate(templateType: $templateType) {
-            templateType
-            tenantId
-            auditorId
-            auditDate
-            auditScore
-            extension {
-                status
-                proposed {
-                    date
-                    remarks
-                }
-                final {
-                    date
-                    remarks
-                }
-            }
+    query($type: String!) {
+        getReportTemplate(type: $type) {
+            type
             checklist {
                 category
                 weightage
@@ -91,14 +85,15 @@ const FETCH_REPORT_TEMPLATE_QUERY = gql`
                     subcategory
                     subcatScore
                     lineItems {
-                    lineItem
-                    complied
-                    images {
-                        nonCompliances
-                        nonComplRemarks
-                        rectifications
-                        rectRemarks
-                    }
+                        id
+                        lineItem
+                        complied
+                        images {
+                            nonCompliances
+                            nonComplRemarks
+                            rectifications
+                            rectRemarks
+                        }
                     }
                 }
             }

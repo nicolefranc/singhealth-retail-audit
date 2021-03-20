@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Card, Modal, Button, Image,Input,Typography,Upload, Divider} from 'antd';
+import { Card, Modal, Button, Image,Input,Typography,Upload, Divider, Carousel, Empty} from 'antd';
 import { DeleteOutlined,EditOutlined,UploadOutlined} from '@ant-design/icons';
 import CameraButton from '../../components/CameraButton';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function Photo({}){
-    const { Title } = Typography;
+const { Title } = Typography;
+// for card
+const { Meta } = Card; 
 
-    // for card
-    const { Meta } = Card; 
+export default function Photo(){
+
+    const nonCompliances = useSelector(state => state.images);
+    const lineItemIds = Object.keys(nonCompliances);
 
     // for pop up
     const [visible,setVisible]=useState(false);
@@ -30,32 +35,43 @@ export default function Photo({}){
     const handleCapture = (target) => {
         if (target.files && target.files.length !== 0) {
             const file = target.files[0];
+            console.log(file);
             const imgUrl = URL.createObjectURL(file);
-            setImgSources([ imgUrl, ...imgSources ]);
+            setImgSources([ file ]);
         }
     }
 
     return (
         <>
-            <h4 className="shadow bg-white mb-20">Staff Attendance: adequate staff for peak and non-peak hours.</h4>
-            
-            <div className="flex flex-row flex-wrap w-full">
-                <Card
-                    style={{width:150}}
-                    cover={
-                        <img
-                            alt="example"
-                            src="http://www.spongeeducation.com/wp-content/uploads/2019/01/placeholder-image.png"
-                        />
-                    }
-                    actions={[
-                        <DeleteOutlined key="delete" />,
-                        <EditOutlined key="editphoto" onClick={showModal}/>
-                    ]}
-                >
-                    <Meta description="(insert remarks here)" />
-                </Card>
-            </div>
+            {/* <h4 className="shadow bg-white mb-20">Staff Attendance: adequate staff for peak and non-peak hours.</h4> */}
+            {
+                lineItemIds.map(item => {
+                    const images = nonCompliances[item].images;
+                    console.log(images);
+                    
+                    return (
+                        <>
+                            <h1>{ item }</h1>
+                            <Card
+                                cover={
+                                    <Carousel>
+                                        { images.map((image, index) => {
+                                            let url = URL.createObjectURL(image);
+                                            return <img alt={image.name} src={url} />
+                                        })}
+                                    </Carousel>
+                                }
+                                actions={[
+                                    <DeleteOutlined key="delete" />,
+                                    <EditOutlined key="editphoto" onClick={showModal}/>
+                                ]}
+                            >
+                                <Meta description="(insert remarks here)" />
+                            </Card>
+                        </>
+                    )
+                })
+            }
 
             <Modal
                 visible={visible}
