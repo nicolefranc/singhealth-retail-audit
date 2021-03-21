@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SwipeContent = ({ label, position }) => (
-    <div className={`basic-swipeable-list__item-content-${position}`}>
+    <div className={`swipeable-listitem-${position}`}>
         <span>{label}</span>
     </div>
 );

@@ -1,8 +1,8 @@
 import { Button, Card, Divider, Skeleton,Tag } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { Link } from "react-router-dom";
-import { routes } from "../../const";
 
+//REPLACED BY TENANTLISTITEM
 export default function TenantCard({ content, checkboxVisible }) {
 
     const tenantId = content.id;

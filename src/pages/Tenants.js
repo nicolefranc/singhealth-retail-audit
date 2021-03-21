@@ -1,45 +1,21 @@
 import { useState } from "react";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import { Button, Col, Row, Input, Divider, Spin, Result } from "antd";
+import { Button, Col, Row, Input, Divider, Spin } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
-import TenantCard from "../components/tenants/TenantCard";
-import { RESPONSIVE_GUTTER, routes } from "../const";
-
-import {
-    SwipeableList,
-    SwipeableListItem
-  } from '@sandstreamdev/react-swipeable-list';
+import { RESPONSIVE_GUTTER } from "../const";
+import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { noOp } from '@sandstreamdev/std/function';
-import SwipeListItem from '../components/swipe/SwipeListItem';
-import SwipeContent from '../components/swipe/SwipeContent';
-import { Link } from "react-router-dom";
-
+import TenantListItem from "../components/tenants/TenantListItem";
 
 const { Search } = Input;
 
 export default function Tenants() {
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
-    
-    if (loading) return (
-        <div className="flex w-full justify-center items-center">
-            <Spin tip="Loading..." size="large" />
-        </div> 
-    )
-
-    else if (error) {
-        <Result
-            status="500"
-            title="500"
-            subTitle="Sorry, something went wrong."
-            extra={<Link to={routes.TENANTS}><Button type="primary">Refresh</Button></Link>}
-        />
-    }
-
-    const { getAllTenants } = data;
+    const { data } = useQuery(FETCH_ALL_TENANTS);
+    const { getAllTenants } = data ? data : [];
 
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)
@@ -48,30 +24,6 @@ export default function Tenants() {
     const onSearch = value => {
         console.log(value);
     }
-
-    // const handleSwipe=()=>{
-    //     window.open("../components/checklist/ChecklistTemplates");
-    // }
-
-    const swipeRightOptions = () => ({
-    content: (
-        <SwipeContent
-        label="Notify"
-        position="left"
-        />
-    ),
-    action: noOp
-    });
-    
-    const swipeLeftOptions = () => ({
-    content: (
-        <SwipeContent
-        label="Audit"
-        position="right"
-        />
-    ),
-    action: noOp
-    });
 
     return (
         <>
@@ -96,23 +48,18 @@ export default function Tenants() {
                 </Col>
             </Row>
 
-            {/* className="size-to-content-swipeable-list__container" */}
-            <Row gutter={RESPONSIVE_GUTTER} justify="center" className="w-full ml-6">
+            <Row gutter={RESPONSIVE_GUTTER} justify="center" className="mt-6">
                 {
-                    <SwipeableList>
-                        {getAllTenants.map(({ id, name, institution }) => (
-                        <SwipeableListItem
-                            key={id}
-                            swipeLeft={swipeLeftOptions(name)}
-                            swipeRight={swipeRightOptions(name)}
-                        >
-                            <SwipeListItem
-                            description={institution}
-                            name={name}
-                            />
-                        </SwipeableListItem>
-                        ))}
-                    </SwipeableList>
+                    getAllTenants ? getAllTenants.map((tenant, index) => (
+                        <Col key={index} xs={24} md={12} lg={8}>
+                        <SwipeableList>
+                            <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
+                        </SwipeableList>
+                        </Col>
+                    )) : 
+                    <div className="flex w-full justify-center items-center">
+                        <Spin tip="Loading..." size="large" />
+                    </div>
                 }
             </Row>
         </>
@@ -137,3 +84,18 @@ const FETCH_ALL_TENANTS = gql`
 // <div className="flex w-full justify-center items-center">
 //     <Spin tip="Loading..." size="large" />
 // </div>
+
+// <SwipeableList>
+//     {getAllTenants.map(({ id, name, institution }) => (
+//     <SwipeableListItem
+//         key={id}
+//         swipeLeft={swipeLeftOptions(name)}
+//         swipeRight={swipeRightOptions(name)}
+//     >
+//         <SwipeListItem
+//         description={institution}
+//         name={name}
+//         />
+//     </SwipeableListItem>
+//     ))}
+// </SwipeableList>

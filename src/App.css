@@ -40,13 +40,7 @@
 }
 
 
-
-.size-to-content-swipeable-list__container {
-  width: 100%;
-  
-}
-
-.basic-swipeable-list__item-content-left {
+.swipeable-listitem-left {
   background-color: #1890ff;
   box-sizing: border-box;
   color: white;
@@ -57,7 +51,7 @@
   padding: 4px 8px;
 }
 
-.basic-swipeable-list__item-content-right {
+.swipeable-listitem-right {
   background-color: #1890ff;
   box-sizing: border-box;
   color: white;
@@ -69,22 +63,11 @@
   justify-content: flex-end;
 }
 
-.complex-swipeable-list__item {
-  background-color: white;
-  padding: 10px;
+.swipeable-listitem {
   border-bottom: 1px solid #c4c4c4;
-  flex: 1;
-  min-width: 0;
-  user-select: none;
-  cursor: pointer;
 }
 
-.complex-swipeable-list__item-label {
-  display: flex;
-  align-items: center;
-}
-
-.complex-swipeable-list__item-name {
+.swipeable-listitem-name {
   font-weight: bold;
   font-size: 22px;
   line-height: 27px;
@@ -95,7 +78,7 @@
   text-overflow: ellipsis;
 }
 
-.complex-swipeable-list__item-description {
+.swipeable-listitem-description {
   margin-left: 2px;
   margin-top: 4px;
   color: #959595;
