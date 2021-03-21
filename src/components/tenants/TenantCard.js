@@ -33,6 +33,7 @@ export default function TenantCard({ content, checkboxVisible }) {
                         </Link>
                     </div>
                 </Card>
+                        
 
             </div>
         )

@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 export default function Report() {
     const dispatch = useDispatch();
     const { tenantId, reportType } = useParams();
-    const templateType = reportType;
+    const type = reportType;
     const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
-        variables: { templateType }
+        variables: { type }
     });
     const tenantQuery = useQuery(FETCH_TENANT, {
         variables: { tenantId }
@@ -65,24 +65,9 @@ const FETCH_TENANT = gql`
 `
 
 const FETCH_REPORT_TEMPLATE_QUERY = gql`
-    query($templateType: String!) {
-        getReportTemplate(templateType: $templateType) {
-            templateType
-            tenantId
-            auditorId
-            auditDate
-            auditScore
-            extension {
-                status
-                proposed {
-                    date
-                    remarks
-                }
-                final {
-                    date
-                    remarks
-                }
-            }
+    query($type: String!) {
+        getReportTemplate(type: $type) {
+            type
             checklist {
                 category
                 weightage
@@ -105,3 +90,20 @@ const FETCH_REPORT_TEMPLATE_QUERY = gql`
         }
     }
 `
+
+// tenantId
+// auditorId
+// auditDate
+// auditScore
+
+// extension {
+//     status
+//     proposed {
+//         date
+//         remarks
+//     }
+//     final {
+//         date
+//         remarks
+//     }
+// }

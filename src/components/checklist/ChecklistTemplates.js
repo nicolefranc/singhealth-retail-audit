@@ -15,13 +15,12 @@ export default function ChecklistTemplates() {
 
             <Divider />
 
-            <h2>Audit Checklist:</h2>
             <div >
                 <Link to={`${baseRoute}/non-fnb`}> 
-                    <Button block >Non-F&amp;B</Button>
+                    <Button block className="shadow max-w-screen-sm">Non-F&amp;B</Button>
                 </Link>
                 <Link to={`${baseRoute}/fnb`}>
-                    <Button block >F&amp;B</Button>
+                    <Button block className="shadow max-w-screen-sm mt-2">F&amp;B</Button>
                 </Link>
             </div>
 
