@@ -18,13 +18,16 @@ import Login from './pages/Login';
 import TenantDetail from './pages/TenantDetail';
 import RequestExtension from './components/RequestExtension';
 import DashboardTenant from './pages/DashBoardTenant';
+import { tokenValidator } from './utils/tokenValidator';
 
 function App() {
 	// let isAuthenticated = useSelector(state => state.user);
 	let isAuthenticated = localStorage.getItem('jwt');
+	let validatorResult = tokenValidator(isAuthenticated);
+	console.log(validatorResult.expired);
 	return (
 		<Router>
-			{ !isAuthenticated && <Redirect to={routes.LOGIN} /> }
+			{ validatorResult.expired && <Redirect to={routes.LOGIN} /> }
 			<Switch>
 				<Route path={routes.LOGIN} component={Login} />
 				<BaseLayout>
