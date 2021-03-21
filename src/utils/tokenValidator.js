@@ -8,6 +8,7 @@ export const tokenValidator = (token) => {
         const timeNow = new Date().getTime() / 1000;
         return({expired: decoded.exp < timeNow, type: decoded.type});
     } catch (err){
-        throw new Error(err);
+        // throw new Error(err);
+        return({expired: true, type: null});
     }
 }
