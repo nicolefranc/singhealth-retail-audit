@@ -47,11 +47,11 @@ export default function Tenants() {
                     onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }</Button>
                 </Col>
             </Row>
-
+            {/*  */}
             <Row gutter={RESPONSIVE_GUTTER} justify="center" className="mt-6">
                 {
                     getAllTenants ? getAllTenants.map((tenant, index) => (
-                        <Col key={index} xs={24} md={12} lg={8}>
+                        <Col key={index} xs={24}  lg={12}>
                         <SwipeableList>
                             <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
                         </SwipeableList>

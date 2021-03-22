@@ -2,7 +2,7 @@ import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import ScrollList from "../components/dashboard/ScrollList";
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message, Layout } from 'antd';
+import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col } from 'antd';
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
@@ -17,40 +17,69 @@ export default function TenantDetail() {
     return (    
         <>
             <div className='flex justify-between'>
-            <Title >Dashboard Tenant X </Title>
-            <Button type="primary" danger>
-            <Popconfirm
-                title="Are you sure to delete tenant x?"
-                onConfirm={confirm}
-                onCancel= {null}
-                okText="Yes"
-                cancelText="No"
-                >
-                Delete
-            </Popconfirm>
-            </Button>
+                <Title >Tenant X </Title>
+
+                <Button type="primary" danger>
+                    <Popconfirm
+                        title="Are you sure to delete tenant x?"
+                        onConfirm={confirm}
+                        onCancel= {null}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        Delete
+                    </Popconfirm>
+                </Button>
             </div>
 
-            <div className='mb-6 flex justify-between'>
-                <Title level={5} type="danger">Due on 04/03/2021</Title>
-                <Title level={5} type="danger">3 Days Due</Title> 
+            <Divider/>
+
+            <div className="mb-6">
+                <Row>
+                    <Col className="mr-2">
+                        <Title level={5}>Last Audit Date:</Title>
+                    </Col>
+                    <Col>
+                        <Text>01/03/2021</Text>
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col className="mr-2">
+                        <Title level={5}>Audit Status: </Title>
+                    </Col>
+                    <Col>
+                        <Tag color="red">Unrectified</Tag>
+                    </Col>
+                    <Col>
+                        <Text type="danger">Due 04/03/2021</Text>
+                    </Col>
+                </Row>
+
+                <Row>
+                <Col className="mr-2">
+                    <Title level={5}>Tenant Expiry:</Title>
+                </Col>
+                <Col>
+                    <Text>01/01/2022</Text>
+                </Col>
+            </Row>
             </div>
-        
+            
+
+            
+            
+            
             <div className='mb-20' >
+                
 
                 <PerformanceGraph content={Performance} type= {undefined}/>
-
-                <div className='mt-12'>
-                <Title level={5}>Tenant Expiry:</Title>
-                <Title level={5}>Date of Latest Audit:</Title>
-                <Title level={5}>Audit Status:</Title>
-                </div>
 
                 <Title className='mt-12' level={4}>Past Audits</Title>
                 <ScrollList columns={reportColumns} data={pastReports}/>
             </div>
 
-            <div className='justify-between flex'>
+            {/* <div className='justify-between flex'>
 
                 <div className='fab-container' style={{width: '30%'}}>
                     <Button className='ml-16' shape='round' size='large' type="primary" block={true}>Audit</Button> 
@@ -60,7 +89,7 @@ export default function TenantDetail() {
                     <Button shape='round' size='large' type="primary" block={true}>Notify</Button> 
                 </div>  
 
-            </div>
+            </div> */}
         </>
     )
 }
