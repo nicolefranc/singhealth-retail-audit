@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import TenantDetail from './pages/TenantDetail';
 import RequestExtension from './components/RequestExtension';
 import DashboardTenant from './pages/DashBoardTenant';
+import Status from './pages/Status';
 
 function App() {
 	// let isAuthenticated = useSelector(state => state.user);
@@ -45,6 +46,8 @@ function App() {
 						</Route>
 						<Route path='/report/:tenantId/:reportType' component={Report} />
 						<Route exact path='/report/:tenantId' component={ChecklistTemplates} />
+						<Route exact path='/status/:tenantId' component={Status} />
+					
 
 						<Route path="/TenantDetail" component={TenantDetail}/>
 						<Route path="/DashboardTenant" component={DashboardTenant}/>
