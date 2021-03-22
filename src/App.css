@@ -21,7 +21,7 @@
   cursor: pointer;
   width:25%;
   height: 50px;
-}
+} */
 /* OVERRIDES */
 #nav-drawer .ant-drawer-body {
   background-color: #001529 !important;
@@ -32,7 +32,7 @@
   position: relative;
   padding: 12px 16px;
   padding-left: 40px;
-  color: black;
+  /* color: white; */
   line-height: 1.5715;
   cursor: pointer;
   -webkit-transition: all 0.3s, visibility 0s;

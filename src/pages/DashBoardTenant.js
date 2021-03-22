@@ -4,6 +4,8 @@ import ScrollList from "../components/dashboard/ScrollList";
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
 import { Typography, Button, Popconfirm, message } from 'antd';
 
+import Pdf from "../components/checklist/Pdf";
+
 const { Text} = Typography;
 
 export default function DashboardTenant() {
@@ -15,7 +17,7 @@ export default function DashboardTenant() {
 
     return (    
         <>
-            <div className='flex justify-between'>
+            <div id= "test" className='flex justify-between'>
             <Title >Dashboard Tenant X </Title>
             </div>
 
@@ -36,7 +38,7 @@ export default function DashboardTenant() {
                 <Title className='mt-12' level={4}>Past Audits</Title>
                 <ScrollList columns={reportColumns} data={pastReports}/>
             </div>
-     
+            <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
         </>
     )
 }

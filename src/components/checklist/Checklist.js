@@ -77,7 +77,7 @@ export default function Checklist({ data }) {
                 <div className="font-bold text-right">Total: {round(total, 1)}/100%</div>
             }
             <Link to={routes.PHOTOS} >
-                <Button type="primary" className="float-right">Next</Button>
+                <Button className="float-right">Next</Button>
             </Link>  
         </>
     )
