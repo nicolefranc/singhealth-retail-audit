@@ -15,7 +15,7 @@ export default function ChecklistTemplates() {
 
             <Divider />
 
-            <div >
+            <div className="flex flex-col">
                 <Link to={`${baseRoute}/non-fnb`}> 
                     <Button block className="shadow max-w-screen-sm">Non-F&amp;B</Button>
                 </Link>

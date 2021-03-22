@@ -70,9 +70,7 @@
 .swipeable-listitem-name {
   font-weight: bold;
   font-size: 22px;
-  line-height: 27px;
   color: #083749;
-  margin-left: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -54,13 +54,14 @@ export default function TenantListItem({ content, checkboxVisible }) {
 
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name">{content.name}</span>
+                        
                         </div>
-                        <div className="swipeable-listitem-description">
-                            {content.institution}
+                        <div className="flex">
+                            <div className="swipeable-listitem-description mr-2">{content.institution}</div>
+                            <Tag >Last Audit: 19/3/2021</Tag>
+                            <Tag color="red">Unrectified</Tag>
                         </div>
-                    
-                        <Tag color="red">Unrectified</Tag>
-                        <Tag >Last Audit: 19/3/2021</Tag>
+                        
                     </div>
                 </SwipeableListItem>
 
