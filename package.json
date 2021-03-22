@@ -69,10 +69,7 @@
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.35",
-<<<<<<< HEAD
     "stylelint-config-recommended": "^4.0.0",
-=======
->>>>>>> feature/routing
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4",
     "yarn": "^1.22.10"
   }
