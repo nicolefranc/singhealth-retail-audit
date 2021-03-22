@@ -19,11 +19,8 @@
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.12.3",
     "axios": "^0.21.1",
-<<<<<<< HEAD
-=======
     "dotenv": "^8.2.0",
     "file-saver": "^2.0.5",
->>>>>>> feature/routing
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "html2canvas": "^1.0.0-rc.7",
