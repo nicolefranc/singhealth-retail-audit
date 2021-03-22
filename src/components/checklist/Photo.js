@@ -3,7 +3,8 @@ import { Card, Modal, Button, Image,Input,Typography,Upload, Divider, Carousel, 
 import { DeleteOutlined,EditOutlined,UploadOutlined} from '@ant-design/icons';
 import CameraButton from '../../components/CameraButton';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeImage } from '../../redux/actions/image';
 
 const { Title } = Typography;
 // for card
@@ -13,6 +14,7 @@ export default function Photo(){
 
     const nonCompliances = useSelector(state => state.images);
     const lineItemIds = Object.keys(nonCompliances);
+    const dispatch = useDispatch();
     
 
     // for pop up
@@ -42,28 +44,32 @@ export default function Photo(){
         }
     }
 
+    const handleDelete = (id, index) => {
+        removeImage(id, index)(dispatch);
+    }
+
     return (
         <>
             {/* <h4 className="shadow bg-white mb-20">Staff Attendance: adequate staff for peak and non-peak hours.</h4> */}
             {
-                lineItemIds.map(item => {
-                    const { images, remarks } = nonCompliances[item];
+                lineItemIds.map((id, index) => {
+                    const { images, remarks } = nonCompliances[id];
                     console.log(images);
                     
                     return (
                         <>
-                            <h1>{ item }</h1>
+                            <h1>{ id }</h1>
                             <Card
                                 cover={
                                     <Carousel>
-                                        { images.map((image, index) => {
+                                        { images.map((image) => {
                                             let url = URL.createObjectURL(image);
                                             return <img alt={image.name} src={url} />
                                         })}
                                     </Carousel>
                                 }
                                 actions={[
-                                    <DeleteOutlined key="delete" />,
+                                    <DeleteOutlined key="delete" onClick={() => handleDelete(id, index)} />,
                                     <EditOutlined key="editphoto" onClick={showModal}/>
                                 ]}
                             >

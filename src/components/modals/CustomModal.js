@@ -1,6 +1,8 @@
 import Modal from "antd/lib/modal/Modal";
 
-export default function CustomModal({ title, visible, actions, functions, children }) {
+export default function CustomModal({ title, visible, actions, functions, maskClosable, children }) {
+    if (maskClosable == null) maskClosable = true
+
     return (
         <Modal
             visible={visible}
@@ -9,6 +11,7 @@ export default function CustomModal({ title, visible, actions, functions, childr
             onOk={functions.handleOk}
             onCancel={functions.handleCancel}
             footer={actions}
+            maskClosable={maskClosable}
         >
             { children }
         </Modal>

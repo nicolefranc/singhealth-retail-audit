@@ -1,4 +1,4 @@
-import { ADD_IMAGE, REMOVE_IMAGE, UPDATE_REMARKS } from "../redux-consts";
+import { ADD_IMAGE, REMOVE_IMAGE, UPDATE_REMARKS, UPDATE_UPLOAD_STATUS } from "../redux-consts";
 
 const imageReducer = (state= {}, action) => {
     switch(action.type) {
@@ -8,6 +8,8 @@ const imageReducer = (state= {}, action) => {
             return removeImage(state, action.payload);
         case UPDATE_REMARKS:
             return updateRemarks(state, action.payload);
+        case UPDATE_UPLOAD_STATUS:
+            return updateUploadStatus(state, action.payload);
         default:
             return state;
     }
@@ -24,10 +26,12 @@ const addImage = (state, payload) => {
 const removeImage = (state, payload) => {
     const { id, index } = payload;
     const images = state[id].images.filter((img, idx) => index !== idx);
+    // TODO: Remove the image from bucket
+    const links = state[id].links?.filter((img, idx) => index !== idx);
 
     return {
         ...state,
-        [id]: { images }
+        [id]: { images, links }
     }
 }
 
@@ -36,6 +40,15 @@ const updateRemarks = (state, payload) => {
     return {
         ...state,
         [id]: { remarks, images: state[id]?.images }
+    }
+}
+
+const updateUploadStatus = (state, payload) => {
+    const { id, images } = payload;
+    let links = images.map(image => image.uri);
+    return {
+        ...state,
+        [id]: { ...state[id], links, uploaded: true }
     }
 }
 
