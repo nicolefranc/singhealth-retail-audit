@@ -2,11 +2,12 @@ import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import ScrollList from "../components/dashboard/ScrollList";
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message } from 'antd';
+import { Typography, Button, Popconfirm, message, Layout } from 'antd';
 
-const { Text} = Typography;
+const { Footer, Content } = Layout;
+const { Text } = Typography;
 
-export default function DashboardTenant() {
+export default function TenantDetail() {
 
     function confirm(e) {
         console.log(e);
@@ -17,6 +18,17 @@ export default function DashboardTenant() {
         <>
             <div className='flex justify-between'>
             <Title >Dashboard Tenant X </Title>
+            <Button type="primary" danger>
+            <Popconfirm
+                title="Are you sure to delete tenant x?"
+                onConfirm={confirm}
+                onCancel= {null}
+                okText="Yes"
+                cancelText="No"
+                >
+                Delete
+            </Popconfirm>
+            </Button>
             </div>
 
             <div className='mb-6 flex justify-between'>
@@ -25,6 +37,7 @@ export default function DashboardTenant() {
             </div>
         
             <div className='mb-20' >
+
                 <PerformanceGraph content={Performance} type= {undefined}/>
 
                 <div className='mt-12'>
@@ -36,7 +49,18 @@ export default function DashboardTenant() {
                 <Title className='mt-12' level={4}>Past Audits</Title>
                 <ScrollList columns={reportColumns} data={pastReports}/>
             </div>
-     
+
+            <div className='justify-between flex'>
+
+                <div className='fab-container' style={{width: '30%'}}>
+                    <Button className='ml-16' shape='round' size='large' type="primary" block={true}>Audit</Button> 
+                </div>
+
+                <div className='fab-container-right mr-16' style={{width: '30%'}}>
+                    <Button shape='round' size='large' type="primary" block={true}>Notify</Button> 
+                </div>  
+
+            </div>
         </>
     )
 }

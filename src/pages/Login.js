@@ -5,12 +5,15 @@ import Dashboard from "./Dashboard";
 import { Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import { useDispatch } from 'react-redux';
 
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
+import { login } from "../redux/actions/auth";
 
 export default function Login(props) {
   const context = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
   //   const [form] = Form.useForm();
@@ -43,10 +46,17 @@ export default function Login(props) {
     update(cache, result) {
       // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
       // here we will use the result of the query a store it locally when 'context.login' is being called.
-      context.login(result.data);
+      // context.login(result.data);
+      console.log(result);
+      if (result.data.loginAuditor)
+        login(result.data.loginAuditor)(dispatch);
+      else if (result.data.loginTenant)
+        login(result.data.loginTenant)(dispatch);
+      else console.error("Something is wrong with the login.");
       props.history.push("/");
     },
-    onError(err) { //any error will be thrown here 
+    onError(err) {
+      //any error will be thrown here
       console.log("values are", values);
       console.log(err);
       try {
@@ -60,7 +70,8 @@ export default function Login(props) {
     variables: values,
   });
 
-  function loginUserCallback() { //we need this function here because of some sequence thing, so please don't change the order of the functions above LOL
+  function loginUserCallback() {
+    //we need this function here because of some sequence thing, so please don't change the order of the functions above LOL
     loginUser();
   }
 
@@ -138,7 +149,6 @@ export default function Login(props) {
     </>
   );
 }
-
 
 // over here I define the gql queries. one for auditor one for tenant. I change them in my useState hook. "loginAs"
 const LOGIN_AUDITOR = gql`
