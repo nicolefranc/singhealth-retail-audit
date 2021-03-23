@@ -15,6 +15,7 @@ import ChecklistPhotos from "./components/checklist/ChecklistPhotos";
 import { routes } from "./const";
 import Report from "./pages/Report";
 import Login from "./pages/Login";
+import CreateTenant from "./pages/CreateTenant";
 import TenantDetail from "./pages/TenantDetail";
 import RequestExtension from "./components/RequestExtension";
 import DashboardTenant from "./pages/DashBoardTenant";
@@ -61,6 +62,7 @@ function App() {
             component={ChecklistPhotos}
           />
           <Route path="/report/:tenantId/:reportType" component={Report} />
+					<Route parth="/createTenant" component={CreateTenant}/>
           <Route
             exact
             path="/report/:tenantId"
