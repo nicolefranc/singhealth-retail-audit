@@ -2,7 +2,7 @@ import Checklist from "../components/checklist/Checklist";
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Button, Result, Skeleton, Typography } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Actions
 import { initReport } from "../redux/actions/report";
@@ -23,6 +23,7 @@ export default function Report() {
     const tenantQuery = useQuery(FETCH_TENANT, {
         variables: { tenantId }
     });
+    const reportInState = useSelector(state => state.report);
 
     if (loading || tenantQuery.loading) {
         console.log("loading");
@@ -53,12 +54,13 @@ export default function Report() {
     const report = {...getReportTemplate};
     report.tenantId = getTenantById.id;
 
-    initReport(report, tenantId)(dispatch);
-    
+    Object.keys(reportInState).length === 0 && initReport(report, tenantId)(dispatch);
+    console.log(reportInState);
     return (
         <> 
             <Title>{ getTenantById.name }</Title>
-            <Checklist data={ getReportTemplate.checklist} />
+            {/* <Checklist data={ getReportTemplate.checklist} /> */}
+            <Checklist data={ reportInState.checklist } />
         </>
     )
 }

@@ -19,19 +19,18 @@ const addImage = (state, payload) => {
     const { id, images } = payload;
     return {
         ...state,
-        [id]: { images }
+        [id]: { ...state[id], images }
     }
 }
 
 const removeImage = (state, payload) => {
     const { id, index } = payload;
     const images = state[id].images.filter((img, idx) => index !== idx);
-    // TODO: Remove the image from bucket
     const links = state[id].links?.filter((img, idx) => index !== idx);
 
     return {
         ...state,
-        [id]: { images, links }
+        [id]: { ...state[id], images, links }
     }
 }
 

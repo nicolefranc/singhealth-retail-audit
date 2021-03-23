@@ -26,6 +26,7 @@ export default function NonCompliances({ id, modal: { title, visible, actions, f
             updateUploadStatus(id, multipleUploads)(dispatch)
         }
         // Close modal
+        functions.handleCancel();
     }
 
     return (

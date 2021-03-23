@@ -26,6 +26,7 @@ export default function Item({ items, cIndex, sIndex }) {
     });
 
     const confirm = () => {
+        // TODO: Handle proceed and cancel states
         Modal.confirm({
             title: 'Are you sure?',
             content: 'You have added images to this line item.',

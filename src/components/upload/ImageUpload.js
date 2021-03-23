@@ -42,7 +42,8 @@ export default function ImageUpload({ id }) {
             addImage(id, newFiles)(dispatch);
             return false;
         },
-        fileList: files
+        fileList: files,
+        listType: 'picture',
     };
 
     // if (error) return <div>{JSON.stringify(error, null, 2)}</div>;
