@@ -20,7 +20,7 @@ const tailLayout = {
   },
 };
 
-const CreateTenant = () => {
+const CreateUser = () => {
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isAdmin = validatorResult.type === "admin";
@@ -130,14 +130,14 @@ const CreateTenant = () => {
         <Input />
       </Form.Item>
       {createType === "tenant" ? (
-        <Form.Item name="type">
+        <Form.Item name="type" rules={[{ required: true }]}>
           <Radio.Group onChange={onTenantTypeChange} value={tenantType}>
             <Radio value={"fnb"}>F&B</Radio>
             <Radio value={"non-fnb"}>Non-F&B</Radio>
           </Radio.Group>
         </Form.Item>
       ) : (
-        <Form.Item name="type">
+        <Form.Item name="type" rules={[{ required: true }]}>
           <Radio.Group onChange={onTenantTypeChange} value={tenantType}>
             <Radio value={"admin"}>Admin</Radio>
             <Radio value={"normal"}>Normal</Radio>
@@ -170,7 +170,7 @@ const CreateTenant = () => {
   );
 };
 
-export default CreateTenant;
+export default CreateUser;
 
 const CREATE_TENANT = gql`
   mutation createTenant(

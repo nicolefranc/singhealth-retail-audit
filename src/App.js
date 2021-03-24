@@ -15,8 +15,9 @@ import ChecklistPhotos from "./components/checklist/ChecklistPhotos";
 import { routes } from "./const";
 import Report from "./pages/Report";
 import Login from "./pages/Login";
-import CreateTenant from "./pages/CreateTenant";
+import CreateUser from "./pages/CreateUser";
 import TenantDetail from "./pages/TenantDetail";
+import Register from "./pages/Register";
 import RequestExtension from "./components/RequestExtension";
 import DashboardTenant from "./pages/DashBoardTenant";
 import { tokenValidator } from "./utils/tokenValidator";
@@ -26,43 +27,44 @@ function App() {
   // let isAuthenticated = useSelector(state => state.user);
   let isAuthenticated = localStorage.getItem("jwt");
   let validatorResult = tokenValidator(isAuthenticated);
-  console.log("token expired: ", validatorResult.expired);
+  console.log("token expired: ", validatorResult.expired, "\ntype: ", validatorResult.type);
   return (
     <Router>
-      {(!isAuthenticated || validatorResult.expired) && (
+      {/* {(!isAuthenticated || validatorResult.expired) && (
         <Redirect to={routes.LOGIN} />
-      )}
+      )} */}
       <Switch>
         <Route path={routes.LOGIN} component={Login} />
         <BaseLayout>
           <AuthRoute
             exact
             path={routes.DEFAULT}
-            users={["auditor", "tenant"]}
+            users={["admin","auditor", "tenant"]}
             component={Dashboard}
           />
           <AuthRoute
             path={routes.TENANTS}
-            users={["auditor"]}
+            users={["admin","auditor"]}
             component={Tenants}
           />
           <AuthRoute
             path={routes.NOTIFICATIONS}
-            users={["auditor", "tenant"]}
+            users={["admin","auditor", "tenant"]}
             component={Notifications}
           />
           <AuthRoute
             path={routes.SETTINGS}
-            users={["auditor", "tenant"]}
+            users={["admin","auditor", "tenant"]}
             component={Notifications}
           />
           <AuthRoute
             path={routes.PHOTOS}
-            users={["auditor", "tenant"]}
+            users={["admin","auditor", "tenant"]}
             component={ChecklistPhotos}
           />
+					<Route path="/register/:token" component={Register}/>
           <Route path="/report/:tenantId/:reportType" component={Report} />
-					<Route parth="/createTenant" component={CreateTenant}/>
+					<Route path="/createTenant" component={CreateUser}/>
           <Route
             exact
             path="/report/:tenantId"

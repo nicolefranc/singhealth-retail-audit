@@ -6,45 +6,39 @@ import gql from "graphql-tag";
 
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
+import { useParams } from "react-router";
+import { tokenValidator } from "../utils/tokenValidator";
 
 export default function Register(props) {
-  const context = useContext(AuthContext);
+  const { token } = useParams();
+  const result = tokenValidator(token);
+
   const [errors, setErrors] = useState({});
-
-  //   const [form] = Form.useForm();
-  const [requiredMark, setRequiredMarkType] = useState("staff");
-
-  const onRequiredTypeChange = ({ requiredMarkValue }) => {
-    setRequiredMarkType(requiredMarkValue);
-  };
+  const [values, setValues] = useState("{}");
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-    email: "",
-    password: "",
-  });
+  const onFinish = (values) => {
+    values.regToken = token;
+    setValues(values);
+    console.log(values);
+    registerUserCallback();
+  };
 
-  const [loginAs, setLoginAs] = useState("Staff");
+  let REGISTER_USER =
+    result.type === "tenant" ? REGISTER_TENANT : REGISTER_AUDITOR; //to change the graphql query depending on what the user want's to "login as"
+  console.log(REGISTER_USER);
 
-  function handleLoginAs(event) {
-    setLoginAs(event.target.value);
-    REGISTER_USER = event.target.value === "Staff" ? REGISTER_AUDITOR : REGISTER_TENANT; //to change the graphql query depending on what the user want's to "login as"
-    console.log(REGISTER_USER);
-  }
-
-  var REGISTER_USER = loginAs === "Staff" ? REGISTER_AUDITOR : REGISTER_TENANT;
-
-  const [loginUser, { loading }] = useMutation(REGISTER_USER, {
+  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     update(cache, result) {
       // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
       // here we will use the result of the query a store it locally when 'context.login' is being called.
-      context.login(result.data);
-      props.history.push("/");
+      // props.history.push("/");
     },
-    onError(err) { //any error will be thrown here 
+    onError(err) {
+      //any error will be thrown here
       console.log("values are", values);
       console.log(err);
       try {
@@ -58,8 +52,9 @@ export default function Register(props) {
     variables: values,
   });
 
-  function loginUserCallback() { //we need this function here because of some sequence thing, so please don't change the order of the functions above LOL
-    loginUser();
+  function registerUserCallback() {
+    //we need this function here because of some sequence thing, so please don't change the order of the functions above LOL
+    registerUser();
   }
 
   return (
@@ -69,53 +64,31 @@ export default function Register(props) {
             <Button className='mr-16' size='large'>Login as Staff</Button>
         </div> */}
       <div>
-        <Form
-          layout="vertical"
-          initialValues={{
-            requiredMark,
-          }}
-          onValuesChange={onRequiredTypeChange}
-          requiredMark={requiredMark}
-          onFinish={onSubmit}
-          onFinishFailed={onFinishFailed}
-        >
-          <p>Login As</p>
-          <Radio.Group value={loginAs} label="Login As">
-            <Radio.Button value="tenant" onClick={handleLoginAs}>
-              Tenant
-            </Radio.Button>
-            <Radio.Button value="Staff" onClick={handleLoginAs}>
-              Staff
-            </Radio.Button>
-          </Radio.Group>
-
-          <Form.Item label="Email" required tooltip="This is a required field">
-            <Input
-              placeholder="input email"
-              onChange={onChange}
-              name="email"
-              value={values.email}
-            />
-          </Form.Item>
-
+        <Form layout="vertical" onFinish={onFinish}>
+          <b>Hi {result.name},</b>
+          <h1>Please enter your password to activate your account</h1>
+          <br></br>
           <Form.Item
             label="Password"
+            name="password"
             required
             tooltip={{
               title: "This is a required field",
               icon: <InfoCircleOutlined />,
             }}
           >
-            <Input
-              type="password"
-              name="password"
-              placeholder="input password"
-              onChange={onChange}
-              value={values.password}
-            />
+            <Input type="password" placeholder="Enter password" />
           </Form.Item>
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
+          <Form.Item
+            label="Confirm Password"
+            name="confirmPassword"
+            required
+            tooltip={{
+              title: "This is a required field",
+              icon: <InfoCircleOutlined />,
+            }}
+          >
+            <Input type="password" placeholder="Re-enter password" />
           </Form.Item>
           {Object.keys(errors).length > 0 && (
             <div className="ui error message">
@@ -128,7 +101,7 @@ export default function Register(props) {
           )}
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Submit
+              Register
             </Button>
           </Form.Item>
         </Form>
@@ -137,11 +110,20 @@ export default function Register(props) {
   );
 }
 
-
 // over here I define the gql queries. one for auditor one for tenant. I change them in my useState hook. "loginAs"
 const REGISTER_AUDITOR = gql`
-  mutation loginAuditor($email: String!, $password: String!) {
-    registerAuditor(email: $email, password: $password) {
+  mutation registerAuditor(
+    $regtoken: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    registerAuditor(
+      registerInput: {
+        regToken: $regtoken
+        password: $password
+        confirmPassword: $confirmPassword
+      }
+    ) {
       id
       role
       institutions
@@ -155,11 +137,21 @@ const REGISTER_AUDITOR = gql`
   }
 `;
 const REGISTER_TENANT = gql`
-  mutation loginTenant($email: String!, $password: String!) {
-    registerTenant(email: $email, password: $password) {
+  mutation registerTenant(
+    $regtoken: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    registerTenant(
+      registerInput: {
+        regToken: $regtoken
+        password: $password
+        confirmPassword: $confirmPassword
+      }
+    ) {
       id
+      type
       email
-      institution
       password
       createdAt
       activated
