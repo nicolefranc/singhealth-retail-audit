@@ -29,13 +29,13 @@ export default function Checklist({ data }) {
                 return category.score
             });
             setTotal(total);
-            console.log(scores);
+            // console.log(scores);
 
         }
     }, [checklist]);
     
     const onChange = e => {
-        console.log(e);
+        // console.log(e);
     };
 
     return (
@@ -43,8 +43,8 @@ export default function Checklist({ data }) {
             <Collapse accordion defaultActiveKey='1'  className="site-collapse-custom-collapse">
                 {data.map((category, cIndex) => {    
                     let indexes = { 'category': cIndex }
-                    console.log(cIndex);
-                    console.log(`Category score for ${category.category} is ${category.score}`)
+                    // console.log(cIndex);
+                    // console.log(`Category score for ${category.category} is ${category.score}`)
                     let score = checklist ? round(checklist[cIndex].score, 1): 0; 
 
                     return (<Panel header={category.category} key={cIndex + 1} className="font-semibold">
@@ -56,7 +56,7 @@ export default function Checklist({ data }) {
                                         // console.log(indexes);
                                         return <Panel header={subcategory.subcategory} key={sIndex+1} >
                                             {/* <LineItem lineItems={subcategory.lineItems}/> */}
-                                            {console.log(indexes)}
+                                            {/* {console.log(indexes)} */}
                                             <Item items={subcategory.lineItems} cIndex={cIndex} sIndex={sIndex} />
                                         </Panel>
                                         // return <Subcategory key={index} index={index} subcategory={subcategory} />

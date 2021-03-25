@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities; */
 
+/*
 
 .fab-container {
   position: fixed;
@@ -21,7 +22,7 @@
   cursor: pointer;
   width:25%;
   height: 50px;
-}
+} */
 /* OVERRIDES */
 #nav-drawer .ant-drawer-body {
   background-color: #001529 !important;

@@ -18,7 +18,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
     // For swipe functionality
     let history = useHistory();
     const handleSwipe = () => {
-        history.push(`report/${tenantId}`);
+        history.push(`audit/${tenantId}`);
     }
 
     const swipeRightOptions = () => ({

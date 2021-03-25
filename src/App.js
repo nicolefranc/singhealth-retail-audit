@@ -6,12 +6,13 @@ import {
 	Route,
 	Redirect
   } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import Dashboard from './pages/Dashboard';
 import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import ChecklistTemplates from './components/checklist/ChecklistTemplates';
-import ChecklistPhotos from './components/checklist/ChecklistPhotos';
+import ChecklistPhotos from './pages/ChecklistPhotos';
 import { routes } from './const';
 import Report from './pages/Report';
 import Login from './pages/Login';

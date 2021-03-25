@@ -28,7 +28,7 @@ export default function TenantCard({ content, checkboxVisible }) {
                     
                     <div className="flex justify-between mt-4">
                         <Button block className="mr-2">Notify</Button>
-                        <Link to={`report/${tenantId}`} className="w-full ml-2">
+                        <Link to={`audit/${tenantId}`} className="w-full ml-2">
                             <Button type="primary" block>Audit</Button>
                         </Link>
                     </div>

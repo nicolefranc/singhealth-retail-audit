@@ -7,8 +7,8 @@ import { Link, useParams} from 'react-router-dom';
 
 export default function ChecklistTemplates() {
     const { tenantId } = useParams();
-    const baseRoute = routes.REPORT.concat(`/${tenantId}`);
-    console.log(baseRoute);
+    const baseRoute = routes.AUDIT.concat(`/${tenantId}`);
+    // console.log(baseRoute);
     return (
         <>
             <Title>Select Template:</Title>
@@ -28,7 +28,7 @@ export default function ChecklistTemplates() {
 
             <h2>COVID Safe Management Measures Compliance Checklist:</h2>
             <Link to={`${baseRoute}/covid-19`}> 
-                <Button block className="bg-orange text-white">COVID-19 Checklist</Button>
+                <Button block className="">COVID-19 Checklist</Button>
             </Link>        */}
         </>
     )

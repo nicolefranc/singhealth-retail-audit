@@ -2,20 +2,24 @@ import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
+import { PerformanceAll, Performance, pastReports, reportColumns } from "../components/dashboard/TenantData";
 import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col,Spin } from 'antd';
 
-import {reports} from "../components/report/ReportCardData";
-import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
+import { reports } from "../components/report/ReportCardData";
+import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
-import {TENANT_DETAILS} from "../graphql/queries";
+import { FETCH_TENANT_DETAILS } from "../graphql/queries";
+import { useParams } from "react-router";
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
 
 export default function TenantDetail() {
-    
-    const { data } = useQuery(TENANT_DETAILS);
+    const { tenantId } = useParams();
+    console.log(tenantId);
+    const { data } = useQuery(FETCH_TENANT_DETAILS, {
+        variables: { getAllReportsByTenantTenantId: "604e6bf39e962017541a3dc6" }
+    });
     const { getAllReportsByTenant } = data ? data : [];
     console.log(getAllReportsByTenant);
 

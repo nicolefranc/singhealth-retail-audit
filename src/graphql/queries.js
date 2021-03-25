@@ -1,6 +1,6 @@
 import {gql} from '@apollo/client';
 
-export const TENANT_DETAILS =gql` 
+export const FETCH_TENANT_DETAILS =gql` 
     query($getAllReportsByTenantTenantId: String!){
         getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
             id
