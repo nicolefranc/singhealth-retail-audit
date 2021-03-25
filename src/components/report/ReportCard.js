@@ -4,6 +4,7 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
+import Pdf from '../checklist/Pdf';
 
 export default function ReportCard({ content}) {
 
@@ -74,7 +75,8 @@ export default function ReportCard({ content}) {
                     onCancel={handleCancel}
                     footer={[
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        <Button key="save" className="" onClick={handleOk}>Send</Button>,
+                        // <Button key="save" className="" onClick={handleOk}>Send</Button>,
+                        <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
                     ]}
                 >
                     <div className="flex flex-col">
