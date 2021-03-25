@@ -20,9 +20,9 @@ export default function NonCompliances({ id, modal: { title, visible, actions, f
     const handleUpload = async () => {
         // Upload to bucket
         let { data: { multipleUploads }} = await mutate({ variables: { files, id }})
-        console.log(multipleUploads);
+        // console.log(multipleUploads);
         // Set state to uploaded, replace the image state values
-        if (multipleUploads.length === files.length) {
+        if (multipleUploads.length === files?.length) {
             updateUploadStatus(id, multipleUploads)(dispatch)
         }
         // Close modal
@@ -52,8 +52,9 @@ export default function NonCompliances({ id, modal: { title, visible, actions, f
 }
 
 const UploadButton = ({ action, loading, files }) => {
+    // console.log(files);
     return (
-        <Button primary key="upload" onClick={action} loading={loading} disabled={files.length === 0}>
+        <Button primary key="upload" onClick={action} loading={loading} disabled={files?.length === 0}>
             { loading ? 'Uploading' : 'Upload'}
         </Button>
     )

@@ -22,7 +22,7 @@ export default function ImageUpload({ id }) {
             const index = files.indexOf(file);
             if (links != null) {
                 let [filename] = links[index].split('.com/').slice(-1);
-                console.log(filename);
+                // console.log(filename);
                 mutate({ variables: { filename } })
                     .then(
                         onfulfilled => {

@@ -25,3 +25,13 @@ export const DELETE_UPLOAD = gql`
         deleteUpload(filename: $filename)
     }
 `
+
+export const CREATE_REPORT = gql`
+    mutation CreateReportMutation($createReportBody: ReportInput!) {
+        createReport(body: $createReportBody) {
+            id
+            type
+            status
+        }
+    }
+`

@@ -41,7 +41,7 @@ export default function Photo(){
     const handleCapture = (target) => {
         if (target.files && target.files.length !== 0) {
             const file = target.files[0];
-            console.log(file);
+            // console.log(file);
             const imgUrl = URL.createObjectURL(file);
             setImgSources([ file ]);
         }
@@ -57,8 +57,8 @@ export default function Photo(){
             {
                 lineItemIds.map((id, index) => {
                     const { images, remarks } = nonCompliances[id];
-                    console.log(images);
-                    console.log(id);
+                    // console.log(images);
+                    // console.log(id);
                     return (
                         <>
                             <h1>{ id }</h1>
@@ -66,12 +66,12 @@ export default function Photo(){
                                 cover={
                                     <Carousel>
                                         { images.map((image, index) => {
-                                            console.log('image')
-                                            console.log(image);
+                                            // console.log('image')
+                                            // console.log(image);
                                             // TODO: Fix File object not saved causing url conversion error (image becomes a mere Object when loading from state after refresh)
                                             let url = URL.createObjectURL(image);
-                                            console.log('url')
-                                            console.log(url);
+                                            // console.log('url')
+                                            // console.log(url);
                                             return <img alt={image.name} src={url} className="object-contain max-h-80"/>
                                         })}
                                     </Carousel>

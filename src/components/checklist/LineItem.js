@@ -7,7 +7,7 @@ export default function LineItem({ lineItems }) {
 
     //TEMPORARY CHECKBOX!! TO BE REPLACED
     const updateInput = (ref, checked) => {
-        console.log(ref);
+        // console.log(ref);
         const input = ref.current;
         if (input) {
             input.checked = checked;
@@ -40,7 +40,7 @@ export default function LineItem({ lineItems }) {
           }
         };
 
-        console.log(checkedRef);
+        // console.log(checkedRef);
         return (
             <input 
             ref={inputRef}
@@ -51,7 +51,7 @@ export default function LineItem({ lineItems }) {
     };
     const [compliance, setCompliance] = React.useState(true);
     const toggleCompliance = (checked) => {
-        console.log(`checked: ${checked}`);
+        // console.log(`checked: ${checked}`);
     };
     //
     

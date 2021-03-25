@@ -7,8 +7,8 @@ import { Link, useParams} from 'react-router-dom';
 
 export default function ChecklistTemplates() {
     const { tenantId } = useParams();
-    const baseRoute = routes.REPORT.concat(`/${tenantId}`);
-    console.log(baseRoute);
+    const baseRoute = routes.AUDIT.concat(`/${tenantId}`);
+    // console.log(baseRoute);
     return (
         <>
             <Title>Select Template:</Title>

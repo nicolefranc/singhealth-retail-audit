@@ -26,7 +26,7 @@ export default function Report() {
     const reportInState = useSelector(state => state.report);
 
     if (loading || tenantQuery.loading) {
-        console.log("loading");
+        // console.log("loading");
         return (
             <Skeleton loading={true} />
         )
@@ -43,10 +43,10 @@ export default function Report() {
                 subTitle={message}
                 extra={<Link to={routes.TENANTS}><Button type="primary">Back to Tenants</Button></Link>}
             />
-        )
+        )   
     }
 
-    console.log(data);
+    // console.log(data);
     const { getReportTemplate } = data;
     const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
     const { Title } = Typography;
@@ -54,8 +54,10 @@ export default function Report() {
     const report = {...getReportTemplate};
     report.tenantId = getTenantById.id;
 
-    Object.keys(reportInState).length === 0 && initReport(report, tenantId)(dispatch);
-    console.log(reportInState);
+    // TODO: Add check if tenantId in url is the same as the one in state
+    (Object.keys(reportInState).length === 0 
+        || tenantId !== reportInState.tenantId) && initReport(report, tenantId)(dispatch);
+    // console.log(reportInState);
     return (
         <> 
             <Title>{ getTenantById.name }</Title>
@@ -90,12 +92,6 @@ const FETCH_REPORT_TEMPLATE_QUERY = gql`
                         id
                         lineItem
                         complied
-                        images {
-                            nonCompliances
-                            nonComplRemarks
-                            rectifications
-                            rectRemarks
-                        }
                     }
                 }
             }
