@@ -1,19 +1,19 @@
-export  var reports =[
-    {
-        id: 1,
-        type: 'fnb',
-        dateCreated: '25/3/2021',
-        status:'Unrectified (Due 30/5/2021)',
-        extStatus: 'Extension Request',
-    },
-    {
-        id: 2,
-        type: 'fnb',
-        dateCreated: '25/2/2021',
-        status:'Rectified',
-        extStatus: '',
-    }
-]    
+// export  var reports =[
+//     {
+//         id: 1,
+//         type: 'fnb',
+//         dateCreated: '25/3/2021',
+//         status:'Unrectified (Due 30/5/2021)',
+//         extStatus: 'Extension Request',
+//     },
+//     {
+//         id: 2,
+//         type: 'fnb',
+//         dateCreated: '25/2/2021',
+//         status:'Rectified',
+//         extStatus: '',
+//     }
+// ]    
     
 
 // export var pastReports = [];

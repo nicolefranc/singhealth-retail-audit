@@ -1,19 +1,23 @@
 import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
-import ScrollList from "../components/dashboard/ScrollList";
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
 import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col,Spin } from 'antd';
 
 import {reports} from "../components/report/ReportCardData";
 import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
+import {TENANT_DETAILS} from "../graphql/queries";
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
 
 export default function TenantDetail() {
     
-    // const { reports } = data ? data : [];
+    const { data } = useQuery(TENANT_DETAILS);
+    const { getAllReportsByTenant } = data ? data : [];
+    console.log(getAllReportsByTenant);
 
     function confirm(e) {
         console.log(e);
@@ -80,7 +84,7 @@ export default function TenantDetail() {
                 </span>
                 {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
                 {
-                    reports ? reports.map((report)=> (
+                    getAllReportsByTenant ? getAllReportsByTenant.map((report)=> (
                         <SwipeableList >
                             <ReportCard content={report}  />
                         </SwipeableList>
@@ -94,6 +98,8 @@ export default function TenantDetail() {
         </>
     )
 }
+
+
 
 {/* <div className='justify-between flex'>
         <div className='fab-container' style={{width: '30%'}}>

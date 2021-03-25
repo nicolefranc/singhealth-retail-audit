@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Divider, Skeleton,Tag, Modal, Button, Input,Row,Col } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
-import { useHistory } from "react-router-dom";
-import { noOp } from '@sandstreamdev/std/function';
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
-import { MailOutlined,UserOutlined } from "@ant-design/icons";
+import { MailOutlined } from "@ant-design/icons";
 
-export default function ReportCard({ content, checkboxVisible }) {
+export default function ReportCard({ content}) {
 
     const tenantId = content.id;
     console.log(tenantId);
@@ -60,9 +58,9 @@ export default function ReportCard({ content, checkboxVisible }) {
                             <Tag color="red">{content.status}</Tag>
                         </div>
                         <div className="flex">
-                            <div className="mr-2">Audit Date: {content.dateCreated}</div>
+                            <div className="mr-2">Audit Date: {content.auditDate}</div>
                             
-                            <Tag color="warning">{content.extStatus}</Tag>
+                            {/* <Tag color="warning">{content.extStatus}</Tag> */}
                         </div>
                         
                     </div>
