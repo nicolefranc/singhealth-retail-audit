@@ -10,6 +10,11 @@ export default function TenantListItem({ content, checkboxVisible }) {
     const tenantId = content.id;
     console.log(tenantId);
 
+    const handleClick = () => {
+        console.log(`TenantDetail/${tenantId}`)
+        history.push(`TenantDetail/${tenantId}`)
+    }
+
     const handleCheckbox = (e) => {
         console.log(`checked: ${e.target.checked}`)
     }
@@ -50,7 +55,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
                     swipeRight={swipeRightOptions(content.name)}
                     // key={id}
                 >
-                    <div className="swipeable-listitem p-2.5 flex-1">
+                    <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick} onH>
 
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name">{content.name}</span>

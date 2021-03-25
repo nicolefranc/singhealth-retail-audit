@@ -20,6 +20,7 @@ import RequestExtension from "./components/RequestExtension";
 import DashboardTenant from "./pages/DashBoardTenant";
 import { tokenValidator } from "./utils/tokenValidator";
 import AuthRoute from "./utils/AuthRoute";
+import Status from "./pages/Status";
 
 function App() {
   // let isAuthenticated = useSelector(state => state.user);
@@ -61,6 +62,7 @@ function App() {
             component={ChecklistPhotos}
           />
           <Route path="/report/:tenantId/:reportType" component={Report} />
+          <Route path="/status/:tenantId" component={Status} />
           <Route
             exact
             path="/report/:tenantId"

@@ -9,6 +9,7 @@ import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { noOp } from '@sandstreamdev/std/function';
 import TenantListItem from "../components/tenants/TenantListItem";
+import TenantCard from "../components/tenants/TenantCard";
 
 const { Search } = Input;
 
@@ -48,20 +49,7 @@ export default function Tenants() {
                 </Col>
             </Row>
             {/*  */}
-            <Row gutter={RESPONSIVE_GUTTER} justify="center" className="mt-6">
-                {
-                    getAllTenants ? getAllTenants.map((tenant, index) => (
-                        <Col key={index} xs={24}  lg={12}>
-                        <SwipeableList>
-                            <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
-                        </SwipeableList>
-                        </Col>
-                    )) : 
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
-                }
-            </Row>
+                <TenantCard></TenantCard>
         </>
     )
 }
