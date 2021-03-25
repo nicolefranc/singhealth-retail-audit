@@ -68,7 +68,7 @@ function App() {
             path={`${routes.AUDIT}/:tenantId`}
             component={ChecklistTemplates}
           />
-          <Route path="/TenantDetail" component={TenantDetail} />
+          <Route path="/TenantDetail/:tenantId" component={TenantDetail} />
           <Route path="/DashboardTenant" component={DashboardTenant} />
           <Route path="/Login" component={Login} />
           <Route path="/RequestExtension" component={RequestExtension} />

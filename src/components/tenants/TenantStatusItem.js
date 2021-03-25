@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { noOp } from '@sandstreamdev/std/function';
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
+import { routes } from "../../const";
 
 export default function TenantStatusItem({ content, checkboxVisible }) {
 
@@ -21,7 +22,8 @@ export default function TenantStatusItem({ content, checkboxVisible }) {
     // For swipe functionality
     let history = useHistory();
     const handleSwipe = () => {
-        history.push(`report/${tenantId}`);
+        // TODO: change to go to tenant details instead
+        history.push(`${routes.AUDIT}/${tenantId}`);
     }
 
     const swipeRightOptions = () => ({

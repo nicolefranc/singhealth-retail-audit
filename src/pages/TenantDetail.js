@@ -18,7 +18,7 @@ export default function TenantDetail() {
     const { tenantId } = useParams();
     console.log(tenantId);
     const { data } = useQuery(FETCH_TENANT_DETAILS, {
-        variables: { getAllReportsByTenantTenantId: "604e6bf39e962017541a3dc6" }
+        variables: { getAllReportsByTenantTenantId: tenantId }
     });
     const { getAllReportsByTenant } = data ? data : [];
     console.log(getAllReportsByTenant);
@@ -31,7 +31,7 @@ export default function TenantDetail() {
     return (    
         <>
             <div className='flex justify-between'>
-                <Title >Tenant X </Title>
+                <Title>Tenant X</Title>
 
                 <Button type="primary" danger>
                     <Popconfirm
