@@ -66,7 +66,7 @@ const FETCH_TENANT = gql`
 
 const FETCH_REPORT_TEMPLATE_QUERY = gql`
     query($type: String!) {
-        getReportTemplate(templateType: $type) {
+        getReportTemplate(type: $type) {
             type
             checklist {
                 category

@@ -38,27 +38,27 @@ function App() {
           <AuthRoute
             exact
             path={routes.DEFAULT}
-            users={["auditor", "tenant"]}
+            users={["auditor", "tenant", "staff", "admin"]}
             component={Dashboard}
           />
           <AuthRoute
             path={routes.TENANTS}
-            users={["auditor"]}
+            users={["auditor", "staff", "admin"]}
             component={Tenants}
           />
           <AuthRoute
             path={routes.NOTIFICATIONS}
-            users={["auditor", "tenant"]}
+            users={["auditor", "tenant", "staff", "admin"]}
             component={Notifications}
           />
           <AuthRoute
             path={routes.SETTINGS}
-            users={["auditor", "tenant"]}
+            users={["auditor", "tenant", "staff", "admin"]}
             component={Notifications}
           />
           <AuthRoute
             path={routes.PHOTOS}
-            users={["auditor", "tenant"]}
+            users={["auditor", "tenant", "staff", "admin"]}
             component={ChecklistPhotos}
           />
           <Route path="/report/:tenantId/:reportType" component={Report} />

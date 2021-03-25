@@ -20,7 +20,7 @@ export default function Dashboard() {
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isTenant = validatorResult.type === "tenant";
-  const isAuditor = validatorResult.type === "auditor";
+  const isAuditor = validatorResult.type === "auditor" || validatorResult.type === "staff" || validatorResult.type === "admin";
 
   return (
     <>

@@ -13,7 +13,7 @@ export default function MenuItems() {
   const location = useLocation();
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
-  const isAuditor = validatorResult.type === "auditor";
+  const isAuditor = validatorResult.type === "auditor" || validatorResult.type === "staff" || validatorResult.type === "admin";
 
   return (
     <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
