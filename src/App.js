@@ -11,7 +11,7 @@ import Tenants from './pages/Tenants';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import ChecklistTemplates from './components/checklist/ChecklistTemplates';
-import ChecklistPhotos from './components/checklist/ChecklistPhotos';
+import ChecklistPhotos from './pages/ChecklistPhotos';
 import { routes } from './const';
 import Report from './pages/Report';
 import Login from './pages/Login';
@@ -46,8 +46,8 @@ function App() {
 						<Route path={routes.PHOTOS}>
 							<ChecklistPhotos />
 						</Route>
-						<Route path='/report/:tenantId/:reportType' component={Report} />
-						<Route exact path='/report/:tenantId' component={ChecklistTemplates} />
+						<Route path='/audit/:tenantId/:reportType' component={Report} />
+						<Route exact path='/audit/:tenantId' component={ChecklistTemplates} />
 
 						<Route path="/TenantDetail" component={TenantDetail}/>
 						<Route path="/DashboardTenant" component={DashboardTenant}/>
