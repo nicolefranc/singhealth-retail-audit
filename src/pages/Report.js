@@ -1,61 +1,85 @@
 import Checklist from "../components/checklist/Checklist";
-import { fnb } from "../data/report";
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Skeleton } from "antd";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { Button, Result, Skeleton, Typography } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 
 // Actions
 import { initReport } from "../redux/actions/report";
 import { useParams } from "react-router";
+import { routes } from "../const";
+import { Link } from "react-router-dom";
 
-export default function Report() { // TODO: accept report type from query params later
+
+
+
+export default function Report() {
     const dispatch = useDispatch();
-    const { reportType } = useParams();
-    const templateType = reportType;
-    const query = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
-        variables: { templateType }
-    })
+    const { tenantId, reportType } = useParams();
+    const type = reportType;
+    const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
+        variables: { type }
+    });
+    const tenantQuery = useQuery(FETCH_TENANT, {
+        variables: { tenantId }
+    });
+    const reportInState = useSelector(state => state.report);
 
-    useEffect(() => {
-        // dispatch(initReport(query.data));
-        if(query.data)
-            initReport(query.data.getReportTemplate)(dispatch);
-    }, [dispatch, query.data]);
+    if (loading || tenantQuery.loading) {
+        // console.log("loading");
+        return (
+            <Skeleton loading={true} />
+        )
+    }
 
-    // if (query.data) {
-    //     console.log(query.data.getReportTemplate);
-        // initReport(query.data)(dispatch);
-    // }
+    else if (error || tenantQuery.error) {
+        console.log(error.message);
+        const statusCode = error.message.substring(error.message.length - 3);
+        const message = error.message.split(':')[0];
+        return (
+            <Result
+                status="500"
+                title={statusCode}
+                subTitle={message}
+                extra={<Link to={routes.TENANTS}><Button type="primary">Back to Tenants</Button></Link>}
+            />
+        )   
+    }
 
-    return query.data ? (
+    const { getReportTemplate } = data;
+    const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
+    const { Title } = Typography;
+    
+    const report = {...getReportTemplate};
+    report.tenantId = getTenantById.id;
+
+    // TODO: Add check if tenantId in url is the same as the one in state
+    (Object.keys(reportInState).length === 0 
+        || tenantId !== reportInState.tenantId) && initReport(report, tenantId)(dispatch);
+    // console.log(reportInState);
+    return (
         <> 
-            <h1>{ query.data.getReportTemplate.templateType }</h1>
-            <Checklist data={query.data.getReportTemplate.checklist} />
+            <Title>{ getTenantById.name }</Title>
+            {/* <Checklist data={ getReportTemplate.checklist} /> */}
+            <Checklist data={ reportInState.checklist } />
         </>
-    ) : <Skeleton loading={true} />
+    )
 }
 
+const FETCH_TENANT = gql`
+    query($tenantId: String!) {
+        getTenantById(id: $tenantId) {
+            id
+            name
+            institution
+        }
+    }
+`
+
 const FETCH_REPORT_TEMPLATE_QUERY = gql`
-    query($templateType: String!) {
-        getReportTemplate(templateType: $templateType) {
-            templateType
-            tenantId
-            auditorId
-            auditDate
-            auditScore
-            extension {
-                status
-                proposed {
-                    date
-                    remarks
-                }
-                final {
-                    date
-                    remarks
-                }
-            }
+    query($type: String!) {
+        getReportTemplate(type: $type) {
+            type
             checklist {
                 category
                 weightage
@@ -64,17 +88,29 @@ const FETCH_REPORT_TEMPLATE_QUERY = gql`
                     subcategory
                     subcatScore
                     lineItems {
-                    lineItem
-                    complied
-                    images {
-                        nonCompliances
-                        nonComplRemarks
-                        rectifications
-                        rectRemarks
-                    }
+                        id
+                        lineItem
+                        complied
                     }
                 }
             }
         }
     }
 `
+
+// tenantId
+// auditorId
+// auditDate
+// auditScore
+
+// extension {
+//     status
+//     proposed {
+//         date
+//         remarks
+//     }
+//     final {
+//         date
+//         remarks
+//     }
+// }

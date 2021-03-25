@@ -1,43 +1,53 @@
-import { Button, Card, Tag } from "antd";
-import Checkbox from "antd/lib/checkbox/Checkbox";
-import { Link } from "react-router-dom";
-import { routes } from "../../const";
+import gql from 'graphql-tag';
+import { useState } from "react";
+import { useQuery } from '@apollo/client';
+import { Button, Col, Row, Input, Divider, Spin } from "antd";
+import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
+import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
-export default function TenantCard({ content, checkboxVisible }) {
+import TenantListItem from "./TenantListItem";
 
-    var color;
+//REPLACED BY TENANTLISTITEM
+export default function TenantCard({incomplete, unrectified}) {
 
-    switch(content.status.toLowerCase()) {
-        case 'due':
-            color = 'red';
-            break;
-        case 'unrectified':
-            color = 'cyan';
-            break;
-        default:
-            color = 'green';
+    const [checkboxVisibility, setCheckboxVisibility] = useState(null)
+    const { data } = useQuery(FETCH_ALL_TENANTS);
+    const { getAllTenants } = data ? data : [];
+
+    const toggleCheckbox = () => {
+        setCheckboxVisibility(!checkboxVisibility)
     }
 
-    const handleCheckbox = (e) => {
-        console.log(`checked: ${e.target.checked}`)
+    if (unrectified == true){
+        //getAllTenants.status.rectification
+    }
+
+    if(incomplete == true){
+        //getAlltenants.status.draft??
     }
 
     return (
-        <div className="mb-4">
-            <Card title={content.name} bordered={false} 
-                extra={ checkboxVisible && <Checkbox onChange={handleCheckbox} /> }>
-                {/* style={{ width: 300 }}> */}
-                <h3 className="text-sm uppercase mb-0">Audit Date</h3>
-                <p>{ content.date }</p>
-                <Tag color={color}>{ content.status }</Tag>
-                <div className="flex justify-between mt-4">
-                    <Button block className="mr-2">Notify</Button>
-                    <Link to={routes.TEMPLATES} className="w-full ml-2">
-                        <Button type="primary" block>Audit</Button>
-                    </Link>
-                </div>
-                {/* <Button block>View</Button> */}
-            </Card>
+        <div>
+            {
+                    getAllTenants ? getAllTenants.map((tenant, index) => (
+                        <SwipeableList>
+                            <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
+                        </SwipeableList>
+                    )) : 
+                    <div className="flex w-full justify-center items-center">
+                        <Spin tip="Loading..." size="large" />
+                    </div>
+                }
         </div>
     )
 }
+
+const FETCH_ALL_TENANTS = gql`
+    query fetchAllTenants {
+        getAllTenants {
+            id
+            name
+            institution
+        }
+    }
+`

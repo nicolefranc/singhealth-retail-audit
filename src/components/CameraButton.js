@@ -7,9 +7,9 @@ export default function CameraButton({ handleCapture }) {
             <input accept="image/*" id="icon-button-file" type="file" capture="environment"
                 id="cameraInput"
                 onChange={e => handleCapture(e.target)}
-                style={{ display: "none" }} />
+                style={{ display: "block" }} />
             <label htmlFor="cameraInput">
-                <Button icon={<CameraOutlined />}>Take Photo</Button>
+                {/* <Button icon={<CameraOutlined />}>Take Photo</Button> */}
             </label>
         </>
     )
