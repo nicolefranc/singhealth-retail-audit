@@ -34,6 +34,7 @@ export default function Notifications() {
                         <Spin tip="Loading..." size="large" />
                     </div>
                 } */}
+                <div>
             
             {
                     getAllTenants ? getAllTenants.map((tenant, index) => (
@@ -45,6 +46,7 @@ export default function Notifications() {
                         <Spin tip="Loading..." size="large" />
                     </div>
                 }
+                </div>
         </>
     )
 }

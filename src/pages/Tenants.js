@@ -48,7 +48,6 @@ export default function Tenants() {
                     onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }</Button>
                 </Col>
             </Row>
-            {/*  */}
                 <TenantCard></TenantCard>
         </>
     )

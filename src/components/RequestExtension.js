@@ -28,7 +28,7 @@ export default function RequestExtension() {
     };
 
     function onChange(date, dateString) {
-        console.log(date, dateString);
+        console.log(date ,dateString);
       }
     
 
