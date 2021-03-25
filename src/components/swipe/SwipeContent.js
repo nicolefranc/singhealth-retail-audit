@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SwipeContent = ({ label, position }) => (
+const SwipeContent = ({ icon, label, position }) => (
     <div className={`swipeable-listitem-${position}`}>
-        <span>{label}</span>
+      <div className="swipeable-listitem-content">
+        <span className="swipeable-listitem-icon">{icon}</span>
+        {label && <span>{label}</span>}
+      </div>
     </div>
 );
 
@@ -14,3 +17,7 @@ SwipeContent.propTypes = {
 };
 
 export default SwipeContent;
+
+
+
+
