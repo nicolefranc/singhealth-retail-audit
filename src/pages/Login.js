@@ -1,8 +1,6 @@
 import { Form, Input, Button, Radio, Checkbox, Alert } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import React, { useContext, useState } from "react";
-import Dashboard from "./Dashboard";
-import { Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import { useDispatch } from 'react-redux';

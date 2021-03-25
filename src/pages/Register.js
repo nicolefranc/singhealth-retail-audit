@@ -4,16 +4,16 @@ import React, { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
-import { AuthContext } from "../context/auth";
-import { useForm } from "../util/hooks";
 import { useParams } from "react-router";
 import { tokenValidator } from "../utils/tokenValidator";
 
 export default function Register(props) {
   const { token } = useParams();
-  const result = tokenValidator(token);
+  const tokenResult = tokenValidator(token);
 
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState("");
+
   const [values, setValues] = useState("{}");
 
   const onFinishFailed = (errorInfo) => {
@@ -21,21 +21,24 @@ export default function Register(props) {
   };
 
   const onFinish = (values) => {
-    values.regToken = token;
+    values.regtoken = token;
     setValues(values);
     console.log(values);
     registerUserCallback();
   };
 
   let REGISTER_USER =
-    result.type === "tenant" ? REGISTER_TENANT : REGISTER_AUDITOR; //to change the graphql query depending on what the user want's to "login as"
-  console.log(REGISTER_USER);
+  tokenResult.type === "tenant" ? REGISTER_TENANT : REGISTER_AUDITOR; //to change the graphql query depending on what the user want's to "login as"
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     update(cache, result) {
       // this "update" is for us to define a function that 'useMutation' takes in. is executes whatever you want to execute in you "update" function with the cache and result.
       // here we will use the result of the query a store it locally when 'context.login' is being called.
       // props.history.push("/");
+      setErrors({});
+      props.history.push("/login");
+      console.log("name is", tokenResult.name);
+      setSuccess("Successfully activated ".concat(tokenResult.name));
     },
     onError(err) {
       //any error will be thrown here
@@ -44,6 +47,7 @@ export default function Register(props) {
       try {
         // seterrors allow me to print the error to the react 'alert' component (for instance, the red bar you see when you key in wrong credentials)
         // because sometimes it doesn't work (like the graphql errors return me smth undefined), i put it in a try and catch block haha
+        setSuccess("");
         setErrors(err.graphQLErrors[0].extensions.exception.errors);
       } catch (err) {
         console.log(err);
@@ -65,7 +69,7 @@ export default function Register(props) {
         </div> */}
       <div>
         <Form layout="vertical" onFinish={onFinish}>
-          <b>Hi {result.name},</b>
+          <b>Hi {tokenResult.name},</b>
           <h1>Please enter your password to activate your account</h1>
           <br></br>
           <Form.Item
@@ -99,6 +103,8 @@ export default function Register(props) {
               </ul>
             </div>
           )}
+                {success && <Alert message={success} type="success" />}
+<br></br>
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Register

@@ -40,6 +40,7 @@ const CreateUser = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
+    console.log(values);
     values.tenantType = [values.tenantType];
     setValues(values);
     createUserCallback();
@@ -140,7 +141,7 @@ const CreateUser = () => {
         <Form.Item name="type" rules={[{ required: true }]}>
           <Radio.Group onChange={onTenantTypeChange} value={tenantType}>
             <Radio value={"admin"}>Admin</Radio>
-            <Radio value={"normal"}>Normal</Radio>
+            <Radio value={"staff"}>Normal</Radio>
           </Radio.Group>
         </Form.Item>
       )}
@@ -155,7 +156,8 @@ const CreateUser = () => {
       )}
       <div></div>
       {success && <Alert message={success} type="success" />}
-      <Form.Item {...tailLayout}>
+      <br></br>
+      <Form.Item >
         <Button type="primary" htmlType="submit">
           Submit
         </Button>

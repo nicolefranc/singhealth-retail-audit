@@ -30,21 +30,23 @@ function App() {
   console.log("token expired: ", validatorResult.expired, "\ntype: ", validatorResult.type);
   return (
     <Router>
-      {/* {(!isAuthenticated || validatorResult.expired) && (
+      {(!isAuthenticated || validatorResult.expired) && (
         <Redirect to={routes.LOGIN} />
-      )} */}
+      )}
+			
       <Switch>
         <Route path={routes.LOGIN} component={Login} />
+				
         <BaseLayout>
           <AuthRoute
             exact
             path={routes.DEFAULT}
-            users={["admin","auditor", "tenant"]}
+            users={["admin","auditor","staff", "tenant"]}
             component={Dashboard}
           />
           <AuthRoute
             path={routes.TENANTS}
-            users={["admin","auditor"]}
+            users={["admin","staff","auditor"]}
             component={Tenants}
           />
           <AuthRoute
@@ -62,7 +64,6 @@ function App() {
             users={["admin","auditor", "tenant"]}
             component={ChecklistPhotos}
           />
-					<Route path="/register/:token" component={Register}/>
           <Route path="/report/:tenantId/:reportType" component={Report} />
 					<Route path="/createTenant" component={CreateUser}/>
           <Route
@@ -74,6 +75,7 @@ function App() {
           <Route path="/DashboardTenant" component={DashboardTenant} />
           <Route path="/Login" component={Login} />
           <Route path="/RequestExtension" component={RequestExtension} />
+				<Route path="/register/:token" component={Register}/>
         </BaseLayout>
       </Switch>
     </Router>

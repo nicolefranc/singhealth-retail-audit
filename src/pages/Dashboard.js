@@ -18,7 +18,7 @@ export default function Dashboard() {
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isTenant = validatorResult.type === "tenant";
-  const isAuditor = ["auditor","admin"].includes(validatorResult.type);
+  const isAuditor = ["auditor","staff","admin"].includes(validatorResult.type);
 
   return (
     <>
