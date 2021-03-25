@@ -47,7 +47,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
 
     if (content)
         return (
-            <div >
+            <>
                 
                 <SwipeableListItem 
                     extra={ checkboxVisible && <Checkbox onChange={handleCheckbox}/>}
@@ -55,7 +55,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
                     swipeRight={swipeRightOptions(content.name)}
                     // key={id}
                 >
-                    <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick} onH>
+                    <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick}>
 
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name">{content.name}</span>
@@ -70,14 +70,8 @@ export default function TenantListItem({ content, checkboxVisible }) {
                     </div>
                 </SwipeableListItem>
 
-            </div>
+            </>
         )
     
     return <Skeleton />
 }
-
-
-{/* 
-    <h3 className="uppercase mb-0 font-bold">{content.name}</h3>
-    <h3 className="text-sm uppercase mb-0 mr-2">{ content.institution }</h3>
-*/}

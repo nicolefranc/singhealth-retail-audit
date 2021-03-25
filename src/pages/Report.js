@@ -37,6 +37,8 @@ export default function Report() {
         />
     }
 
+    console.log('data here');
+    console.log(data);
     const { getReportTemplate } = data;
     const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
     const { Title } = Typography;
@@ -76,14 +78,8 @@ const FETCH_REPORT_TEMPLATE_QUERY = gql`
                     subcategory
                     subcatScore
                     lineItems {
-                    lineItem
-                    complied
-                    images {
-                        nonCompliances
-                        nonComplRemarks
-                        rectifications
-                        rectRemarks
-                    }
+                        lineItem
+                        complied
                     }
                 }
             }
