@@ -37,7 +37,7 @@ export default function Photo({}){
 
     return (
         <>
-            <h4 className="shadow bg-white mb-20">Staff Attendance: adequate staff for peak and non-peak hours.</h4>
+            <h4 className="shadow bg-white mb-2 p-2">Staff Attendance: adequate staff for peak and non-peak hours.</h4>
             
             <div className="flex flex-row flex-wrap w-full">
                 <Card

@@ -39,28 +39,62 @@
   transition: all 0.3s, visibility 0s;
 }
 
+.site-collapse-custom-collapse {
+  overflow: hidden;
+  background: #fafafa;
+  border: 0px;
+  border-radius: 2px;
+}
+
 
 .swipeable-listitem-left {
   background-color: #1890ff;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   color: white;
+  flex:1;
   height: 100%;
-  width: 100%;
+  /* width: 100%; */
   display: flex;
-  align-items: center;
-  padding: 4px 8px;
+  flex-flow: column;
+  justify-content: center;
+  /* align-items: center;
+  padding: 4px 8px; */
 }
 
 .swipeable-listitem-right {
   background-color: #1890ff;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   color: white;
   height: 100%;
-  width: 100%;
+  /* width: 100%; */
+  flex:1;
   display: flex;
+  /* align-items: center; */
+  flex-flow:column;
+  justify-content: center;
+  align-items: flex-end;
+  /* padding: 4px 8px;
+  justify-content: flex-end; */
+}
+
+.swipeable-listitem-content {
+  display: flex;
+  flex-flow: column;
   align-items: center;
-  padding: 4px 8px;
-  justify-content: flex-end;
+  font-weight: 300;
+  font-size: 14px;
+  width: 64px;
+  max-width: 64px;
+  text-align: center;
+  padding: 4px;
+  padding-top: 8px;
+}
+
+.swipeable-listitem-icon {
+  fill: white;
+  width: 32px;
+  height: 32px;
+  margin-top: -4px;
 }
 
 .swipeable-listitem {

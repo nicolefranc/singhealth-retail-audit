@@ -90,7 +90,7 @@ export default function Item({ items, cIndex, sIndex }) {
         <>
             <List dataSource={itemsSrc} renderItem={(item, index) => (
                 <List.Item>
-                    <div className="flex row justify-between items-center w-full">
+                    <div className="flex row justify-between items-center w-full font-normal">
                         <p>{ item }</p>
                         <Checkbox index={index} compliance={compliance} toggleCompliance={toggleCompliance} />
                     </div>

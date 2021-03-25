@@ -2,12 +2,18 @@ import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import ScrollList from "../components/dashboard/ScrollList";
 import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col } from 'antd';
+import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col,Spin } from 'antd';
+
+import {reports} from "../components/report/ReportCardData";
+import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
+import ReportCard from "../components/report/ReportCard";
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
 
 export default function TenantDetail() {
+    
+    // const { reports } = data ? data : [];
 
     function confirm(e) {
         console.log(e);
@@ -32,8 +38,6 @@ export default function TenantDetail() {
                 </Button>
             </div>
 
-            <Divider/>
-
             <div className="mb-6">
                 <Row>
                     <Col className="mr-2">
@@ -52,7 +56,7 @@ export default function TenantDetail() {
                         <Tag color="red">Unrectified</Tag>
                     </Col>
                     <Col>
-                        <Text type="danger">Due 04/03/2021</Text>
+                        <Text type="danger">Due 30/03/2021</Text>
                     </Col>
                 </Row>
 
@@ -66,30 +70,37 @@ export default function TenantDetail() {
             </Row>
             </div>
             
-
-            
-            
-            
             <div className='mb-20' >
-                
-
                 <PerformanceGraph content={Performance} type= {undefined}/>
+                
+                
+                <span class="block bg-gray-50 h-12 swipeable-listitem">
 
-                <Title className='mt-12' level={4}>Past Audits</Title>
-                <ScrollList columns={reportColumns} data={pastReports}/>
+                    <Title className='mt-10 p-2' level={4}>Past Audits</Title>
+                </span>
+                {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
+                {
+                    reports ? reports.map((report)=> (
+                        <SwipeableList >
+                            <ReportCard content={report}  />
+                        </SwipeableList>
+                    )):
+                    <div className="flex w-full justify-center items-center">
+                        <Spin tip="Loading..." size="large" />
+                    </div>
+                }
             </div>
 
-            {/* <div className='justify-between flex'>
-
-                <div className='fab-container' style={{width: '30%'}}>
-                    <Button className='ml-16' shape='round' size='large' type="primary" block={true}>Audit</Button> 
-                </div>
-
-                <div className='fab-container-right mr-16' style={{width: '30%'}}>
-                    <Button shape='round' size='large' type="primary" block={true}>Notify</Button> 
-                </div>  
-
-            </div> */}
         </>
     )
 }
+
+{/* <div className='justify-between flex'>
+        <div className='fab-container' style={{width: '30%'}}>
+            <Button className='ml-16' shape='round' size='large' type="primary" block={true}>Audit</Button> 
+        </div>
+
+        <div className='fab-container-right mr-16' style={{width: '30%'}}>
+            <Button shape='round' size='large' type="primary" block={true}>Notify</Button> 
+        </div>  
+    </div> */}

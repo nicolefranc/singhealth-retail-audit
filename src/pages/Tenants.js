@@ -7,7 +7,6 @@ import Title from "antd/lib/typography/Title";
 import { RESPONSIVE_GUTTER } from "../const";
 import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
-import { noOp } from '@sandstreamdev/std/function';
 import TenantListItem from "../components/tenants/TenantListItem";
 
 const { Search } = Input;
@@ -44,7 +43,8 @@ export default function Tenants() {
                 <Col className="mb-4">
                     <Button icon={<FilterOutlined />} type="text" size="large">Filter</Button>
                     <Button icon={checkboxVisibility ? <CloseOutlined /> : <SelectOutlined />} size="large"
-                    onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }</Button>
+                        onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }
+                    </Button>
                 </Col>
             </Row>
             {/*  */}

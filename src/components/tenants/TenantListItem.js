@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { noOp } from '@sandstreamdev/std/function';
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
+import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
 
 export default function TenantListItem({ content, checkboxVisible }) {
 
@@ -25,6 +26,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
             <SwipeContent
             label="Notify"
             position="left"
+            icon={<NotificationOutlined />}
             />
         ),
         action: noOp
@@ -35,6 +37,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
             <SwipeContent
             label="Audit"
             position="right"
+            icon={<EditOutlined />}
             />
         ),
         action: () => handleSwipe()
