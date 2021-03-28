@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import axios from 'axios';
 import saveAs from 'file-saver';
 
@@ -21,8 +22,8 @@ export default function Pdf(checklistData) {
 
 
   return (
-    <div>
-      <button onClick={handleItBij}> Download PDF</button>
-  </div>
+    <>
+      <Button onClick={handleItBij}>Send PDF</Button>
+    </>
   );
 }

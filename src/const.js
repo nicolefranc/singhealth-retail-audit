@@ -11,7 +11,8 @@ export const routes = {
     TEMPLATES: '/checklist-templates',
     PHOTOS:'/checklist-photos',
     REPORT: '/report',
-    CREATE_USER: '/createuser'
+    CREATE_USER: '/createuser',
+    AUDIT: '/audit'
 };
 
 export const RESPONSIVE_GUTTER = { xs: 8, sm: 16, md: 24, lg: 32 };

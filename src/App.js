@@ -11,7 +11,6 @@ import Tenants from "./pages/Tenants";
 import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
 import ChecklistTemplates from "./components/checklist/ChecklistTemplates";
-import ChecklistPhotos from "./components/checklist/ChecklistPhotos";
 import { routes } from "./const";
 import Report from "./pages/Report";
 import Login from "./pages/Login";
@@ -22,6 +21,8 @@ import RequestExtension from "./components/RequestExtension";
 import DashboardTenant from "./pages/DashBoardTenant";
 import { tokenValidator } from "./utils/tokenValidator";
 import AuthRoute from "./utils/AuthRoute";
+import Status from "./pages/Status";
+import ChecklistPhotos from "./pages/ChecklistPhotos";
 
 function App() {
   // let isAuthenticated = useSelector(state => state.user);
@@ -61,17 +62,17 @@ function App() {
           />
           <AuthRoute
             path={routes.PHOTOS}
-            users={["admin","auditor", "tenant"]}
+            users={["auditor", "tenant", "staff", "admin"]}
             component={ChecklistPhotos}
           />
-          <Route path="/report/:tenantId/:reportType" component={Report} />
-					<Route path="/createTenant" component={CreateUser}/>
+          <Route path={`${routes.AUDIT}/:tenantId/:reportType`} component={Report} />
+          <Route path="/status/:tenantId" component={Status} />
           <Route
             exact
-            path="/report/:tenantId"
+            path={`${routes.AUDIT}/:tenantId`}
             component={ChecklistTemplates}
           />
-          <Route path="/TenantDetail" component={TenantDetail} />
+          <Route path="/TenantDetail/:tenantId" component={TenantDetail} />
           <Route path="/DashboardTenant" component={DashboardTenant} />
           <Route path="/Login" component={Login} />
           <Route path="/RequestExtension" component={RequestExtension} />
