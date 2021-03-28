@@ -8,8 +8,7 @@ import Pdf from '../checklist/Pdf';
 
 export default function ReportCard({ content}) {
 
-    const tenantId = content.id;
-    console.log(tenantId);
+    const tenantId = content.tenantId?.id;
 
     const { TextArea } = Input; 
 

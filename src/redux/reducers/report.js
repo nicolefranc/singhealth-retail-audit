@@ -4,7 +4,7 @@ const reportReducer = (state = {}, action) => {
     // console.log(action);
     switch(action.type) {
         case INIT_NEW_REPORT:
-            return action.payload;
+            return initReport(state, action.payload);
         case TOGGLE_COMPLIANT:
             const { cIndex, sIndex, compliantCount, totalCount, lineItems } = action.payload;
             let weightage = state.checklist[cIndex].weightage;
@@ -41,6 +41,31 @@ const reportReducer = (state = {}, action) => {
         default:
             return state;
     }
+}
+
+const initReport = (state, payload) => {
+    console.log(payload);
+    let report = { type: payload.type, tenantId: payload.tenantId };
+
+    report.checklist = payload.checklist.map(category => {
+        let newCategory = { id: category.id, category: category.category, weightage: category.weightage, score: category.score };
+        
+        newCategory.subcategories = category.subcategories.map(subcategory => {
+            let newSubcategory = { id: subcategory.id, subcategory: subcategory.subcategory, subcatScore: subcategory.subcatScore };
+            
+            newSubcategory.lineItems = subcategory.lineItems.map(item => {
+                let lineItem = { id: item.id, lineItem: item.lineItem, complied: item.complied };
+                return lineItem;
+            })
+
+            return newSubcategory;
+        })
+        return newCategory;
+    })
+
+    console.log(report);
+    return report;
+    // return payload;
 }
 
 export default reportReducer;

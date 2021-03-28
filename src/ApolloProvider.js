@@ -4,6 +4,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { Provider } from 'react-redux';
 import store from './store';
 import { createUploadLink } from 'apollo-upload-client';
+import { cache } from './cache';
+import { typeDefs } from './graphql/typeDefs';
 
 const httpLink = createUploadLink({
     uri: 'http://localhost:5000' // pointing to the server
@@ -12,7 +14,8 @@ const httpLink = createUploadLink({
 
 const client = new ApolloClient({
     link: httpLink,
-    cache: new InMemoryCache()
+    cache,
+    typeDefs
 });
 
 export default (

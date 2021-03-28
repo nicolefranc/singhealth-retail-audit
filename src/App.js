@@ -57,11 +57,12 @@ function App() {
             component={Notifications}
           />
           <AuthRoute
-            path={routes.PHOTOS}
+            exact
+            path={`${routes.AUDIT}/:tenantId/:reportType/photos`}
             users={["auditor", "tenant", "staff", "admin"]}
             component={ChecklistPhotos}
           />
-          <Route path={`${routes.AUDIT}/:tenantId/:reportType`} component={Report} />
+          <Route exact path={`${routes.AUDIT}/:tenantId/:reportType`} component={Report} />
           <Route path="/status/:tenantId" component={Status} />
           <Route
             exact

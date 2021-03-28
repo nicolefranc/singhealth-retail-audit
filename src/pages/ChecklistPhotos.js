@@ -76,10 +76,10 @@ export default function ChecklistPhotos() {
             <Divider/>
 
             <div className="flex flex-row justify-between">
-                <Link to={routes.PHOTOS} >
+                <Link to={routes.TENANTS} >
                     <Button onClick={() => handleSubmit('draft')}>Save as Draft</Button>
                 </Link>
-                <Link to={routes.PHOTOS} >
+                <Link to={routes.TENANTS} >
                     <Button className="" onClick={() => handleSubmit('submit')}>Submit</Button>
                 </Link>
             </div>

@@ -82,14 +82,14 @@ export default function TenantDetail() {
                 <PerformanceGraph content={Performance} type= {undefined}/>
                 
                 
-                <span class="block bg-gray-50 h-12 swipeable-listitem">
+                <span className="block bg-gray-50 h-12 swipeable-listitem">
 
                     <Title className='mt-10 p-2' level={4}>Past Audits</Title>
                 </span>
                 {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
                 {
-                    getAllReportsByTenant ? getAllReportsByTenant.map((report)=> (
-                        <SwipeableList >
+                    getAllReportsByTenant ? getAllReportsByTenant.map((report, index)=> (
+                        <SwipeableList key={index}>
                             <ReportCard content={report}  />
                         </SwipeableList>
                     )):
