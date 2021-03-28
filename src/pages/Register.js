@@ -1,4 +1,4 @@
-import { Form, Input, Button, Radio, Checkbox, Alert } from "antd";
+import { Form, Input, Button, Radio, Checkbox, Alert, message } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import React, { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
@@ -10,6 +10,8 @@ import { tokenValidator } from "../utils/tokenValidator";
 export default function Register(props) {
   const { token } = useParams();
   const tokenResult = tokenValidator(token);
+
+
 
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState("");
@@ -36,7 +38,8 @@ export default function Register(props) {
       // here we will use the result of the query a store it locally when 'context.login' is being called.
       // props.history.push("/");
       setErrors({});
-      props.history.push("/login");
+      message.success("successfully activated ".concat(tokenResult.name));
+      props.history.push(`/login`);
       console.log("name is", tokenResult.name);
       setSuccess("Successfully activated ".concat(tokenResult.name));
     },
@@ -166,3 +169,4 @@ const REGISTER_TENANT = gql`
     }
   }
 `;
+
