@@ -28,18 +28,18 @@ export default function ChecklistPhotos() {
         })
         console.log('images')
         console.log(imagesArr);
-        report.checklist.map(categories => {
-            categories.subcategories.map(subcategory => {
-                subcategory.lineItems.map(lineItem => {
+        // report.checklist.map(categories => {
+        //     categories.subcategories.map(subcategory => {
+        //         subcategory.lineItems.map(lineItem => {
                     
-                    return {
-                        id: lineItem.id,
-                        lineItem: lineItem.lineItem,
-                        complied: lineItem.complied,
-                    }
-                })
-            })
-        })
+        //             return {
+        //                 id: lineItem.id,
+        //                 lineItem: lineItem.lineItem,
+        //                 complied: lineItem.complied,
+        //             }
+        //         })
+        //     })
+        // })
         console.log(report);
         const variables = {
             createReportBody: {
@@ -51,8 +51,10 @@ export default function ChecklistPhotos() {
               images: imagesArr
             }
         }
+        console.log(variables);
 
-        createReport({ variables: { createReportBody: { tenantId: report.tenantId } } })
+        // createReport({ variables: { createReportBody: { tenantId: report.tenantId } } })
+        createReport({ variables })
             .then(
                 onfulfilled => {
                     message.success('Successfully saved report');
@@ -64,6 +66,7 @@ export default function ChecklistPhotos() {
                 }
             )
     }
+    console.log(error);
 
     if (error) return <div>{JSON.stringify(error, null, 2)}</div>;
 
@@ -79,9 +82,9 @@ export default function ChecklistPhotos() {
                 <Link to={routes.TENANTS} >
                     <Button onClick={() => handleSubmit('draft')}>Save as Draft</Button>
                 </Link>
-                <Link to={routes.TENANTS} >
+                {/* <Link to={routes.TENANTS} > */}
                     <Button className="" onClick={() => handleSubmit('submit')}>Submit</Button>
-                </Link>
+                {/* </Link> */}
             </div>
         </>
         
