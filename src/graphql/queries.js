@@ -5,8 +5,12 @@ export const FETCH_TENANT_DETAILS =gql`
         getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
             id
             type
-            tenantId
-            auditorId
+            tenantId{
+                id
+            }
+            auditorId{
+                id
+            }
             auditDate
             auditScore
             status
@@ -19,8 +23,12 @@ query ($reportId: String!){
 getReportById(reportId: $reportId) {
   id
   type
-  tenantId
-  auditorId
+  tenantId{
+      email
+  }
+  auditorId{
+      id
+  }
   auditDate
   auditScore
   status

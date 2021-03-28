@@ -15,32 +15,13 @@ export default function SendPdf({
     const { data } = useQuery(FETCH_REPORT, {
         variables: { reportId: reportId },
     });
-    if (data) console.log(data, "report id is ", reportId);
 
-
-    //getting tenant email start
-    if(data){
-
-      const tenantEmailResult = useQuery(
-          gql`
-              query getTenantById($id: String!) {
-                  getTenantById(id: $id) {
-                      email
-                  }
-              }
-          `,
-          {
-              variables: { id: data.getReportById.tenantId },
-          }
-      );
-  
-      if (tenantEmailResult) {
-          console.log("tenant email is", tenantEmailResult.data.getTenantById.email);
-      }
+    if (data) {
+        var tenantEmail = data.getReportById.tenantId.email;
+        console.log("tenant email is ", tenantEmail);
     }
-    //getting tenant email end
 
-    //getting my email
+    //getting my email starts here
     let isAuthenticated = localStorage.getItem("jwt");
     let validatorResult = tokenValidator(isAuthenticated);
 
@@ -60,21 +41,21 @@ export default function SendPdf({
     );
 
     if (myEmailResult.data) {
-        console.log("myemail is", myEmailResult.data.getAuditorById.email);
+        var userEmail = myEmailResult.data.getAuditorById.email;
+        console.log("myemail is", userEmail);
     }
     //getting my email end
 
     function handleSubmit() {
-        if (sendSelf) {
-            addressee.push(myEmailResult.data.getAuditorById.email);
-            console.log(addressee);
-            // sendEmail();
-        }
-        
-        if(sendTenant){
-          addressee.push(tenantEmailResult.data.getTenantById.email);
-          console.log(addressee);
-        }
+        if (sendSelf && !addressee.includes(userEmail)) {
+            addressee.push(userEmail);
+          }
+          
+          if (sendTenant && !addressee.includes(tenantEmail)) {
+            addressee.push(tenantEmail);
+          }
+
+          sendEmail();
     }
 
     const [sendEmail, { loading }] = useMutation(SEND_EMAIL, {
