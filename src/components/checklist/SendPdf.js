@@ -9,6 +9,7 @@ export default function SendPdf({
     reportId,
     sendSelf,
     sendTenant,
+    remarks,
     download,
     addressee,
 }) {
@@ -54,7 +55,7 @@ export default function SendPdf({
           if (sendTenant && !addressee.includes(tenantEmail)) {
             addressee.push(tenantEmail);
           }
-
+          console.log(remarks);
           sendEmail();
     }
 
@@ -65,7 +66,7 @@ export default function SendPdf({
         onError(err) {
             console.log(err);
         },
-        variables: { reportId, addressee },
+        variables: { reportId, addressee, remarks },
     });
     return (
         <>
@@ -75,7 +76,7 @@ export default function SendPdf({
 }
 
 const SEND_EMAIL = gql`
-    mutation($reportId: String!, $addressee: [String!]) {
-        sendReportPDFById(reportId: $reportId, addressee: $addressee)
+    mutation($reportId: String!, $addressee: [String!], $remarks: String!) {
+        sendReportPDFById(reportId: $reportId, addressee: $addressee, remarks: $remarks)
     }
 `;

@@ -22,6 +22,7 @@ export default function ReportCard({ content}) {
 
     const [sendSelf, setSendSelf] = useState(false);
     const [sendTenant, setSendTenant] = useState(false);
+    const [remarks, setRemarks] = useState("");
     
     const showModal = () => {
         setVisible(true);
@@ -44,6 +45,10 @@ export default function ReportCard({ content}) {
     function onTenantChecked(e) {
         console.log(`tenant = ${e.target.checked}`);
         setSendTenant(e.target.checked);
+    }
+
+    function updateRemarks(e){
+        setRemarks(e.target.value);
     }
 
     // For swipe functionality  
@@ -90,7 +95,7 @@ export default function ReportCard({ content}) {
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
                         // <Button key="save" className="" onClick={handleOk}>Send</Button>,
                         // <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>,
-                        <SendPdf reportId="605c74ffbb2a67120e3494da" sendSelf={sendSelf} sendTenant={sendTenant} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                        <SendPdf reportId="605c74ffbb2a67120e3494da" sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
                     ]}
                 >
                     <div className="flex flex-col">
@@ -100,7 +105,7 @@ export default function ReportCard({ content}) {
                             <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
                         </Row>
                         
-                        <TextArea placeholder="Remarks" autoSize className="mt-5" />
+                        <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
                     </div>    
                 </Modal>
             </>
