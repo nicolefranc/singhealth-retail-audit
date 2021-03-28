@@ -12,16 +12,16 @@ import { FETCH_REPORT } from '../../graphql/queries';
 export default function ReportCard({ content}) {
 
     const reportId = content.id;
-    console.log("reportId is:", reportId);
+    console.log("reportId is this :", reportId);
 
-    var {data} = useQuery(FETCH_REPORT, {variables:reportId});
-
-    console.log(data);
 
     const { TextArea } = Input; 
 
     // for pop up
     const [visible,setVisible]=useState(false);
+
+    const [sendSelf, setSendSelf] = useState(false);
+    const [sendTenant, setSendTenant] = useState(false);
     
     const showModal = () => {
         setVisible(true);
@@ -38,10 +38,12 @@ export default function ReportCard({ content}) {
     //for self checkbox
     function onSelfChecked(e) {
         console.log(`self = ${e.target.checked}`);
+        setSendSelf(e.target.checked);
     }
     //for tenant checkbox
     function onTenantChecked(e) {
         console.log(`tenant = ${e.target.checked}`);
+        setSendTenant(e.target.checked);
     }
 
     // For swipe functionality  
@@ -88,7 +90,7 @@ export default function ReportCard({ content}) {
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
                         // <Button key="save" className="" onClick={handleOk}>Send</Button>,
                         // <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>,
-                        <SendPdf reportId="605c74ffbb2a67120e3494da" addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                        <SendPdf reportId="605c74ffbb2a67120e3494da" sendSelf={sendSelf} sendTenant={sendTenant} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
                     ]}
                 >
                     <div className="flex flex-col">
