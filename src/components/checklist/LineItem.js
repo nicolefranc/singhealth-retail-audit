@@ -7,7 +7,7 @@ export default function LineItem({ lineItems }) {
 
     //TEMPORARY CHECKBOX!! TO BE REPLACED
     const updateInput = (ref, checked) => {
-        console.log(ref);
+        // console.log(ref);
         const input = ref.current;
         if (input) {
             input.checked = checked;
@@ -40,7 +40,7 @@ export default function LineItem({ lineItems }) {
           }
         };
 
-        console.log(checkedRef);
+        // console.log(checkedRef);
         return (
             <input 
             ref={inputRef}
@@ -51,7 +51,7 @@ export default function LineItem({ lineItems }) {
     };
     const [compliance, setCompliance] = React.useState(true);
     const toggleCompliance = (checked) => {
-        console.log(`checked: ${checked}`);
+        // console.log(`checked: ${checked}`);
     };
     //
     
@@ -107,7 +107,7 @@ export default function LineItem({ lineItems }) {
                             {item}
 
                             {/* TEMPORARY FOR PHOTO POPUP */}
-                            <Button onClick={showModal} style={{width: 100}}>Add Photo</Button>
+                            <Button type="primary" block onClick={showModal} style={{width: 100}}>Add Photo</Button>
                         </div>
                     </List.Item>
                 )}  
@@ -122,7 +122,7 @@ export default function LineItem({ lineItems }) {
                 onCancel={handleCancel}
                 footer={[
                     <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                    <Button key="save" className="bg-orange text-white" onClick={handleOk}>Save</Button>,
+                    <Button key="save" className="" onClick={handleOk}>Save</Button>,
                 ]}
             >
                 <div className="flex flex-col">

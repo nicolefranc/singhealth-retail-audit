@@ -28,7 +28,7 @@ export default function RequestExtension() {
     };
 
     function onChange(date, dateString) {
-        console.log(date, dateString);
+        console.log(date ,dateString);
       }
     
 
@@ -49,14 +49,14 @@ export default function RequestExtension() {
     />
             </div>
 
-            <div className='flex justify-between'>
-            <Button className='ml-12' style={{width: '40%', height: '75px'}} shape='round' size='large' type="primary" block={true}
+            <div className='flex justify-between max-w-full'>
+            <Button className='m-2' style={{height: '75px'}} shape='round' size='middle' type="primary" block={true}
             onClick={showUpload}
-            >Upload Image for Rectification</Button> 
+            >Non-Compliance</Button> 
 
-            <Button className='mr-12' style={{width: '40%', height: '75px'}}  shape='round' size='large' type="primary" block={true}
+            <Button className= 'p-0.5 m-2' style={{height: '75px'}}  shape='round' size='middle' type="primary" block={true}
             onClick={showRequest}
-            >Request for Extension</Button> 
+            >Request Extension</Button> 
             </div>
 
             <Modal

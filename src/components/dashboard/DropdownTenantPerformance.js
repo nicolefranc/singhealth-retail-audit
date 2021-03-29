@@ -3,7 +3,7 @@ import { DownOutlined } from '@ant-design/icons';
 // import Select from 'react-select';
 import { useState } from 'react';
 import PerformanceGraph from './PerformanceGraph';
-import {PerformanceAll, Performance, dropdownTenant} from './TenantData';
+import {PerformanceAll, Performance} from './TenantData';
 
 import { useQuery, useMutation } from "@apollo/client";
 import gql from "graphql-tag";

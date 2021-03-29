@@ -19,7 +19,7 @@ export default function BaseLayout({ children }) {
                     style={{
                         padding: 14,
                         margin: 0,
-                        minHeight: 280,
+                        minHeight: '100vh',
                     }}
                     >
                         { children }
