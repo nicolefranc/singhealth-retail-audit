@@ -10,7 +10,8 @@ export const routes = {
     CHECKLIST_COVID:'/checklist-covid',
     TEMPLATES: '/checklist-templates',
     PHOTOS:'/checklist-photos',
-    AUDIT: '/audit'
+    AUDIT: '/audit',
+    REPORT: '/report'
 };
 
 export const RESPONSIVE_GUTTER = { xs: 8, sm: 16, md: 24, lg: 32 };
