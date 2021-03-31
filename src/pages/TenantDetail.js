@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/client';
 import { PerformanceAll, Performance, pastReports, reportColumns } from "../components/dashboard/TenantData";
 import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col,Spin } from 'antd';
 
-import { reports } from "../components/report/ReportCardData";
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";

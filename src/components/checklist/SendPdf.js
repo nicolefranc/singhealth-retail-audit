@@ -12,7 +12,8 @@ export default function SendPdf({
     remarks,
     download,
     addressee,
-}) {
+}) 
+{
     const { data } = useQuery(FETCH_REPORT, {
         variables: { reportId: reportId },
     });
