@@ -66,7 +66,9 @@ export default function TenantListItem({ content, checkboxVisible }) {
                         </div>
                         <div className="flex">
                             <div className="swipeable-listitem-description mr-2">{content.institution}</div>
-                            <Tag >Last Audit: 19/3/2021</Tag>
+                            {/* <Tag >Last Audit: {content.auditDate[0]}</Tag>
+                            <Tag color="red">{content.status}</Tag> */}
+                            <Tag >Last Audit: 29/3/2021</Tag>
                             <Tag color="red">Unrectified</Tag>
                         </div>
                         

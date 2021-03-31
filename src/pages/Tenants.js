@@ -7,7 +7,6 @@ import Title from "antd/lib/typography/Title";
 import { RESPONSIVE_GUTTER } from "../const";
 import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
-import TenantListItem from "../components/tenants/TenantListItem";
 import TenantCard from "../components/tenants/TenantCard";
 
 const { Search } = Input;
@@ -48,7 +47,7 @@ export default function Tenants() {
                     </Button>
                 </Col>
             </Row>
-                <TenantCard></TenantCard>
+                <TenantCard/>
         </>
     )
 }

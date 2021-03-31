@@ -5,11 +5,31 @@ export const FETCH_TENANT_DETAILS =gql`
         getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
             id
             type
-            tenantId
-            auditorId
+            tenantId{
+                id
+                name
+                institution
+            }
+            auditorId{
+                id
+            }
             auditDate
             auditScore
             status
         }
     }
 `
+
+// export const FETCH_TENANT_STATUS_DETAILS=gql`
+//     query($getReportByTenantAndStatusTenantId: String!, $getReportByTenantAndStatusStatus: String!){
+//         getReportByTenantAndStatus(tenantId: $getReportByTenantAndStatusTenantId, status: $getReportByTenantAndStatusStatus){
+//             tenantId{
+//                 id
+//                 name
+//                 institution
+//             }
+//             status
+//             auditDate
+//         }
+//     }
+// `

@@ -1,13 +1,13 @@
 import gql from 'graphql-tag';
 import { useState } from "react";
 import { useQuery } from '@apollo/client';
-import { Button, Col, Row, Input, Divider, Spin } from "antd";
+import { Spin,Empty } from "antd";
 import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 import TenantListItem from "./TenantListItem";
 
-//REPLACED BY TENANTLISTITEM
+
 export default function TenantCard({incomplete, unrectified}) {
 
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
@@ -29,15 +29,21 @@ export default function TenantCard({incomplete, unrectified}) {
     return (
         <div>
             {
-                    getAllTenants ? getAllTenants.map((tenant, index) => (
-                        <SwipeableList>
-                            <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
-                        </SwipeableList>
-                    )) : 
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
-                }
+                getAllTenants ? getAllTenants.map((tenant) => (
+                    <SwipeableList>
+                        <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
+                    </SwipeableList>
+                )) : 
+                <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={
+                        <span>No Tenants Found</span>
+                    }
+                />
+                // <div className="flex w-full justify-center items-center">
+                //     <Spin tip="Loading..." size="large" />
+                // </div>
+            }
         </div>
     )
 }

@@ -1,37 +1,28 @@
 import React, { useState } from 'react';
-import { Divider, Skeleton,Tag, Modal, Button, Input,Row,Col } from "antd";
-import Checkbox from "antd/lib/checkbox/Checkbox";
+import {Skeleton,Tag, Button } from "antd";
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
-import Pdf from '../checklist/Pdf';
+import EmailModal from './EmailModal';
 
 export default function ReportCard({ content}) {
 
-    const tenantId = content.id;
-    console.log(tenantId);
+    const reportId = content.id;
 
-    const { TextArea } = Input; 
+    const [itemSelected, setItemSelected] = useState(null);
 
     // for pop up
     const [visible,setVisible]=useState(false);
     
-    const showModal = () => {
+    const showModal = (index) => {
         setVisible(true);
-    };
-
-    const handleOk = () => {
-        setVisible(false)
+        setItemSelected(index);
+        console.log(index);
     };
 
     const handleCancel = () => {
         setVisible(false);
     };
-
-    //for checkbox
-    function onChange(e) {
-        console.log(`checked = ${e.target.checked}`);
-    }
 
     // For swipe functionality  
     const swipeLeftOptions = () => ({
@@ -42,13 +33,12 @@ export default function ReportCard({ content}) {
             icon={<MailOutlined />}
             />
         ),
-        action: () => showModal()
+        action: () => showModal(reportId)
     });
 
     if (content)
         return (
             <>
-                
                 <SwipeableListItem 
                     swipeLeft={swipeLeftOptions(content.type)}
                 >
@@ -67,30 +57,47 @@ export default function ReportCard({ content}) {
                     </div>
                 </SwipeableListItem>
 
-                <Modal
-                    visible={visible}
-                    title="Email Report PDF to..."
-                    centered
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                    footer={[
-                        <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        // <Button key="save" className="" onClick={handleOk}>Send</Button>,
-                        <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
-                    ]}
-                >
-                    <div className="flex flex-col">
+                <EmailModal 
+                    id={itemSelected}
+                    checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}
+                    modal={{
+                        title: "Email Report PDF to...",
+                        visible: visible,
+                        actions: [
+                            <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                            // <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
+                        ],
+                        functions: {
+                            handleCancel
+                    }
+                }}/>
 
-                        <Row>
-                            <Col span={6}><Checkbox onChange={onChange}>Self</Checkbox></Col>
-                            <Col span={6}><Checkbox onChange={onChange}>Tenant</Checkbox></Col>
-                        </Row>
-                        
-                        <TextArea placeholder="Remarks" autoSize className="mt-5" />
-                    </div>    
-                </Modal>
             </>
         )
     
     return <Skeleton />
 }
+
+
+{/* <Modal
+        visible={visible}
+        title="Email Report PDF to..."
+        centered
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+            <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+            // <Button key="save" className="" onClick={handleOk}>Send</Button>,
+            <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
+        ]}
+    >
+        <div className="flex flex-col">
+
+            <Row>
+                <Col span={6}><Checkbox onChange={onChange}>Self</Checkbox></Col>
+                <Col span={6}><Checkbox onChange={onChange}>Tenant</Checkbox></Col>
+            </Row>
+            
+            <TextArea placeholder="Remarks" autoSize className="mt-5" />
+        </div>    
+    </Modal> */}

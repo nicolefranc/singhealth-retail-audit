@@ -103,7 +103,7 @@
 }
 
 .swipeable-listitem-name {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 22px;
   color: #083749;
   white-space: nowrap;

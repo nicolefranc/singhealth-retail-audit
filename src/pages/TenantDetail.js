@@ -2,10 +2,9 @@ import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import { PerformanceAll, Performance, pastReports, reportColumns } from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message, Layout, Divider, Tag, Row, Col,Spin } from 'antd';
+import {Performance,  } from "../components/dashboard/TenantData";
+import { Typography, Button, Popconfirm, message, Layout, Empty, Tag, Row, Col,Spin } from 'antd';
 
-import { reports } from "../components/report/ReportCardData";
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
@@ -88,14 +87,22 @@ export default function TenantDetail() {
                 </span>
                 {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
                 {
-                    getAllReportsByTenant ? getAllReportsByTenant.map((report)=> (
+                    getAllReportsByTenant 
+                    ? getAllReportsByTenant.map((report)=> (
                         <SwipeableList >
                             <ReportCard content={report}  />
                         </SwipeableList>
-                    )):
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
+                    ))
+                    : 
+                    <Empty
+                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        description={
+                            <span>No Reports</span>
+                        }
+                    />
+                    // <div className="flex w-full justify-center items-center">
+                    //     <Spin tip="Loading..." size="large" />
+                    // </div>
                 }
             </div>
 
