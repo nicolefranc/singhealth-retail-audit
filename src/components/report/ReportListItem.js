@@ -7,9 +7,9 @@ import { MailOutlined } from "@ant-design/icons";
 import Pdf from '../checklist/Pdf';
 import SendPdf from '../checklist/SendPdf';
 import { useQuery } from '@apollo/client';
-import { FETCH_REPORT } from '../../graphql/queries';
+import { FETCH_REPORT_BY_ID } from '../../graphql/queries';
 
-export default function ReportListItem({ content}) {
+export default function ReportListItem({ content }) {
 
     const reportId = content.id;
     console.log("reportId is this :", reportId);

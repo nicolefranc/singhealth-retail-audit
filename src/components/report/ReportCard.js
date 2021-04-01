@@ -13,10 +13,11 @@ export default function ReportCard({ content}) {
     // console.log("reportId is this :", reportId);
     const [itemSelected, setItemSelected] = useState(null);
 
+    const { TextArea } = Input; 
+
     // for pop up
     const [visible,setVisible]=useState(false);
 
-    const { TextArea } = Input; 
 
     //for self checkbox
     function onSelfChecked(e) {

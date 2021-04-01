@@ -21,6 +21,7 @@ import { tokenValidator } from "./utils/tokenValidator";
 import AuthRoute from "./utils/AuthRoute";
 import Status from "./pages/Status";
 import ChecklistPhotos from "./pages/ChecklistPhotos";
+import ViewReport from "./components/report/ViewReport";
 
 function App() {
   // let isAuthenticated = useSelector(state => state.user);
@@ -57,11 +58,13 @@ function App() {
             component={Notifications}
           />
           <AuthRoute
-            path={routes.PHOTOS}
+            exact
+            path={`${routes.AUDIT}/:tenantId/:reportType/photos`}
             users={["auditor", "tenant", "staff", "admin"]}
             component={ChecklistPhotos}
           />
-          <Route path={`${routes.AUDIT}/:tenantId/:reportType`} component={Report} />
+          <Route exact path={`${routes.AUDIT}/:tenantId/:reportType`} component={Report} />
+          <Route exact path={`${routes.REPORT}`} component={ViewReport} />
           <Route path="/status/:tenantId" component={Status} />
           <Route
             exact
