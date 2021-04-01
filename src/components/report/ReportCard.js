@@ -84,7 +84,6 @@ export default function ReportCard({ content, loading, error }) {
             />
         );
     }
-    //
 
     if (content)
         return (
@@ -124,6 +123,28 @@ export default function ReportCard({ content, loading, error }) {
 
                         <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
                     </div>  
+                </ReportModal>
+
+                <ReportModal 
+                    id={itemSelected}
+                    title="Email Report PDF to..."
+                    visible = {visible}
+                    actions={[
+                        <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                        <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                    ]}
+                    functions={handleCancel}
+                    maskClosable={false}  
+                >
+                    <div className="flex flex-col">
+
+                    <Row>
+                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
+                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
+                    </Row>
+
+                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                </div>
                 </ReportModal>
 
             </>

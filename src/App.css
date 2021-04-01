@@ -78,6 +78,28 @@
   justify-content: flex-end; */
 }
 
+.swipeable-listitem-Audit {
+  background-color: #1890ff;
+  color: white;
+  height: 100%;
+  flex:1;
+  display: flex;
+  flex-flow:column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.swipeable-listitem-Notify {
+  background-color: #ee8c0d;
+  color: white;
+  height: 100%;
+  flex:1;
+  display: flex;
+  flex-flow:column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
 .swipeable-listitem-content {
   display: flex;
   flex-flow: column;

@@ -32,16 +32,18 @@ export default function Dashboard() {
             <Title level={4} className='flex justify-center bg-blue-100 w-full'>Unrectified Audits</Title>
             </div>
             <div style={{overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
-              <TenantCard style={{zIndex:'0'}}></TenantCard>
+              {/* TODO: Add props - status */}
+              <TenantCard />
             </div>
           </div>
           
           <div>
             <div className='m-5' style={{position:'sticky', top:'0', zIndex:'1'}}>
-            <Title level={4} className='flex justify-center bg-blue-100'>Incomplete Audits</Title>
+            <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title>
             </div>
             <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
-              <TenantCard style={{zIndex:'0'}}></TenantCard>
+              {/* TODO: Add props - status */}
+              <TenantCard />
             </div>
           </div>
           

@@ -8,9 +8,10 @@ import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import TenantListItem from "./TenantListItem";
 
 
-export default function TenantCard({incomplete, unrectified}) {
+export default function TenantCard({ status }) {
 
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
+    // TODO: Query report by auditor and status
     const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
     const { getAllTenants } = data ? data : [];
 
@@ -32,16 +33,8 @@ export default function TenantCard({incomplete, unrectified}) {
         );
     }
 
-    if (unrectified == true){
-        //getAllTenants.status.rectification
-    }
-
-    if(incomplete == true){
-        //getAlltenants.status.draft??
-    }
-
     return (
-        <div>
+        <div className="z-0">
             {
                 getAllTenants.map((tenant) => (
                     <SwipeableList>
