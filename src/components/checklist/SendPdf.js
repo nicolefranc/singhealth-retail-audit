@@ -81,3 +81,4 @@ const SEND_EMAIL = gql`
         sendReportPDFById(reportId: $reportId, addressee: $addressee, remarks: $remarks)
     }
 `;
+

@@ -8,8 +8,8 @@ import { cache } from './cache';
 import { typeDefs } from './graphql/typeDefs';
 
 const httpLink = createUploadLink({
-    uri: 'http://localhost:5000' // pointing to the server
-    // uri: 'https://sra-gql.herokuapp.com/' // production
+    // uri: 'http://localhost:5000' // pointing to the server
+    uri: 'https://sra-gql.herokuapp.com/' // production
 });
 
 const client = new ApolloClient({

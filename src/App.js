@@ -63,12 +63,12 @@ function App() {
                         users={["admin", "auditor", "tenant"]}
                         component={Settings}
                     />
-                    <AuthRoute
+                    <AuthRoute exact
                         path={`${routes.AUDIT}/:tenantId/:reportType/photos`}
                         users={["admin", "auditor", "tenant"]}
                         component={ChecklistPhotos}
                     />
-                    <AuthRoute
+                    <AuthRoute exact
                         path={`${routes.AUDIT}/:tenantId/:reportType`}
                         users={["admin", "auditor"]}
                         component={Report}
@@ -81,8 +81,7 @@ function App() {
                         component={Status} 
                         users={["admin", "auditor", "tenant"]} 
                     />
-                    <AuthRoute
-                        exact
+                    <AuthRoute exact
                         path={`${routes.AUDIT}/:tenantId`}
                         users={["admin", "auditor"]}
                         component={ChecklistTemplates}
