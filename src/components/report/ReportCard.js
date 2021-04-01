@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
-import {Skeleton,Tag, Button,Empty,Spin,Input,Row,Col,Checkbox} from "antd";
+import {Skeleton,Tag, Button,Empty,Spin,Row,Col,Checkbox} from "antd";
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
-import ReportModal from './ReportModal';
 import SendPdf from '../checklist/SendPdf';
+import ReportModal from './ReportModal';
+import { routes } from '../../const';
+import { useHistory } from 'react-router';
+import TextArea from 'antd/lib/input/TextArea';
+	
+export default function ReportCard({ content, loading, error }) {
 
-export default function ReportCard({ content,loading,error}) {
     const reportId = content.id;
-    // console.log(reportId);
-
+    // console.log("reportId is this :", reportId);
     const [itemSelected, setItemSelected] = useState(null);
+    const history = useHistory();
 
     // for pop up
     const [visible,setVisible]=useState(false);
 
-    const { TextArea } = Input;
 
     //for self checkbox
     function onSelfChecked(e) {
@@ -27,6 +30,7 @@ export default function ReportCard({ content,loading,error}) {
         console.log(`tenant = ${e.target.checked}`);
         setSendTenant(e.target.checked);
     }
+
     function updateRemarks(e){
         setRemarks(e.target.value);
     }
@@ -35,6 +39,7 @@ export default function ReportCard({ content,loading,error}) {
     const [sendTenant, setSendTenant] = useState(false);
     const [remarks, setRemarks] = useState("");
 
+    
     const showModal = (index) => {
         setVisible(true);
         setItemSelected(index);
@@ -56,6 +61,10 @@ export default function ReportCard({ content,loading,error}) {
         ),
         action: () => showModal(reportId)
     });
+
+    const goToReport = () => {
+        history.push(`${routes.REPORT}/${reportId}`)
+    }
 
     //
     if(loading || error) {
@@ -80,10 +89,10 @@ export default function ReportCard({ content,loading,error}) {
     if (content)
         return (
             <>
-                    <SwipeableListItem 
-                        swipeLeft={swipeLeftOptions(content.type)}
-                    >
-                        <div className="swipeable-listitem p-2.5 flex-1">
+                <SwipeableListItem 
+                    swipeLeft={swipeLeftOptions(content.type)}
+                >
+                    <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
 
                             <div className="flex items-center">
                                 <span className="swipeable-listitem-name mr-2">{content.type}</span>
@@ -95,18 +104,18 @@ export default function ReportCard({ content,loading,error}) {
                     </SwipeableListItem>
                     
 
-                    <ReportModal 
-                        id={itemSelected}
-                        title="Email Report PDF to..."
-                        visible = {visible}
-                        actions={[
-                            <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                            <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
-                        ]}
-                        functions={handleCancel}
-                        maskClosable={false}  
-                    >
-                        <div className="flex flex-col">
+                <ReportModal
+                    id={itemSelected}
+                    title="Email Report PDF to..."
+                    visible = {visible}
+                    actions={[
+                        <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                        <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                    ]}
+                    functions={handleCancel}
+                    maskClosable={false}
+                >
+                    <div className="flex flex-col">
 
                         <Row>
                             <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
@@ -114,38 +123,11 @@ export default function ReportCard({ content,loading,error}) {
                         </Row>
 
                         <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
-                    </div>
-                    </ReportModal>
-
-                
-                
+                    </div>  
+                </ReportModal>
 
             </>
         )
     
     return <Skeleton />
 }
-
-
-{/* <Modal
-        visible={visible}
-        title="Email Report PDF to..."
-        centered
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={[
-            <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-            // <Button key="save" className="" onClick={handleOk}>Send</Button>,
-            <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
-        ]}
-    >
-        <div className="flex flex-col">
-
-            <Row>
-                <Col span={6}><Checkbox onChange={onChange}>Self</Checkbox></Col>
-                <Col span={6}><Checkbox onChange={onChange}>Tenant</Checkbox></Col>
-            </Row>
-            
-            <TextArea placeholder="Remarks" autoSize className="mt-5" />
-        </div>    
-    </Modal> */}

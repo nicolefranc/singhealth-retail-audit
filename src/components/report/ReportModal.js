@@ -1,10 +1,8 @@
-import { Modal } from "antd";
-import TextArea from "antd/lib/input/TextArea";
-import { useDispatch, useSelector } from "react-redux";
+import Modal from "antd/lib/modal/Modal";
 
-export default function ReportModal({ id, title, visible, actions, functions,maskClosable,children } ) {
+export default function ReportModal({ id, title, visible, actions, functions, maskClosable,children }) {
+    if (maskClosable == null) maskClosable = true
 
-    
     return (
         <Modal
             id={id}

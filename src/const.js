@@ -10,6 +10,8 @@ export const routes = {
     CHECKLIST_COVID:'/checklist-covid',
     TEMPLATES: '/checklist-templates',
     PHOTOS:'/checklist-photos',
+    REPORT: '/report',
+    CREATE_USER: '/createuser',
     AUDIT: '/audit'
 };
 

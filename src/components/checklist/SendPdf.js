@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 
-import { FETCH_REPORT } from "../../graphql/queries";
+import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import { tokenValidator } from "../../utils/tokenValidator";
 
 export default function SendPdf({
@@ -14,7 +14,7 @@ export default function SendPdf({
     addressee,
 }) 
 {
-    const { data } = useQuery(FETCH_REPORT, {
+    const { data } = useQuery(FETCH_REPORT_BY_ID, {
         variables: { reportId: reportId },
     });
 
@@ -81,4 +81,3 @@ const SEND_EMAIL = gql`
         sendReportPDFById(reportId: $reportId, addressee: $addressee, remarks: $remarks)
     }
 `;
-

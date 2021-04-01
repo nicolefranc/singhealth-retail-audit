@@ -14,7 +14,7 @@ export default function Dashboard() {
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isTenant = validatorResult.type === "tenant";
-  const isAuditor = validatorResult.type === "auditor" || validatorResult.type === "staff" || validatorResult.type === "admin";
+  const isAuditor = ["auditor","admin"].includes(validatorResult.type);
 
   return (
     <>
@@ -28,8 +28,8 @@ export default function Dashboard() {
           </div>
 
           <div>
-            <div className='m-5' style={{position:'sticky', top:'0', zIndex:'100'}}>
-              <Title level={4} className='flex justify-center bg-blue-100 w-full'>Unrectified Audits</Title>
+            <div className="m-5" style={{position:'sticky', top:'0', zIndex:'1'}}>
+            <Title level={4} className='flex justify-center bg-blue-100 w-full'>Unrectified Audits</Title>
             </div>
             <div style={{overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
               <TenantCard style={{zIndex:'0'}}></TenantCard>
@@ -37,8 +37,8 @@ export default function Dashboard() {
           </div>
           
           <div>
-            <div className='m-5' style={{position:'sticky', top:'0', zIndex:'100'}}>
-              <Title level={4} className='flex justify-center bg-blue-100'>Incomplete Audits</Title>
+            <div className='m-5' style={{position:'sticky', top:'0', zIndex:'1'}}>
+            <Title level={4} className='flex justify-center bg-blue-100'>Incomplete Audits</Title>
             </div>
             <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
               <TenantCard style={{zIndex:'0'}}></TenantCard>

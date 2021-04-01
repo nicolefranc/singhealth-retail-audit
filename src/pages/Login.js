@@ -1,8 +1,6 @@
-import { Row, Col, Form, Input, Button, Radio, Checkbox, Alert, Typography } from "antd";
+import { Form, Input, Button, Radio, Checkbox, Alert, Typography } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import React, { useContext, useState } from "react";
-import Dashboard from "./Dashboard";
-import { Redirect } from "react-router-dom";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
@@ -10,19 +8,18 @@ import SingHealth_Logo from "../assets/images/SingHealth_Logo.png";
 
 import { useDispatch } from 'react-redux';
 
-import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 import { login } from "../redux/actions/auth";
 
 const {Title} = Typography;
 
 export default function Login(props) {
-  const context = useContext(AuthContext);
+
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
   //   const [form] = Form.useForm();
-  const [requiredMark, setRequiredMarkType] = useState("staff");
+  const [requiredMark, setRequiredMarkType] = useState("auditor");
 
   const onRequiredTypeChange = ({ requiredMarkValue }) => {
     setRequiredMarkType(requiredMarkValue);
@@ -37,15 +34,15 @@ export default function Login(props) {
     password: "",
   });
 
-  const [loginAs, setLoginAs] = useState("Staff");
+  const [loginAs, setLoginAs] = useState("auditor");
 
   function handleLoginAs(event) {
     setLoginAs(event.target.value);
-    LOGIN_USER = event.target.value === "Staff" ? LOGIN_AUDITOR : LOGIN_TENANT; //to change the graphql query depending on what the user want's to "login as"
+    LOGIN_USER = event.target.value === "auditor" ? LOGIN_AUDITOR : LOGIN_TENANT; //to change the graphql query depending on what the user want's to "login as"
     console.log(LOGIN_USER);
   }
 
-  var LOGIN_USER = loginAs === "Staff" ? LOGIN_AUDITOR : LOGIN_TENANT;
+  var LOGIN_USER = loginAs === "auditor" ? LOGIN_AUDITOR : LOGIN_TENANT;
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(cache, result) {
@@ -84,13 +81,13 @@ export default function Login(props) {
     <>
       {/* <div className="flex justify-between">
             <Button className='ml-16' size='large'>Login as Tenant</Button>
-            <Button className='mr-16' size='large'>Login as Staff</Button>
+            <Button className='mr-16' size='large'>Login as auditor</Button>
         </div> */}
 
       
       <div className='flex justify-center mb-12 '>
 
-        <img src={SingHealth_Logo} style={{maxWidth: '100%', maxHeight: '100%'}}/>
+        <img src={SingHealth_Logo} style={{maxWidth: '100%', maxHeight: '100%'}} alt='SingHealth' />
 
       </div>
 
@@ -110,8 +107,8 @@ export default function Login(props) {
             <Radio.Button value="tenant" onClick={handleLoginAs}>
               Tenant
             </Radio.Button>
-            <Radio.Button value="Staff" onClick={handleLoginAs}>
-              Staff
+            <Radio.Button value="auditor" onClick={handleLoginAs}>
+              auditor
             </Radio.Button>
           </Radio.Group>
           </div>

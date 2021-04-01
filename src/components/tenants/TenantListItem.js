@@ -2,8 +2,9 @@ import { Divider, Skeleton,Tag } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
 import { noOp } from '@sandstreamdev/std/function';
-import SwipeContent from '../../components/swipe/SwipeContent';
-import {SwipeableListItem,SwipeableList,} from '@sandstreamdev/react-swipeable-list';
+// import SwipeContent from '../../components/swipe/SwipeContent';
+import SwipeContentv2 from '../../components/swipe/SwipeContentv2';
+import { SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
 import React, { useState } from 'react';
 
@@ -21,40 +22,38 @@ export default function TenantListItem({ content, checkboxVisible }) {
         console.log(`checked: ${e.target.checked}`)
     }
 
-    // For swipe functionality
     let history = useHistory();
-    const handleSwipe = () => {
+    
+    // For swipe functionality
+    const swipeToAudit = () => {
         history.push(`audit/${tenantId}`);
     }
 
-
+    const swipeToNotify=()=>{
+        history.push(`status/${tenantId}`);
+    }
         
-        
-
-
-    const swipeRightOptions = () => ({
-        
+    const swipeNotifyOptions = () => ({
         content: (
-            <SwipeContent
+            <SwipeContentv2
             label="Notify"
             position="right"
             icon={<NotificationOutlined />}
             />
         ),
-        action: noOp
-        
+        action: swipeToNotify()
     });
     
    
-    const swipeLeftOptions = () => ({
+    const swipeAuditOptions = () => ({
         content: (
-            <SwipeContent
+            <SwipeContentv2
             label="Audit"
             position="right"
             icon={<EditOutlined />}
             />
         ),
-        action: () => handleSwipe()
+        action: () => swipeToAudit()
     });
 
     const [swipeProgress, handleSwipeProgress] = useState(0);
@@ -71,9 +70,10 @@ export default function TenantListItem({ content, checkboxVisible }) {
                 {/* reset useState */}
                 <SwipeableListItem 
                     extra={ checkboxVisible && <Checkbox onChange={handleCheckbox}/>}
-                    swipeLeft={(handleSwipeProgress<=20) ? swipeLeftOptions(content.name): swipeRightOptions(content.name)}
+                    // swipeLeft={(handleSwipeProgress<=20) ? swipeLeftOptions(content.name) : swipeRightOptions(content.name)}
+                    swipeLeft={(swipeProgress<70) ? swipeAuditOptions(content.name): swipeNotifyOptions(content.name)}
                     // swipeRight={}
-                    onSwipeProgress={handleSwipeProgress }
+                    onSwipeProgress={handleSwipeProgress}
                     onSwipeEnd={handleSwipeEnd}
                     // key={id}
                 >

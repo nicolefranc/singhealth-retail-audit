@@ -3,12 +3,12 @@ import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import {Performance} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message, Layout, Empty, Tag, Row, Col,Spin } from 'antd';
+import { Typography, Button, Popconfirm, message, Layout, Empty, Tag, Row, Col,Spin, Result } from 'antd';
 
+import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
+import ReportCard from "../components/report/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
 import { useParams } from "react-router";
-import ReportCard from '../components/report/ReportCard';
-import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
@@ -19,20 +19,25 @@ export default function TenantDetail() {
     const { loading, error,data } = useQuery(FETCH_TENANT_DETAILS, {
         variables: { getAllReportsByTenantTenantId: tenantId }
     });
-    const { getAllReportsByTenant } = data ;
-    console.log(getAllReportsByTenant);
 
     function confirm(e) {
         console.log(e);
         message.success('Tenant Deleted');
     }
 
+    if (loading) return <Spin />
+    else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+
       
+    const { getAllReportsByTenant } = data ;
+    console.log('reports');
+    console.log(getAllReportsByTenant);
 
     return (    
         <>
             <div className='flex justify-between'>
-                <Title>{getAllReportsByTenant[0].tenantId.name}</Title> {/* HELP */}
+                <Title>{getAllReportsByTenant[0].tenantId.name}</Title> 
+                {/* HELP */}
     
                 <Button type="primary" danger>
                     <Popconfirm
@@ -81,6 +86,23 @@ export default function TenantDetail() {
             
             <div className='mb-20' >
                 <PerformanceGraph content={Performance} type= {undefined}/>
+                
+                
+                <span className="block bg-gray-50 h-12 swipeable-listitem">
+
+                    <Title className='mt-10 p-2' level={4}>Past Audits</Title>
+                </span>
+                {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
+                {
+                    getAllReportsByTenant ? getAllReportsByTenant.map((report, index)=> (
+                        <SwipeableList key={index}>
+                            <ReportCard content={report}  />
+                        </SwipeableList>
+                    )):
+                    <div className="flex w-full justify-center items-center">
+                        <Spin tip="Loading..." size="large" />
+                    </div>
+                }
             </div>
             <div>
                 <div className='m-5' style={{position:'sticky', top:'0', zIndex:'100'}}>
@@ -101,15 +123,3 @@ export default function TenantDetail() {
         </>
     )
 }
-
-
-
-{/* <div className='justify-between flex'>
-        <div className='fab-container' style={{width: '30%'}}>
-            <Button className='ml-16' shape='round' size='large' type="primary" block={true}>Audit</Button> 
-        </div>
-
-        <div className='fab-container-right mr-16' style={{width: '30%'}}>
-            <Button shape='round' size='large' type="primary" block={true}>Notify</Button> 
-        </div>  
-    </div> */}

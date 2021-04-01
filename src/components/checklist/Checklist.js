@@ -4,12 +4,11 @@ import { Collapse, Input , Divider, Button,Typography } from "antd";
 import Item from './Item';
 import { useSelector } from 'react-redux';
 import { round } from '../../utils/utils';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { routes } from '../../const';
 
 export default function Checklist({ data }) {
     // data is an array of category objects
-
     const { Title } = Typography;
 
     //for dropdown
@@ -17,6 +16,7 @@ export default function Checklist({ data }) {
 
     //for 'remarks' input box
     const { TextArea } = Input; 
+    const { tenantId, reportType } = useParams();
     const checklist = useSelector(state => state.report.checklist);
     const [total, setTotal] = useState(0);
     
@@ -78,7 +78,7 @@ export default function Checklist({ data }) {
             
             <Title level={4} className="text-right ">Total: {round(total, 1)}/100%</Title>
             
-            <Link to={routes.PHOTOS} class="absolute bottom-0 right-0">
+            <Link to={`${routes.AUDIT}/${tenantId}/${reportType}/photos`} class="absolute bottom-0 right-0">
                 <Button type="primary" >Next</Button>
             </Link>  
         </div>

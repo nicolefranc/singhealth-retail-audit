@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Card, Modal, Button, Image,Input,Typography,Upload, Divider, Carousel, Empty} from 'antd';
-import { DeleteOutlined,EditOutlined,UploadOutlined} from '@ant-design/icons';
-import CameraButton from '../../components/CameraButton';
-import { useEffect } from 'react';
+import { Card,Button,Input,Typography, Carousel} from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeImage } from '../../redux/actions/image';
 import NonCompliances from '../upload/NonCompliances';
 
-const { Title } = Typography;
 // for card
 const { Meta } = Card; 
 
@@ -32,8 +29,6 @@ export default function Photo(){
         setVisible(false);
     };
 
-    //for 'remarks' input box
-    const { TextArea } = Input; 
 
     //for CameraButton
     const [imgSources, setImgSources] = useState([]);
