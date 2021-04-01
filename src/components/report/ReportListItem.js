@@ -1,26 +1,40 @@
 import React, { useState } from 'react';
 import { Divider, Skeleton,Tag, Modal, Button, Input,Row,Col } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
-import SwipeContent from '../../components/swipe/SwipeContent';
+import SwipeContent from '../swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
+import Pdf from '../checklist/Pdf';
 import SendPdf from '../checklist/SendPdf';
-import ReportModal from './ReportModal';
-import { routes } from '../../const';
-import { useHistory } from 'react-router';
-	
-export default function ReportCard({ content}) {
+import { useQuery } from '@apollo/client';
+import { FETCH_REPORT_BY_ID } from '../../graphql/queries';
+
+export default function ReportListItem({ content }) {
 
     const reportId = content.id;
-    // console.log("reportId is this :", reportId);
-    const [itemSelected, setItemSelected] = useState(null);
-    const history = useHistory();
+    console.log("reportId is this :", reportId);
+
 
     const { TextArea } = Input; 
 
     // for pop up
     const [visible,setVisible]=useState(false);
 
+    const [sendSelf, setSendSelf] = useState(false);
+    const [sendTenant, setSendTenant] = useState(false);
+    const [remarks, setRemarks] = useState("");
+    
+    const showModal = () => {
+        setVisible(true);
+    };
+
+    const handleOk = () => {
+        setVisible(false)
+    };
+
+    const handleCancel = () => {
+        setVisible(false);
+    };
 
     //for self checkbox
     function onSelfChecked(e) {
@@ -37,21 +51,6 @@ export default function ReportCard({ content}) {
         setRemarks(e.target.value);
     }
 
-    const [sendSelf, setSendSelf] = useState(false);
-    const [sendTenant, setSendTenant] = useState(false);
-    const [remarks, setRemarks] = useState("");
-
-    
-    const showModal = (index) => {
-        setVisible(true);
-        setItemSelected(index);
-        console.log(index);
-    };
-
-    const handleCancel = () => {
-        setVisible(false);
-    };
-
     // For swipe functionality  
     const swipeLeftOptions = () => ({
         content: (
@@ -61,20 +60,17 @@ export default function ReportCard({ content}) {
             icon={<MailOutlined />}
             />
         ),
-        action: () => showModal(reportId)
+        action: () => showModal()
     });
-
-    const goToReport = () => {
-        history.push(`${routes.REPORT}/${reportId}`)
-    }
 
     if (content)
         return (
             <>
+                
                 <SwipeableListItem 
                     swipeLeft={swipeLeftOptions(content.type)}
                 >
-                    <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
+                    <div className="swipeable-listitem p-2.5 flex-1">
 
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name mr-2">{content.type}</span>
@@ -89,16 +85,18 @@ export default function ReportCard({ content}) {
                     </div>
                 </SwipeableListItem>
 
-                <ReportModal
-                    id={itemSelected}
+                <Modal
+                    visible={visible}
                     title="Email Report PDF to..."
-                    visible = {visible}
-                    actions={[
+                    centered
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    footer={[
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                        // <Button key="save" className="" onClick={handleOk}>Send</Button>,
+                        // <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>,
+                        <SendPdf reportId="6060d37dc9fd5a18c33be070" sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
                     ]}
-                    functions={handleCancel}
-                    maskClosable={false}
                 >
                     <div className="flex flex-col">
 
@@ -106,11 +104,10 @@ export default function ReportCard({ content}) {
                             <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
                             <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
                         </Row>
-
+                        
                         <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
-                    </div>  
-                </ReportModal>
-
+                    </div>    
+                </Modal>
             </>
         )
     

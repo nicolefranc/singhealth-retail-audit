@@ -9,6 +9,7 @@ import { initReport } from "../redux/actions/report";
 import { useParams } from "react-router";
 import { routes } from "../const";
 import { Link } from "react-router-dom";
+import { FETCH_CHECKLIST } from "../graphql/queries";
 
 
 
@@ -17,22 +18,23 @@ export default function Report() {
     const dispatch = useDispatch();
     const { tenantId, reportType } = useParams();
     const type = reportType;
-    const { loading, error, data } = useQuery(FETCH_REPORT_TEMPLATE_QUERY, {
-        variables: { type }
+    const { loading, error, data } = useQuery(FETCH_CHECKLIST, {
+        variables: {
+            "getReportTemplateType": reportType,
+            "getTenantByIdId": tenantId
+        }
     });
-    const tenantQuery = useQuery(FETCH_TENANT, {
-        variables: { tenantId }
-    });
+    
     const reportInState = useSelector(state => state.report);
 
-    if (loading || tenantQuery.loading) {
+    if (loading) {
         // console.log("loading");
         return (
             <Skeleton loading={true} />
         )
     }
 
-    else if (error || tenantQuery.error) {
+    else if (error) {
         console.log(error.message);
         const statusCode = error.message.substring(error.message.length - 3);
         const message = error.message.split(':')[0];
@@ -46,8 +48,7 @@ export default function Report() {
         )   
     }
 
-    const { getReportTemplate } = data;
-    const { getTenantById } = tenantQuery.data; // TODO: Pass auditorId to report state
+    const { getReportTemplate, getTenantById } = data; // TODO: Pass auditorId to report state
     const { Title } = Typography;
     
     const report = {...getReportTemplate};
@@ -65,52 +66,3 @@ export default function Report() {
         </>
     )
 }
-
-const FETCH_TENANT = gql`
-    query($tenantId: String!) {
-        getTenantById(id: $tenantId) {
-            id
-            name
-            institution
-        }
-    }
-`
-
-const FETCH_REPORT_TEMPLATE_QUERY = gql`
-    query($type: String!) {
-        getReportTemplate(type: $type) {
-            type
-            checklist {
-                category
-                weightage
-                score
-                subcategories {
-                    subcategory
-                    subcatScore
-                    lineItems {
-                        id
-                        lineItem
-                        complied
-                    }
-                }
-            }
-        }
-    }
-`
-
-// tenantId
-// auditorId
-// auditDate
-// auditScore
-
-// extension {
-//     status
-//     proposed {
-//         date
-//         remarks
-//     }
-//     final {
-//         date
-//         remarks
-//     }
-// }

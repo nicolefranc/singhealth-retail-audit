@@ -29,15 +29,15 @@ export default function TenantCard({incomplete, unrectified}) {
     return (
         <div>
             {
-                    getAllTenants ? getAllTenants.map((tenant, index) => (
-                        <SwipeableList>
-                            <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
-                        </SwipeableList>
-                    )) : 
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
-                }
+                getAllTenants ? getAllTenants.map((tenant, index) => (
+                    <SwipeableList key={index}>
+                        <TenantListItem key={index} content={tenant} checkboxVisible={checkboxVisibility} />
+                    </SwipeableList>
+                )) : 
+                <div className="flex w-full justify-center items-center">
+                    <Spin tip="Loading..." size="large" />
+                </div>
+            }
         </div>
     )
 }
