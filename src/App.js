@@ -64,7 +64,7 @@ function App() {
             component={ChecklistPhotos}
           />
           <Route exact path={`${routes.AUDIT}/:tenantId/:reportType`} component={Report} />
-          <Route exact path={`${routes.REPORT}`} component={ViewReport} />
+          <Route exact path={`${routes.REPORT}/:reportId`} component={ViewReport} />
           <Route path="/status/:tenantId" component={Status} />
           <Route
             exact

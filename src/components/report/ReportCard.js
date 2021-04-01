@@ -6,12 +6,15 @@ import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
 import SendPdf from '../checklist/SendPdf';
 import ReportModal from './ReportModal';
+import { routes } from '../../const';
+import { useHistory } from 'react-router';
 	
 export default function ReportCard({ content}) {
 
     const reportId = content.id;
     // console.log("reportId is this :", reportId);
     const [itemSelected, setItemSelected] = useState(null);
+    const history = useHistory();
 
     const { TextArea } = Input; 
 
@@ -61,13 +64,17 @@ export default function ReportCard({ content}) {
         action: () => showModal(reportId)
     });
 
+    const goToReport = () => {
+        history.push(`${routes.REPORT}/${reportId}`)
+    }
+
     if (content)
         return (
             <>
                 <SwipeableListItem 
                     swipeLeft={swipeLeftOptions(content.type)}
                 >
-                    <div className="swipeable-listitem p-2.5 flex-1">
+                    <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
 
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name mr-2">{content.type}</span>

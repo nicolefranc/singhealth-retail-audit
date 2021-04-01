@@ -2,6 +2,7 @@ import { BellOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
 import { Button, Descriptions, PageHeader, Popover, Result, Row, Spin, Statistic, Tabs, Tag } from "antd";
 import Title from "antd/lib/typography/Title";
+import { useParams } from "react-router";
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import ViewChecklist from "./ViewChecklist";
 
@@ -15,8 +16,9 @@ const infoContent = (
 
 export default function ViewReport() {
     // TODO: retrieve from params instead
-    const reportId = "6060d37dc9fd5a18c33be070"
-    const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, { variables: { getReportByIdReportId: reportId }, fetchPolicy: 'cache-first' });
+    const { reportId } = useParams();
+    // const reportId = "6060d37dc9fd5a18c33be070";
+    const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, { variables: { getReportByIdReportId: reportId }, fetchPolicy: 'network-only' });
 
 
     if (loading) return <Spin size="large" />
