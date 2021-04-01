@@ -75,50 +75,46 @@ export default function ReportCard({ content,loading,error}) {
             />
         );
     }
-    //
 
     if (content)
         return (
             <>
-                    <SwipeableListItem 
-                        swipeLeft={swipeLeftOptions(content.type)}
-                    >
-                        <div className="swipeable-listitem p-2.5 flex-1">
+                <SwipeableListItem 
+                    swipeLeft={swipeLeftOptions(content.type)}
+                >
+                    <div className="swipeable-listitem p-2.5 flex-1">
 
-                            <div className="flex items-center">
-                                <span className="swipeable-listitem-name mr-2">{content.type}</span>
-                                <Tag color="red">{content.status}</Tag>
-                                <Tag color="warning">{content.extension}</Tag>
-                            </div>
-                            <div >Audit Date: {content.auditDate}</div>
+                        <div className="flex items-center">
+                            <span className="swipeable-listitem-name mr-2">{content.type}</span>
+                            <Tag color="red">{content.status}</Tag>
+                            <Tag color="warning">{content.extension}</Tag>
                         </div>
-                    </SwipeableListItem>
-                    
-
-                    <ReportModal 
-                        id={itemSelected}
-                        title="Email Report PDF to..."
-                        visible = {visible}
-                        actions={[
-                            <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                            <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
-                        ]}
-                        functions={handleCancel}
-                        maskClosable={false}  
-                    >
-                        <div className="flex flex-col">
-
-                        <Row>
-                            <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
-                            <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
-                        </Row>
-
-                        <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                        <div >Audit Date: {content.auditDate}</div>
                     </div>
-                    </ReportModal>
+                </SwipeableListItem>
+                
 
-                
-                
+                <ReportModal 
+                    id={itemSelected}
+                    title="Email Report PDF to..."
+                    visible = {visible}
+                    actions={[
+                        <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                        <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                    ]}
+                    functions={handleCancel}
+                    maskClosable={false}  
+                >
+                    <div className="flex flex-col">
+
+                    <Row>
+                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
+                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
+                    </Row>
+
+                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                </div>
+                </ReportModal>
 
             </>
         )

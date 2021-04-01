@@ -27,8 +27,6 @@ export default function TenantDetail() {
         message.success('Tenant Deleted');
     }
 
-      
-
     return (    
         <>
             <div className='flex justify-between'>
