@@ -1,12 +1,11 @@
-import { useQuery } from "@apollo/client";
-import { Collapse, Result, Spin } from "antd";
-import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
-import Item from "../checklist/Item";
+import { Collapse, List } from "antd";
+import tick from '../../assets/images/tick.png';
+import wrong from '../../assets/images/wrong.png';
+import na from '../../assets/images/not-applicable.png';
+import Checkbox from "../checklist/Checkbox";
+
 const { Panel } = Collapse;
-
 export default function ViewChecklist({ checklist }) {
-
-    console.log(checklist);
 
     return (
         <Collapse accordion defaultActiveKey='1'  className="site-collapse-custom-collapse">
@@ -15,8 +14,8 @@ export default function ViewChecklist({ checklist }) {
                         <Collapse accordion defaultActiveKey="1"  className="site-collapse-custom-collapse">
                             {   
                                 category.subcategories.map((subcategory, sIndex) => {
-                                    return <Panel header={subcategory.subcategory} key={sIndex+1} >
-                                        <Item items={subcategory.lineItems} cIndex={cIndex} sIndex={sIndex} />
+                                    return <Panel header={subcategory.subcategory} key={sIndex+1} className="p-0 m-0" >
+                                        <ViewItems items={subcategory.lineItems} />
                                     </Panel>
                                 })
                             }
@@ -27,4 +26,30 @@ export default function ViewChecklist({ checklist }) {
         </Collapse>
             
     )
+}
+
+const ViewItems = ({ items }) => {
+    let itemsSrc = [];
+    items.forEach(lineItemObj => {
+        itemsSrc = [...itemsSrc, lineItemObj.lineItem];
+    });
+
+    return (
+        <List dataSource={itemsSrc} renderItem={(item, index) => {
+            let complied = items[index].complied;
+            console.log(complied);
+            return <List.Item>
+                <div className="flex gap-2 row justify-between items-center w-full font-normal">
+                    <p className="">{ item }</p>
+                    <img src={getCompliedImg(complied)} alt={`${complied}`} width={30} />
+                </div>
+            </List.Item>
+        }} />
+    )
+}
+
+const getCompliedImg = (complied) => {
+    if (complied) return tick;
+    else if (complied === false) return wrong;
+    else if (complied === null) return na;
 }
