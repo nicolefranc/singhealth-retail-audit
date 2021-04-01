@@ -20,16 +20,47 @@ export const FETCH_TENANT_DETAILS =gql`
     }
 `
 
-// export const FETCH_TENANT_STATUS_DETAILS=gql`
-//     query($getReportByTenantAndStatusTenantId: String!, $getReportByTenantAndStatusStatus: String!){
-//         getReportByTenantAndStatus(tenantId: $getReportByTenantAndStatusTenantId, status: $getReportByTenantAndStatusStatus){
-//             tenantId{
-//                 id
-//                 name
-//                 institution
-//             }
-//             status
-//             auditDate
-//         }
-//     }
-// `
+export const FETCH_REPORT= gql`
+query ($reportId: String!){
+getReportById(reportId: $reportId) {
+  id
+  type
+  tenantId{
+      email
+  }
+  auditorId{
+      id
+  }
+  auditDate
+  auditScore
+  status
+  extension{
+    proposed{
+      date
+      remarks
+    }
+    final{
+      date
+      remarks
+    }
+    status
+  } 
+  checklist{
+    id
+    weightage
+    score
+    subcategories{
+      subcategory
+      subcatScore
+      lineItems{
+        id
+        lineItem
+        complied
+      }
+    }
+    category
+    score
+  }
+} 
+}
+`

@@ -3,8 +3,9 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
 import { noOp } from '@sandstreamdev/std/function';
 import SwipeContent from '../../components/swipe/SwipeContent';
-import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
+import {SwipeableListItem,SwipeableList,} from '@sandstreamdev/react-swipeable-list';
 import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
+import React, { useState } from 'react';
 
 export default function TenantListItem({ content, checkboxVisible }) {
 
@@ -26,17 +27,25 @@ export default function TenantListItem({ content, checkboxVisible }) {
         history.push(`audit/${tenantId}`);
     }
 
+
+        
+        
+
+
     const swipeRightOptions = () => ({
+        
         content: (
             <SwipeContent
             label="Notify"
-            position="left"
+            position="right"
             icon={<NotificationOutlined />}
             />
         ),
         action: noOp
-        });
         
+    });
+    
+   
     const swipeLeftOptions = () => ({
         content: (
             <SwipeContent
@@ -48,18 +57,28 @@ export default function TenantListItem({ content, checkboxVisible }) {
         action: () => handleSwipe()
     });
 
+    const [swipeProgress, handleSwipeProgress] = useState(0);
+    // console.log(swipeProgress);
+
+    const handleSwipeEnd = () => {
+        handleSwipeProgress(0);
+    };
+
     if (content)
         return (
             <>
-                
+                {/* edit if else */}
+                {/* reset useState */}
                 <SwipeableListItem 
                     extra={ checkboxVisible && <Checkbox onChange={handleCheckbox}/>}
-                    swipeLeft={swipeLeftOptions(content.name)}
-                    swipeRight={swipeRightOptions(content.name)}
+                    swipeLeft={(handleSwipeProgress<=20) ? swipeLeftOptions(content.name): swipeRightOptions(content.name)}
+                    // swipeRight={}
+                    onSwipeProgress={handleSwipeProgress }
+                    onSwipeEnd={handleSwipeEnd}
                     // key={id}
                 >
                     <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick}>
-
+                    
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name">{content.name}</span>
                         

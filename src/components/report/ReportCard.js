@@ -1,19 +1,40 @@
 import React, { useState } from 'react';
-import {Skeleton,Tag, Button } from "antd";
+import {Skeleton,Tag, Button,Empty,Spin,Input,Row,Col,Checkbox} from "antd";
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
-import EmailModal from './EmailModal';
+import ReportModal from './ReportModal';
+import SendPdf from '../checklist/SendPdf';
 
-export default function ReportCard({ content}) {
-
+export default function ReportCard({ content,loading,error}) {
     const reportId = content.id;
+    // console.log(reportId);
 
     const [itemSelected, setItemSelected] = useState(null);
 
     // for pop up
     const [visible,setVisible]=useState(false);
-    
+
+    const { TextArea } = Input;
+
+    //for self checkbox
+    function onSelfChecked(e) {
+        console.log(`self = ${e.target.checked}`);
+        setSendSelf(e.target.checked);
+    }
+    //for tenant checkbox
+    function onTenantChecked(e) {
+        console.log(`tenant = ${e.target.checked}`);
+        setSendTenant(e.target.checked);
+    }
+    function updateRemarks(e){
+        setRemarks(e.target.value);
+    }
+
+    const [sendSelf, setSendSelf] = useState(false);
+    const [sendTenant, setSendTenant] = useState(false);
+    const [remarks, setRemarks] = useState("");
+
     const showModal = (index) => {
         setVisible(true);
         setItemSelected(index);
@@ -36,41 +57,68 @@ export default function ReportCard({ content}) {
         action: () => showModal(reportId)
     });
 
+    //
+    if(loading || error) {
+        return (
+            <div className="flex w-full justify-center items-center">
+                    <Spin tip="Loading..." size="large" />
+            </div>
+        );
+    }
+    if(!content) {
+        return (
+            <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                    <span>No Tenants Found</span>
+                }
+            />
+        );
+    }
+    //
+
     if (content)
         return (
             <>
-                <SwipeableListItem 
-                    swipeLeft={swipeLeftOptions(content.type)}
-                >
-                    <div className="swipeable-listitem p-2.5 flex-1">
+                    <SwipeableListItem 
+                        swipeLeft={swipeLeftOptions(content.type)}
+                    >
+                        <div className="swipeable-listitem p-2.5 flex-1">
 
-                        <div className="flex items-center">
-                            <span className="swipeable-listitem-name mr-2">{content.type}</span>
-                            <Tag color="red">{content.status}</Tag>
+                            <div className="flex items-center">
+                                <span className="swipeable-listitem-name mr-2">{content.type}</span>
+                                <Tag color="red">{content.status}</Tag>
+                                <Tag color="warning">{content.extension}</Tag>
+                            </div>
+                            <div >Audit Date: {content.auditDate}</div>
                         </div>
-                        <div className="flex">
-                            <div className="mr-2">Audit Date: {content.auditDate}</div>
-                            
-                            {/* <Tag color="warning">{content.extStatus}</Tag> */}
-                        </div>
-                        
-                    </div>
-                </SwipeableListItem>
+                    </SwipeableListItem>
+                    
 
-                <EmailModal 
-                    id={itemSelected}
-                    checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}
-                    modal={{
-                        title: "Email Report PDF to...",
-                        visible: visible,
-                        actions: [
+                    <ReportModal 
+                        id={itemSelected}
+                        title="Email Report PDF to..."
+                        visible = {visible}
+                        actions={[
                             <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                            // <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
-                        ],
-                        functions: {
-                            handleCancel
-                    }
-                }}/>
+                            <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                        ]}
+                        functions={handleCancel}
+                        maskClosable={false}  
+                    >
+                        <div className="flex flex-col">
+
+                        <Row>
+                            <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
+                            <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
+                        </Row>
+
+                        <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                    </div>
+                    </ReportModal>
+
+                
+                
 
             </>
         )

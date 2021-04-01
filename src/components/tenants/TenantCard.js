@@ -11,11 +11,25 @@ import TenantListItem from "./TenantListItem";
 export default function TenantCard({incomplete, unrectified}) {
 
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    const { data } = useQuery(FETCH_ALL_TENANTS);
+    const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
     const { getAllTenants } = data ? data : [];
 
-    const toggleCheckbox = () => {
-        setCheckboxVisibility(!checkboxVisibility)
+    if(loading || error) {
+        return (
+            <div className="flex w-full justify-center items-center">
+                    <Spin tip="Loading..." size="large" />
+            </div>
+        );
+    }
+    if(!data) {
+        return (
+            <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                    <span>No Tenants Found</span>
+                }
+            />
+        );
     }
 
     if (unrectified == true){
@@ -29,20 +43,11 @@ export default function TenantCard({incomplete, unrectified}) {
     return (
         <div>
             {
-                getAllTenants ? getAllTenants.map((tenant) => (
+                getAllTenants.map((tenant) => (
                     <SwipeableList>
                         <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
                     </SwipeableList>
-                )) : 
-                <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description={
-                        <span>No Tenants Found</span>
-                    }
-                />
-                // <div className="flex w-full justify-center items-center">
-                //     <Spin tip="Loading..." size="large" />
-                // </div>
+                )) 
             }
         </div>
     )

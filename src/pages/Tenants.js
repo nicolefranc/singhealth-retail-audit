@@ -13,8 +13,8 @@ const { Search } = Input;
 
 export default function Tenants() {
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    const { data } = useQuery(FETCH_ALL_TENANTS);
-    const { getAllTenants } = data ? data : [];
+    // const { data } = useQuery(FETCH_ALL_TENANTS);
+    // const { getAllTenants } = data ? data : [];
 
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)
