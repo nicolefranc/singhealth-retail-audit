@@ -1,4 +1,4 @@
-import { INIT_NEW_REPORT, TOGGLE_COMPLIANT } from "../redux-consts";
+import { INIT_NEW_REPORT, TOGGLE_COMPLIANT, UPDATE_AUDIT_DETAILS } from "../redux-consts";
 
 const reportReducer = (state = {}, action) => {
     // console.log(action);
@@ -26,7 +26,7 @@ const reportReducer = (state = {}, action) => {
             })
             
             const score = (totalComplied / totalApplicable) * weightage;
-            return {
+            const newReportState = {
                 ...state,
                 checklist: [
                     ...state.checklist.slice(0, cIndex),
@@ -37,7 +37,12 @@ const reportReducer = (state = {}, action) => {
                     },
                     ...state.checklist.slice(cIndex + 1)
                 ]
-            }
+            };
+            const auditScore = calculateAuditScore(newReportState.checklist);
+            newReportState.auditScore = auditScore;
+            return newReportState;
+        case UPDATE_AUDIT_DETAILS:
+            return updateAuditDetails(state, action.payload);
         default:
             return state;
     }
@@ -66,6 +71,24 @@ const initReport = (state, payload) => {
     console.log(report);
     return report;
     // return payload;
+}
+
+const calculateAuditScore = (checklist) => {
+    let scores = [];
+    let total = 0;
+    scores = checklist.map(category => {
+        total += category.score;
+        return category.score
+    });
+    console.log(total);
+    return total;
+}
+
+const updateAuditDetails = (state, { key, value }) => {
+    const newState = { ...state };
+    newState[key] = value;
+    console.log(newState);
+    return newState;
 }
 
 export default reportReducer;

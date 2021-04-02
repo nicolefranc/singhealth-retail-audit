@@ -2,7 +2,7 @@ import { Collapse, List } from "antd";
 import tick from '../../assets/images/tick.png';
 import wrong from '../../assets/images/wrong.png';
 import na from '../../assets/images/not-applicable.png';
-import Checkbox from "../checklist/Checkbox";
+import Checkbox from "../audit/Checkbox";
 
 const { Panel } = Collapse;
 export default function ViewChecklist({ checklist }) {

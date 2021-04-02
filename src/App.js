@@ -10,7 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Tenants from "./pages/Tenants";
 import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
-import ChecklistTemplates from "./components/checklist/ChecklistTemplates";
+import ChecklistTemplates from "./components/audit/ChecklistTemplates";
 import { routes } from "./const";
 import Report from "./pages/Report";
 import Login from "./pages/Login";
@@ -22,7 +22,7 @@ import DashboardTenant from "./pages/DashBoardTenant";
 import { tokenValidator } from "./utils/tokenValidator";
 import AuthRoute from "./utils/AuthRoute";
 import Status from "./pages/Status";
-import ChecklistPhotos from "./pages/ChecklistPhotos";
+import ChecklistPhotos from "./components/audit/ChecklistPhotos";
 import ViewReport from "./components/report/ViewReport";
 
 function App() {

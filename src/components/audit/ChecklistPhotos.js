@@ -1,10 +1,10 @@
-import Photo from "../components/checklist/Photo";
+import Photo from "./Photo";
 import {Button,Typography, Divider, message} from "antd";
-import { routes } from '../const';
+import { routes } from '../../const';
 import { Link} from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { useMutation } from "@apollo/client";
-import { CREATE_REPORT } from "../graphql/mutations";
+import { CREATE_REPORT } from "../../graphql/mutations";
 
 export default function ChecklistPhotos() {
     const report = useSelector(state => state.report);
@@ -49,7 +49,7 @@ export default function ChecklistPhotos() {
               createdDate: Date.now().toString(),
               status: status,
               // extension,
-              // auditScore,
+              auditScore: report.auditScore,
               checklist: report.checklist,
               images: imagesArr
             }
@@ -75,20 +75,20 @@ export default function ChecklistPhotos() {
 
     return(
         <>
-            <Title level={2}>PHOTOS OF NON-COMPLIANCE</Title>
+            {/* <Title level={2}>Summary of Non-Compliances</Title> */}
             
             <Photo  />
 
             <Divider/>
 
-            <div className="flex flex-row justify-between">
+            {/* <div className="flex flex-row justify-between">
                 <Link to={routes.TENANTS} >
                     <Button onClick={() => handleSubmit('draft')}>Save as Draft</Button>
                 </Link>
-                {/* <Link to={routes.TENANTS} > */}
+                <Link to={routes.TENANTS} >
                     <Button className="" onClick={() => handleSubmit('submit')}>Submit</Button>
-                {/* </Link> */}
-            </div>
+                </Link>
+            </div> */}
         </>
         
     )

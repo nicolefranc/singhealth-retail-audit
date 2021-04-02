@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import { Collapse, Input , Divider, Button,Typography } from "antd";
 import Item from './Item';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { round } from '../../utils/utils';
 import { Link, useParams } from 'react-router-dom';
 import { routes } from '../../const';
+import { updateAuditDetails } from '../../redux/actions/report';
 
 export default function Checklist({ data }) {
     // data is an array of category objects
+    const dispatch = useDispatch();
     const { Title } = Typography;
 
     //for dropdown
@@ -34,12 +36,13 @@ export default function Checklist({ data }) {
         }
     }, [checklist]);
     
-    const onChange = e => {
-        // console.log(e);
+    const onRemarksChange = ({ target: { value } }) => {
+        console.log(value);
+        updateAuditDetails('remarks', value)(dispatch);
     };
 
     return (
-        <div class="relative w-full h-full">  
+        <div className="relative w-full h-full">  
             <Collapse accordion defaultActiveKey='1'  className="site-collapse-custom-collapse">
                 {data.map((category, cIndex) => {    
                     let indexes = { 'category': cIndex }
@@ -71,16 +74,16 @@ export default function Checklist({ data }) {
             </Collapse>
             
             <div className="pt-5">
-                <TextArea placeholder="Remarks" allowClear onChange={onChange} />
+                <TextArea placeholder="Remarks" allowClear onChange={onRemarksChange} />
             </div> 
 
             <Divider />
             
             <Title level={4} className="text-right ">Total: {round(total, 1)}/100%</Title>
             
-            <Link to={`${routes.AUDIT}/${tenantId}/${reportType}/photos`} class="absolute bottom-0 right-0">
-                <Button type="primary" >Next</Button>
-            </Link>  
+            {/* <Link to={`${routes.AUDIT}/${tenantId}/${reportType}/photos`} className="bottom-0 right-0">
+                <Button type="primary">Next</Button>
+            </Link>   */}
         </div>
     )
 }

@@ -6,7 +6,7 @@ import { Typography, Button, Popconfirm, message } from 'antd';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 
-import Pdf from "../components/checklist/Pdf";
+import Pdf from "../components/audit/Pdf";
 
 const { Text} = Typography;
 
