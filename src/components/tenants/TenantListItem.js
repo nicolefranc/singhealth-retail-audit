@@ -64,7 +64,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
                 <SwipeableListItem 
                     threshold={0}
                     extra={ checkboxVisible && <Checkbox onChange={handleCheckbox}/>}
-                    swipeLeft={(swipeProgress<35) ? swipeAuditOptions(content.name) : swipeNotifyOptions(content.name)}
+                    swipeLeft={(swipeProgress<40) ? swipeAuditOptions(content.name) : swipeNotifyOptions(content.name)}
                     onSwipeProgress={handleSwipeProgress }
                     onSwipeEnd={handleSwipeEnd}
                     // key={id}

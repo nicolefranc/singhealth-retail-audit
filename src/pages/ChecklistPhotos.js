@@ -46,7 +46,10 @@ export default function ChecklistPhotos() {
               type: report.type,
               tenantId: report.tenantId,
               auditDate: Date.now().toString,
+              createdDate: Date.now().toString(),
               status: status,
+              // extension,
+              // auditScore,
               checklist: report.checklist,
               images: imagesArr
             }

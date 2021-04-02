@@ -15,4 +15,6 @@ export const routes = {
     AUDIT: '/audit'
 };
 
+export const TOKEN = 'jwt';
+
 export const RESPONSIVE_GUTTER = { xs: 8, sm: 16, md: 24, lg: 32 };
