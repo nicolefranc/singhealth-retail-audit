@@ -9,7 +9,7 @@ import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
 import { useParams } from "react-router";
-import { PageTitle, SectionTitle } from "../components/layout/Titles";
+import { PageTitle, SectionTitle, Section, PageSubtitle } from "../components/layout/PageLayout";
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
@@ -39,15 +39,15 @@ export default function TenantDetail() {
             <PageHeader
                 className="p-0"
                 onBack={() => window.history.back()}
-                title={<PageTitle title={tenant.name} />}
+                title={<PageSubtitle title="Tenant Details" />}
             >
-
+                <PageTitle title={tenant.name} />
                 <Descriptions size="small" column={1} layout="horizontal" bordered>
                     <Descriptions.Item label="Institution">{ tenant.institution }</Descriptions.Item>
                     <Descriptions.Item label="Checklist Type">{ tenant.type ? tenant.type : 'TODO: Please add' }</Descriptions.Item>
                     <Descriptions.Item label="Tenancy Expiry">{ tenant.expirty ? tenant.expirty : 'TODO: Please add' }</Descriptions.Item>
                 </Descriptions>
-                <div className="flex mt-6">
+                <div className="flex my-6">
                     <Button block className="mr-2">Notify</Button>
                     <Button block className="ml-2" type="primary">Audit</Button>
                 </div>
@@ -84,18 +84,17 @@ export default function TenantDetail() {
                 </Col>
             </Row>
             </div> */}
-            <section>
+            <Section>
                 <SectionTitle title="Latest Report" />
                 TODO: Please add in one swipeable card of the latest report here
-            </section>
-            <section>
+            </Section>
+            <Section>
                 <SectionTitle title="Performance Graph" />
                 <PerformanceGraph content={Performance} type={undefined}/>
-            </section>
+            </Section>
 
-            <section className="py-10" >
+            <Section>
                 <SectionTitle title="Past Audits" />
-                <Divider />
                 {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
                 {
                     getAllReportsByTenant.length > 0 ? getAllReportsByTenant.map((report, index)=> (
@@ -106,7 +105,7 @@ export default function TenantDetail() {
                         {/* <Button type="primary">New Audit</Button> */}
                     </Empty>
                 }
-            </section>
+            </Section>
             {/* <div>
                 <div className='m-5' style={{position:'sticky', top:'0', zIndex:'1'}}>
                     <Title level={4} className='flex justify-center bg-blue-100 w-full'>Past Audits</Title>

@@ -1,7 +1,7 @@
 export default function ViewPhotos() {
     return (
         <>
-            <p>Hello</p>
+            <p>Coming Soon</p>
         </>
     )
 }
