@@ -3,21 +3,21 @@ import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import {Performance} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message, Layout, Empty, Tag, Row, Col,Spin, Result } from 'antd';
+import { Typography, Button, Popconfirm, message, Layout, Empty, Tag, Row, Col,Spin, Result, PageHeader, Space, Statistic, Descriptions, Divider } from 'antd';
 
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
 import { useParams } from "react-router";
+import { PageTitle, SectionTitle } from "../components/layout/Titles";
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
 
 export default function TenantDetail() {
     const { tenantId } = useParams();
-    // console.log(tenantId);
     const { loading, error, data } = useQuery(FETCH_TENANT_DETAILS, {
-        variables: { getAllReportsByTenantTenantId: tenantId }
+        variables: { getAllReportsByTenantTenantId: tenantId, getTenantByIdId: tenantId }
     });
 
     function confirm(e) {
@@ -26,41 +26,40 @@ export default function TenantDetail() {
     }
 
     if (loading) return <Spin />
-    // else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
-    if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
+    else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+    // if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
 
       
-    const { getAllReportsByTenant } = data ;
-    console.log('reports');
-    console.log(getAllReportsByTenant[0]);
-    if (getAllReportsByTenant.length === 0 || !getAllReportsByTenant[0]) return <Empty />
+    const { getAllReportsByTenant, getTenantById } = data ;
+    const latestReport = getAllReportsByTenant[0];
+    const tenant = getTenantById;
 
     return (    
         <div>
-            <div className='flex justify-between'>
-                <Title>{getAllReportsByTenant[0].tenantId.name}</Title> 
-                {/* HELP */}
-    
-                <Button type="primary" danger>
-                    <Popconfirm
-                        title="Are you sure to delete tenant x?"
-                        onConfirm={confirm}
-                        onCancel= {null}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        Delete
-                    </Popconfirm>
-                </Button>
-            </div>
+            <PageHeader
+                className="p-0"
+                onBack={() => window.history.back()}
+                title={<PageTitle title={tenant.name} />}
+            >
 
-            <div className="mb-6">
+                <Descriptions size="small" column={1} layout="horizontal" bordered>
+                    <Descriptions.Item label="Institution">{ tenant.institution }</Descriptions.Item>
+                    <Descriptions.Item label="Checklist Type">{ tenant.type ? tenant.type : 'TODO: Please add' }</Descriptions.Item>
+                    <Descriptions.Item label="Tenancy Expiry">{ tenant.expirty ? tenant.expirty : 'TODO: Please add' }</Descriptions.Item>
+                </Descriptions>
+                <div className="flex mt-6">
+                    <Button block className="mr-2">Notify</Button>
+                    <Button block className="ml-2" type="primary">Audit</Button>
+                </div>
+            </PageHeader>
+
+            {/* <div className="mb-6">
                 <Row>
                     <Col className="mr-2">
                         <Title level={5}>Last Audit Date:</Title>
                     </Col>
                     <Col>
-                        <Text>{getAllReportsByTenant[0].auditDate}</Text>
+                        <Text>{latestReport.auditDate}</Text>
                     </Col>
                 </Row>
                 
@@ -84,34 +83,35 @@ export default function TenantDetail() {
                     <Text>01/01/2022</Text>
                 </Col>
             </Row>
-            </div>
-            
-            <div className='mb-20' >
+            </div> */}
+            <section>
+                <SectionTitle title="Latest Report" />
+                TODO: Please add in one swipeable card of the latest report here
+            </section>
+            <section>
+                <SectionTitle title="Performance Graph" />
                 <PerformanceGraph content={Performance} type={undefined}/>
-                
-                
-                <span className="block bg-gray-50 h-12 swipeable-listitem">
+            </section>
 
-                    <Title className='mt-10 p-2' level={4}>Past Audits</Title>
-                </span>
+            <section className="py-10" >
+                <SectionTitle title="Past Audits" />
+                <Divider />
                 {/* <ScrollList columns={reportColumns} data={pastReports}/> */}  
                 {
-                    getAllReportsByTenant ? getAllReportsByTenant.map((report, index)=> (
+                    getAllReportsByTenant.length > 0 ? getAllReportsByTenant.map((report, index)=> (
                         <SwipeableList key={index}>
                             <ReportCard content={report}  />
                         </SwipeableList>
-                    )):
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
+                    )) : <Empty description="No Audits">
+                        {/* <Button type="primary">New Audit</Button> */}
+                    </Empty>
                 }
-            </div>
-            <div>
-                <div className='m-5' style={{position:'sticky', top:'0', zIndex:'100'}}>
+            </section>
+            {/* <div>
+                <div className='m-5' style={{position:'sticky', top:'0', zIndex:'1'}}>
                     <Title level={4} className='flex justify-center bg-blue-100 w-full'>Past Audits</Title>
                 </div>
                 <div style={{overflowX:'hidden', overflowY:'auto', height:'auto', zIndex:'0'}}>
-                    {/* <ReportCard content={getAllReportsByTenant}  /> */}
                     {
                         getAllReportsByTenant.map((report, index)=> (
                             <SwipeableList key={index} style={{zIndex:'0'}}>
@@ -120,8 +120,19 @@ export default function TenantDetail() {
                         ))
                     }
                 </div>
-            </div>
+            </div> */}
 
+            <div className="mt-12 mb-6">
+                <Button type="primary" danger block>
+                    <Popconfirm
+                        title="Are you sure to delete tenant x?"
+                        onConfirm={confirm}
+                        onCancel= {null}
+                        okText="Yes"
+                        cancelText="No"
+                    >Delete Tenant</Popconfirm>
+                </Button>
+            </div>
         </div>
     )
 }

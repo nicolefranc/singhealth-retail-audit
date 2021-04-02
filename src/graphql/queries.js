@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const FETCH_TENANT_DETAILS = gql` 
-    query($getAllReportsByTenantTenantId: String!){
+    query($getAllReportsByTenantTenantId: String!, $getTenantByIdId: String!){
         getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
             id
             type
@@ -16,6 +16,12 @@ export const FETCH_TENANT_DETAILS = gql`
             auditDate
             auditScore
             status
+        }
+        getTenantById(id: $getTenantByIdId) {
+            name
+            id
+            institution
+            email
         }
     }
 `;
