@@ -2,7 +2,7 @@ import Checklist from "../components/audit/Checklist";
 import { useMutation, useQuery } from '@apollo/client';
 import { Button, message, Result, Skeleton, Steps, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { initReport } from "../redux/actions/report"; // Actions
+import { initReport, resetReport } from "../redux/actions/report"; // Actions
 import { useParams } from "react-router";
 import { AUDIT_ACTIONS, DATE_FORMAT, routes } from "../const";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ import ChecklistPhotos from "../components/audit/ChecklistPhotos";
 import Details from "../components/audit/Details";
 import { CREATE_REPORT } from "../graphql/mutations";
 import moment from "moment";
+import { resetImage } from "../redux/actions/image";
 
 
 
@@ -99,6 +100,10 @@ export default function Report() {
             .then(
                 onfulfilled => {
                     message.success('Successfully saved report');
+                    // TODO: Clear state
+                    // resetStates();
+                    resetReport()(dispatch);
+                    // resetImage()(dispatch);
                     // TODO: Redirect to view report
                 },
                 onrejected => {

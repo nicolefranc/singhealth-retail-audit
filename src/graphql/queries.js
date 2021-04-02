@@ -86,7 +86,12 @@ export const FETCH_REPORT_BY_ID = gql`
                     }
                 }
             }
-            images
+            images {
+                nonCompliances
+                nonComplRemarks
+                rectifications
+                rectRemarks
+            }
             extension {
                 proposed {
                     date

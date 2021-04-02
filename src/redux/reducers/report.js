@@ -1,4 +1,4 @@
-import { INIT_NEW_REPORT, TOGGLE_COMPLIANT, UPDATE_AUDIT_DETAILS } from "../redux-consts";
+import { INIT_NEW_REPORT, RESET_REPORT_STATE, TOGGLE_COMPLIANT, UPDATE_AUDIT_DETAILS } from "../redux-consts";
 
 const reportReducer = (state = {}, action) => {
     // console.log(action);
@@ -43,6 +43,8 @@ const reportReducer = (state = {}, action) => {
             return newReportState;
         case UPDATE_AUDIT_DETAILS:
             return updateAuditDetails(state, action.payload);
+        case RESET_REPORT_STATE:
+            return {};
         default:
             return state;
     }

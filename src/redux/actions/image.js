@@ -1,4 +1,4 @@
-import { ADD_IMAGE, REMOVE_IMAGE, UPDATE_REMARKS, UPDATE_UPLOAD_STATUS } from "../redux-consts"
+import { ADD_IMAGE, REMOVE_IMAGE, RESET_IMAGE_STATE, UPDATE_REMARKS, UPDATE_UPLOAD_STATUS } from "../redux-consts"
 
 export const addImage = (id, images) => (dispatch) => {
     dispatch({
@@ -26,4 +26,8 @@ export const updateUploadStatus = (id, images) => (dispatch) => {
         type: UPDATE_UPLOAD_STATUS,
         payload: { id, images }
     })
+}
+
+export const resetImage = () => dispatch => {
+    dispatch({ type: RESET_IMAGE_STATE })
 }

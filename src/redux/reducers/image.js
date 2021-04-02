@@ -1,4 +1,4 @@
-import { ADD_IMAGE, REMOVE_IMAGE, UPDATE_REMARKS, UPDATE_UPLOAD_STATUS } from "../redux-consts";
+import { ADD_IMAGE, REMOVE_IMAGE, RESET_IMAGE_STATE, UPDATE_REMARKS, UPDATE_UPLOAD_STATUS } from "../redux-consts";
 
 const imageReducer = (state= {}, action) => {
     switch(action.type) {
@@ -10,6 +10,8 @@ const imageReducer = (state= {}, action) => {
             return updateRemarks(state, action.payload);
         case UPDATE_UPLOAD_STATUS:
             return updateUploadStatus(state, action.payload);
+        case RESET_IMAGE_STATE:
+            return {};
         default:
             return state;
     }

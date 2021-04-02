@@ -10,7 +10,6 @@ import React, { useState } from 'react';
 export default function TenantListItem({ content, checkboxVisible }) {
 
     const tenantId = content.id;
-    console.log(tenantId);
 
     const handleClick = () => {
         console.log(`TenantDetail/${tenantId}`)
@@ -52,7 +51,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
     });
 
     const [swipeProgress, handleSwipeProgress] = useState(0);
-    console.log(swipeProgress);
+
     const handleSwipeEnd = () => {
         handleSwipeProgress(0);
     };

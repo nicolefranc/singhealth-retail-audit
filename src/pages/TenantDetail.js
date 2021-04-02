@@ -16,7 +16,7 @@ const { Text } = Typography;
 export default function TenantDetail() {
     const { tenantId } = useParams();
     // console.log(tenantId);
-    const { loading, error,data } = useQuery(FETCH_TENANT_DETAILS, {
+    const { loading, error, data } = useQuery(FETCH_TENANT_DETAILS, {
         variables: { getAllReportsByTenantTenantId: tenantId }
     });
 
@@ -26,15 +26,17 @@ export default function TenantDetail() {
     }
 
     if (loading) return <Spin />
-    else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+    // else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+    if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
 
       
     const { getAllReportsByTenant } = data ;
     console.log('reports');
-    console.log(getAllReportsByTenant);
+    console.log(getAllReportsByTenant[0]);
+    if (getAllReportsByTenant.length === 0 || !getAllReportsByTenant[0]) return <Empty />
 
     return (    
-        <>
+        <div>
             <div className='flex justify-between'>
                 <Title>{getAllReportsByTenant[0].tenantId.name}</Title> 
                 {/* HELP */}
@@ -85,7 +87,7 @@ export default function TenantDetail() {
             </div>
             
             <div className='mb-20' >
-                <PerformanceGraph content={Performance} type= {undefined}/>
+                <PerformanceGraph content={Performance} type={undefined}/>
                 
                 
                 <span className="block bg-gray-50 h-12 swipeable-listitem">
@@ -111,8 +113,8 @@ export default function TenantDetail() {
                 <div style={{overflowX:'hidden', overflowY:'auto', height:'auto', zIndex:'0'}}>
                     {/* <ReportCard content={getAllReportsByTenant}  /> */}
                     {
-                        getAllReportsByTenant.map((report)=> (
-                            <SwipeableList  style={{zIndex:'0'}}>
+                        getAllReportsByTenant.map((report, index)=> (
+                            <SwipeableList key={index} style={{zIndex:'0'}}>
                                 <ReportCard content={report} loading={loading} error={error} />
                             </SwipeableList>
                         ))
@@ -120,6 +122,6 @@ export default function TenantDetail() {
                 </div>
             </div>
 
-        </>
+        </div>
     )
 }

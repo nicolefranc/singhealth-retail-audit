@@ -1,4 +1,4 @@
-import { INIT_NEW_REPORT, TOGGLE_COMPLIANT, UPDATE_AUDIT_DETAILS } from "../redux-consts"
+import { INIT_NEW_REPORT, RESET_REPORT_STATE, TOGGLE_COMPLIANT, UPDATE_AUDIT_DETAILS } from "../redux-consts"
 
 // TODO: Implement save to localstorage
 export const initReport = (report) => (dispatch) => {
@@ -28,4 +28,8 @@ export const updateAuditDetails = (key, value) => dispatch => {
         type: UPDATE_AUDIT_DETAILS,
         payload: { key, value }
     })
+}
+
+export const resetReport = () => dispatch => {
+    dispatch({ type: RESET_REPORT_STATE });
 }

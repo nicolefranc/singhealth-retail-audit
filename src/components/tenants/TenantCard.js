@@ -36,8 +36,8 @@ export default function TenantCard({ status }) {
     return (
         <div className="z-0">
             {
-                getAllTenants.map((tenant) => (
-                    <SwipeableList>
+                getAllTenants.map((tenant, index) => (
+                    <SwipeableList key={index}>
                         <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
                     </SwipeableList>
                 )) 

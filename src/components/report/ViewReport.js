@@ -22,7 +22,8 @@ export default function ViewReport() {
 
     if (loading) return <Spin size="large" />
 
-    else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+    // else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+    else if (error) return <div>{ JSON.stringify(error) }</div>
 
     const { getReportById } = data;
 

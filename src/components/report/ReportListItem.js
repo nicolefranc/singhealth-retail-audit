@@ -4,8 +4,8 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 import SwipeContent from '../swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
-import Pdf from '../checklist/Pdf';
-import SendPdf from '../checklist/SendPdf';
+import Pdf from '../audit/Pdf';
+import SendPdf from '../audit/SendPdf';
 import { useQuery } from '@apollo/client';
 import { FETCH_REPORT_BY_ID } from '../../graphql/queries';
 

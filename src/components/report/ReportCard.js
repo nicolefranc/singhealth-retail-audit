@@ -3,7 +3,7 @@ import {Skeleton,Tag, Button,Empty,Spin,Row,Col,Checkbox} from "antd";
 import SwipeContent from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
-import SendPdf from '../checklist/SendPdf';
+import SendPdf from '../audit/SendPdf';
 import ReportModal from './ReportModal';
 import { routes } from '../../const';
 import { useHistory } from 'react-router';
