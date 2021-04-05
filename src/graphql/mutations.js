@@ -38,8 +38,17 @@ export const CREATE_REPORT = gql`
 export const PROPOSE_EXTENSION = gql`
     mutation($reportId: String!, $date: String!, $remarks: String!) {
         proposeExtension(reportId: $reportId, date: $date, remarks: $remarks) {
-            id
-            type
+            extension {
+                proposed {
+                    date
+                    remarks
+                }
+                final {
+                    date
+                    remarks
+                }
+                status
+            }
         }
     }
 `;

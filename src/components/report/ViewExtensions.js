@@ -16,8 +16,14 @@ import ExtensionPopover from './ExtensionPopover';
 export default function ViewExtentions({ report }) {
     console.log(report.extension);
 
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
 
+    const makeInvisible = () => {
+        setVisible(false);
+    }
+
+
+    console.log(typeof(setVisible));
     const handleVisibleChange = (e) => {
         console.log(e);
         setVisible(e);
@@ -45,7 +51,7 @@ export default function ViewExtentions({ report }) {
             </Descriptions>
             <div className="mt-12 mb-6">
                 <Popover
-                    content={<a><ExtensionPopover report={report}/></a>}
+                    content={<a><ExtensionPopover report={report} makeInvisible={makeInvisible}/></a>}
                     title="Extension Request"
                     trigger="click"
                     visible={visible}

@@ -5,9 +5,10 @@ import { useMutation } from "@apollo/client";
 import React, { useState } from 'react';
 import {PROPOSE_EXTENSION} from '../../graphql/mutations'
 import { ContactsOutlined } from "@ant-design/icons";
+import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 
 
-export default function ExtensionPopover({report}) {
+export default function ExtensionPopover({report, makeInvisible}) {
     const {TextArea} = Input;
 
     const [remarks, setRemarks] = useState("");
@@ -16,7 +17,7 @@ export default function ExtensionPopover({report}) {
     const [dateChosen, setdateChosen] = useState(startDate);
 
 
-    console.log(report);
+    console.log("makeInvisible is",makeInvisible);
 
     const onAuditDateChange = (date, dateString) => {
         setdateChosen(dateString);
@@ -25,28 +26,37 @@ export default function ExtensionPopover({report}) {
     const [requestExtension, {loading}] = useMutation(
         PROPOSE_EXTENSION,{
             update(cache, result) {
-
-              console.log("result is", result);
+                const{getReportById: cachedReport} = cache.readQuery({
+                    query: FETCH_REPORT_BY_ID, variables: {getReportByIdReportId: report.id}
+                });
+                const newReport = JSON.parse(JSON.stringify(cachedReport));//deep clone
+                newReport.extension = result.data.proposeExtension.extension;
+                cache.writeQuery({
+                    query: FETCH_REPORT_BY_ID,
+                    variables: {getReportByIdReportId: report.id},
+                    data: {
+                        getReportById: newReport,
+                    }
+                })
               message.success("Proposed Due date is set to ".concat(dateChosen));
+              
             },
             onError(err) {
               //any error will be thrown here
               console.log(err);
               try {
-                // seterrors allow me to print the error to the react 'alert' component (for instance, the red bar you see when you key in wrong credentials)
-                // because sometimes it doesn't work (like the graphql errors return me smth undefined), i put it in a try and catch block haha
-
               } catch (err) {
                 console.log(err);
               }
             },
             variables: {reportId: report.id, date: dateChosen, remarks},
-          }
+          },
 
     )
 
     const handleSubmit = () => {
         requestExtension();
+        makeInvisible(false);
     }
     return (
         <><h1>Proposed Date</h1>
