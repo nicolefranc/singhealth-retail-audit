@@ -59,7 +59,8 @@ export default function ExtensionPopover({report, makeInvisible}) {
         makeInvisible(false);
     }
     return (
-        <><h1>Proposed Date</h1>
+        <>
+            <h1>Proposed Date</h1>
             {/* <DatePicker
                 onChange={onAuditDateChange}
                 format={DATE_FORMAT}
@@ -67,7 +68,7 @@ export default function ExtensionPopover({report, makeInvisible}) {
                 defaultValue={report.extension.final.date && moment(report.extension.final.date, DATE_FORMAT)}
                 
             />   */}
-             <DatePicker className='mb-16' onChange={onAuditDateChange} showToday={false} dateRender={current => {
+             <DatePicker className="mb-2 mt-2" value={moment(dateChosen, DATE_FORMAT)} onChange={onAuditDateChange} showToday={false} dateRender={current => {
                         const style = {};
                         if (current.format(DATE_FORMAT) === report.extension.final.date) {
                             style.backgroundColor = "rgba(252, 165, 165)";
@@ -79,8 +80,8 @@ export default function ExtensionPopover({report, makeInvisible}) {
                             );
                         }}/>
             <br/>
-            <h1>Remarks</h1>
-            <TextArea onChange={(e)=> setRemarks(e.target.value)}/>
+            <h1 className="mb-2">Remarks</h1>
+            <TextArea className="mb-4" onChange={(e)=> setRemarks(e.target.value)}/>
             <Button type="primary" onClick={handleSubmit}>Submit</Button>
         </>
     );
