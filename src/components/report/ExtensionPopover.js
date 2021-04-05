@@ -50,13 +50,24 @@ export default function ExtensionPopover({report}) {
     }
     return (
         <><h1>Proposed Date</h1>
-            <DatePicker
+            {/* <DatePicker
                 onChange={onAuditDateChange}
                 format={DATE_FORMAT}
                 value={moment(dateChosen, DATE_FORMAT)}
                 defaultValue={report.extension.final.date && moment(report.extension.final.date, DATE_FORMAT)}
                 
-            />
+            />   */}
+             <DatePicker className='mb-16' onChange={onAuditDateChange} showToday={false} dateRender={current => {
+                        const style = {};
+                        if (current.format(DATE_FORMAT) === report.extension.final.date) {
+                            style.backgroundColor = "rgba(252, 165, 165)";
+                            }
+                        return (
+                            <div className="ant-picker-cell-inner rounded" style={style}>
+                             {current.date()}
+                                </div>
+                            );
+                        }}/>
             <br/>
             <h1>Remarks</h1>
             <TextArea onChange={(e)=> setRemarks(e.target.value)}/>
