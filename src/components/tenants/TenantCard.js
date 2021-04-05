@@ -6,6 +6,7 @@ import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 import TenantListItem from "./TenantListItem";
+import { tokenValidator } from '../../utils/tokenValidator';
 
 
 export default function TenantCard({ status }) {
@@ -14,6 +15,9 @@ export default function TenantCard({ status }) {
     // TODO: Query report by auditor and status
     const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
     const { getAllTenants } = data ? data : [];
+
+    let validatorResult = tokenValidator(localStorage.getItem("jwt"));
+    const myInstitutions = validatorResult.institutions;
 
     if(loading || error) {
         return (
@@ -38,7 +42,7 @@ export default function TenantCard({ status }) {
             {
                 getAllTenants.map((tenant, index) => (
                     <SwipeableList key={index}>
-                        <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
+                        <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} auditable={myInstitutions.includes(tenant.institution)}/>
                     </SwipeableList>
                 )) 
             }

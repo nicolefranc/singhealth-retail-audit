@@ -1,4 +1,4 @@
-import { Divider, Skeleton,Tag } from "antd";
+import { Divider, message, Skeleton,Tag } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
 import { noOp } from '@sandstreamdev/std/function';
@@ -7,7 +7,7 @@ import {SwipeableListItem,SwipeableList,} from '@sandstreamdev/react-swipeable-l
 import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
 import React, { useState } from 'react';
 
-export default function TenantListItem({ content, checkboxVisible }) {
+export default function TenantListItem({ content, checkboxVisible, auditable }) {
 
     const tenantId = content.id;
 
@@ -22,7 +22,10 @@ export default function TenantListItem({ content, checkboxVisible }) {
 
     let history = useHistory();
     const swipeToAudit = () => {
-        history.push(`audit/${tenantId}`);
+        if (auditable)
+            history.push(`audit/${tenantId}`);
+        else
+            message.error("Can't audit tenant from another institution");
     }
     const swipeToNotify=()=>{
         history.push(`status/${tenantId}`);

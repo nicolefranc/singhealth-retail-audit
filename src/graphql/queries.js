@@ -103,6 +103,11 @@ export const FETCH_REPORT_BY_ID = gql`
                     date
                     remarks
                 }
+                final {
+                    date
+                    remarks
+                }
+                status
             }
         }
     }
