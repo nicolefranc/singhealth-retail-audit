@@ -52,3 +52,10 @@ export const PROPOSE_EXTENSION = gql`
         }
     }
 `;
+
+
+export const SEND_EMAIL = gql`
+mutation ($from: String!, $to: String!, $title: String!, $body:String!){
+  sendEmail(from:$from, to:$to, title: $title, body: $body)
+}
+`;
