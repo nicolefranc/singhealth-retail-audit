@@ -16,6 +16,7 @@ export const FETCH_TENANT_DETAILS = gql`
             auditDate
             auditScore
             status
+
         }
         getTenantById(id: $getTenantByIdId) {
             name

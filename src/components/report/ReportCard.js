@@ -95,8 +95,10 @@ export default function ReportCard({ content, loading, error }) {
 
                             <div className="flex items-center">
                                 <span className="swipeable-listitem-name mr-2">{content.type}</span>
-                                <Tag color="red">{content.status}</Tag>
-                                <Tag color="warning">{content.extension}</Tag>
+                                {content.status==="audited" ? <Tag color="success" key={content.status}>{content.status.toUpperCase()}</Tag>:
+                                                    <Tag color="warning" key={content.status}>{content.status.toUpperCase()}</Tag>
+                                }
+                                {/* <Tag >{content.extension}</Tag> */}
                             </div>
                             <div >Audit Date: {content.auditDate}</div>
                         </div>
