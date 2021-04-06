@@ -111,25 +111,9 @@ export default function TenantDetail({}) {
                     <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
                         <div className="flex items-center">
                             <span className="swipeable-listitem-name mr-2">{latestReport.type}</span>
-                            {/* <Tag color="red">{latestReport.status}</Tag> */}
                             {status==="audited" ? <Tag color="success" key={status}>{status.toUpperCase()}</Tag>:
                                                 <Tag color="warning" key={status}>{status.toUpperCase()}</Tag>
                             }
-                            
-                            {/* {status.map(status => {
-                                let color = 'default';
-                                if (status === 'audited') {
-                                    color = 'success';
-                                }
-                                else if(status === 'draft'){
-                                    color = 'warning';
-                                }
-                                return (
-                                <Tag color={color} key={status}>
-                                    {status.toUpperCase()}
-                                </Tag>
-                                )
-                            })} */}
                             {/* <Tag color="warning">{latestReport.extension.final.date}</Tag> */}
                         </div>
                         <div >Audit Date: {latestReport.auditDate}</div>
