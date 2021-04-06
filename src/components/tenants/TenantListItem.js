@@ -1,11 +1,13 @@
-import { Divider, Skeleton,Tag } from "antd";
+import { Button, Skeleton,Tag } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
-import { noOp } from '@sandstreamdev/std/function';
+import TextArea from 'antd/lib/input/TextArea';
 import SwipeContentv2 from '../../components/swipe/SwipeContentv2';
-import {SwipeableListItem,SwipeableList,} from '@sandstreamdev/react-swipeable-list';
+import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
 import React, { useState } from 'react';
+import CustomModal from '../../components/modals/CustomModal';
+import SendEmailDemo from './SendEmailDemo';
 
 export default function TenantListItem({ content, checkboxVisible }) {
 
@@ -20,12 +22,29 @@ export default function TenantListItem({ content, checkboxVisible }) {
         console.log(`checked: ${e.target.checked}`)
     }
 
+    // for modal
+    const [visible,setVisible]=useState(false);
+
+    function updateSubject(e){
+        setSubject(e.target.value);
+    }
+    const [subject, setSubject] = useState("");
+
+    function updateRemarks(e){
+        setRemarks(e.target.value);
+    }
+    const [remarks, setRemarks] = useState("");
+
+    const showModal = () => {
+        setVisible(content );
+    };
+    const handleCancel = () => {
+        setVisible(false);
+    };
+    // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
         history.push(`audit/${tenantId}`);
-    }
-    const swipeToNotify=()=>{
-        history.push(`status/${tenantId}`);
     }
 
     const swipeNotifyOptions = () => ({
@@ -36,7 +55,7 @@ export default function TenantListItem({ content, checkboxVisible }) {
             icon={<NotificationOutlined />}
             />
         ),
-        action: () => swipeToNotify()
+        action: () => showModal()
     });
     
     const swipeAuditOptions = () => ({
@@ -80,10 +99,43 @@ export default function TenantListItem({ content, checkboxVisible }) {
                             <Tag color="red">{content.status}</Tag> */}
                             <Tag >Last Audit: 29/3/2021</Tag>
                             <Tag color="red">Unrectified</Tag>
+
+                            {/* {status.map(status => {
+                                let color = 'blue';
+                                if (status === 'Due') {
+                                color = 'volcano';
+                                }
+                                else if(status === 'Rectified'){
+                                color = 'green';
+                                }
+                                else if(status ==='Unrectified'){
+                                color = 'geekblue'
+                                }
+                                return (
+                                <Tag color={color} key={status}>
+                                    {status.toUpperCase()}
+                                </Tag>
+                                );
+                            })} */}
                         </div>
                         
                     </div>
                 </SwipeableListItem>
+
+                <CustomModal
+                    title="Notify Tenant"
+                    visible = {visible}
+                    actions={[
+                        <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                        // <SendEmailDemo to={tenantId} subject={subject} body={remarks}/>
+                    ]}
+                    functions={handleCancel}
+                    maskClosable={false}
+                >
+                    <TextArea onChange={updateSubject} placeholder="Subject" autoSize/>
+                    <TextArea onChange={updateRemarks} placeholder="Message" autoSize={{ minRows: 4}} className="mt-5" />
+                    
+                </CustomModal>
 
             </>
         )
