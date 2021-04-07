@@ -15,10 +15,11 @@ export default function ExpiryPopover({tenant, makeInvisible}){
 
     const startDate = tenant.expiry && tenant.expiry;
 
-    const [dateChosen, setdateChosen] = useState(startDate);
+    const [dateChosen, setdateChosen] = useState(moment(startDate,DATE_FORMAT));
 
     const onChange = (date, dateString) => {
         setdateChosen(dateString);
+        console.log(date);
     };
 
     const [changeExpiry, { loading }] = useMutation(CHANGE_EXPIRY, {
@@ -27,11 +28,7 @@ export default function ExpiryPopover({tenant, makeInvisible}){
                 query: FETCH_TENANT_DETAILS,
                 variables: { getTenantByIdId: tenant.id, getAllReportsByTenantTenantId: tenant.id },
             });
-            console.log("cache",cachedTenant);
             const newTenant = JSON.parse(JSON.stringify(cachedTenant)); //deep clone
-            console.log("new ",newTenant);
-            console.log("result ",result);
-
             newTenant.expiry = result.data.changeTenantExpiry.expiry;
             cache.writeQuery({
                 query: FETCH_TENANT_DETAILS,
