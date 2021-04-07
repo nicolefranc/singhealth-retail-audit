@@ -6,6 +6,7 @@ import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import ViewChecklist from "./ViewChecklist";
 import { PageSubtitle, PageTitle, Section } from "../layout/PageLayout";
 import ViewPhotos from "./ViewPhotos";
+import ViewExtentions from "./ViewExtensions";
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -77,6 +78,9 @@ export default function ViewReport() {
                     </TabPane>
                     <TabPane tab="Images" key="3">
                         <ViewPhotos />
+                    </TabPane>
+                    <TabPane tab="Extensions" key="4">
+                        <ViewExtentions report={getReportById}/>
                     </TabPane>
                 </Tabs>
             </Section>

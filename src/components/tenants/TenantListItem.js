@@ -1,4 +1,4 @@
-import { Button, Skeleton,Tag } from "antd";
+import { Divider, message, Skeleton,Tag } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
 import TextArea from 'antd/lib/input/TextArea';
@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import CustomModal from '../../components/modals/CustomModal';
 import SendEmailDemo from './SendEmailDemo';
 
-export default function TenantListItem({ content, checkboxVisible }) {
+export default function TenantListItem({ content, checkboxVisible, auditable }) {
 
     const tenantId = content.id;
 
@@ -44,7 +44,10 @@ export default function TenantListItem({ content, checkboxVisible }) {
     // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
-        history.push(`audit/${tenantId}`);
+        if (auditable)
+            history.push(`audit/${tenantId}`);
+        else
+            message.error("Can't audit tenant from another institution");
     }
 
     const swipeNotifyOptions = () => ({

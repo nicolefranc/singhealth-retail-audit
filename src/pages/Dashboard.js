@@ -9,6 +9,7 @@ import TenantCard from "../components/tenants/TenantCard";
 import { routes } from "../const";
 import { tokenValidator } from "../utils/tokenValidator";
 import DashboardTenant from "./DashBoardTenant";
+import SendEmailDemo from "../components/audit/SendEmailDemo";
 
 export default function Dashboard() {
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
@@ -26,7 +27,7 @@ export default function Dashboard() {
           <div className='mb-10'>
             <DropdownTenantPerformance dropdownTenant={dropdownTenant} />
           </div>
-
+        <SendEmailDemo/>
           <div>
             <div className="m-5" style={{position:'sticky', top:'0', zIndex:'1'}}>
             <Title level={4} className='flex justify-center bg-blue-100 w-full'>Unrectified Audits</Title>
