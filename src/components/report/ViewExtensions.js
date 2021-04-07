@@ -57,7 +57,7 @@ export default function ViewExtentions({ report }) {
                     visible={visible}
                     onVisibleChange={handleVisibleChange}
                 >
-                    <Button type="primary" disabled="true">Request Extension</Button>
+                    <Button type="primary" disabled={report.extension.status === "Pending Approval"}>Request Extension</Button>
                 </Popover>
             </div>
         </>
