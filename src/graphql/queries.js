@@ -1,16 +1,16 @@
-import {gql} from '@apollo/client';
+import { gql } from "@apollo/client";
 
-export const FETCH_TENANT_DETAILS = gql` 
-    query($getAllReportsByTenantTenantId: String!, $getTenantByIdId: String!){
-        getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
+export const FETCH_TENANT_DETAILS = gql`
+    query($getAllReportsByTenantTenantId: String!, $getTenantByIdId: String!) {
+        getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId) {
             id
             type
-            tenantId{
+            tenantId {
                 id
                 name
                 institution
             }
-            auditorId{
+            auditorId {
                 id
             }
             auditDate
@@ -22,6 +22,7 @@ export const FETCH_TENANT_DETAILS = gql`
             id
             institution
             email
+            expiry
         }
     }
 `;
@@ -108,6 +109,29 @@ export const FETCH_REPORT_BY_ID = gql`
                     remarks
                 }
                 status
+            }
+        }
+    }
+`;
+
+const FETCH_ALL_TENANTS_PERFORMANCE = gql`
+  query getAllTenants{
+    performance{
+      month
+      key
+      score
+    }
+  }
+`;
+
+const FETCH_ALL_TENANT_PERFORMANCE = gql`
+    query Query($id: String) {
+        getTenantById(id: $id) {
+            name
+            performance {
+                month
+                entries
+                score
             }
         }
     }

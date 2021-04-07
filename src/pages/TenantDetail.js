@@ -3,19 +3,33 @@ import PerformanceGraph from "../components/dashboard/PerformanceGraph"
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import {Performance} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message, Layout, Empty, Tag, Row, Col,Spin, Result, PageHeader, Space, Statistic, Descriptions, Divider } from 'antd';
+import { Typography, Button, Popconfirm,Popover, message, Layout, Empty, Tag, Row, Col,Spin, Result, PageHeader, Space, Statistic, Descriptions, Divider } from 'antd';
+import { useState } from "react";
 
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import ReportCard from "../components/report/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
 import { useParams } from "react-router";
 import { PageTitle, SectionTitle, Section, PageSubtitle } from "../components/layout/PageLayout";
+import ExpiryPopover from "../components/tenants/ExpiryPopover";
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
 
 export default function TenantDetail() {
     const { tenantId } = useParams();
+
+    const [visible, setVisible] = useState(false);
+
+    const makeInvisible = () => {
+        setVisible(false);
+    }
+
+    const handleVisibleChange = (e) => {
+        console.log(e);
+        setVisible(e);
+    };
+
     const { loading, error, data } = useQuery(FETCH_TENANT_DETAILS, {
         variables: { getAllReportsByTenantTenantId: tenantId, getTenantByIdId: tenantId }
     });
@@ -34,6 +48,9 @@ export default function TenantDetail() {
     const latestReport = getAllReportsByTenant[0];
     const tenant = getTenantById;
 
+
+    console.log(tenant);
+
     return (    
         <div>
             <PageHeader
@@ -45,11 +62,23 @@ export default function TenantDetail() {
                 <Descriptions size="small" column={1} layout="horizontal" bordered>
                     <Descriptions.Item label="Institution">{ tenant.institution }</Descriptions.Item>
                     <Descriptions.Item label="Checklist Type">{ tenant.type ? tenant.type : 'TODO: Please add' }</Descriptions.Item>
-                    <Descriptions.Item label="Tenancy Expiry">{ tenant.expirty ? tenant.expirty : 'TODO: Please add' }</Descriptions.Item>
+                    <Descriptions.Item label="Tenancy Expiry">{ tenant.expiry ? tenant.expiry : 'TODO: Please add' }</Descriptions.Item>
+                    
                 </Descriptions>
                 <div className="flex my-6">
                     <Button block className="mr-2">Notify</Button>
                     <Button block className="ml-2" type="primary">Audit</Button>
+                    <div block className="ml-2">
+                <Popover
+                    content={<a><ExpiryPopover tenant={tenant} makeInvisible={makeInvisible}/></a>}
+                    title="Extension Request"
+                    trigger="click"
+                    visible={visible}
+                    onVisibleChange={handleVisibleChange}
+                >
+                    <Button type="ghost" disabled={tenant.expiry === "Pending Approval"}>Edit Expiry</Button>
+                </Popover>
+            </div>
                 </div>
             </PageHeader>
 
