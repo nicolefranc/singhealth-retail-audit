@@ -4,14 +4,20 @@ import { useQuery } from '@apollo/client';
 import { Spin,Empty } from "antd";
 import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
-
 import TenantListItem from "./TenantListItem";
+import { tokenValidator } from '../../utils/tokenValidator';
 
 
 export default function TenantCard({ status }) {
 
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    // TODO: Query report by auditor and status
+
+    let validatorResult = tokenValidator(localStorage.getItem("jwt"));
+    const myInstitutions = validatorResult.institutions;
+    const auditorId = validatorResult.id;
+    console.log(auditorId);
+
+    // TODO: add status as query variable when filter functionality is done
     const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
     const { getAllTenants } = data ? data : [];
 
@@ -38,7 +44,7 @@ export default function TenantCard({ status }) {
             {
                 getAllTenants.map((tenant, index) => (
                     <SwipeableList key={index}>
-                        <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} />
+                        <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} auditable={myInstitutions.includes(tenant.institution)}/>
                     </SwipeableList>
                 )) 
             }

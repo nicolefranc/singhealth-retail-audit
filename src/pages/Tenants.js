@@ -5,7 +5,6 @@ import { Button, Col, Row, Input, Divider, Spin } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import { RESPONSIVE_GUTTER } from "../const";
-import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import TenantCard from "../components/tenants/TenantCard";
 import TenantSearchFilter from "../components/tenants/TenantSearchFilter";
@@ -13,6 +12,7 @@ import TenantSearchFilter from "../components/tenants/TenantSearchFilter";
 const { Search } = Input;
 
 export default function Tenants() {
+
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
     const { data , loading, error} = useQuery(FETCH_ALL_TENANTS);
     

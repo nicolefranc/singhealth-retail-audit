@@ -9,8 +9,13 @@ import TenantCard from "../components/tenants/TenantCard";
 import { routes } from "../const";
 import { tokenValidator } from "../utils/tokenValidator";
 import DashboardTenant from "./DashBoardTenant";
+import ReportCardDashboard from "../components/dashboard/ReportCardDashboard";
+import { Section, SectionTitle } from "../components/layout/PageLayout";
+
+const bgColor = { backgroundColor: "#f0f2f5"};
 
 export default function Dashboard() {
+
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isTenant = validatorResult.type === "tenant";
@@ -23,29 +28,28 @@ export default function Dashboard() {
       ) : ( isAuditor ?
         <>
           <Title>Dashboard</Title>
-          <div className='mb-10'>
+          <Section className='mb-10'>
             <DropdownTenantPerformance dropdownTenant={dropdownTenant} />
-          </div>
-
-          <div>
-            <div className="m-5" style={{position:'sticky', top:'0', zIndex:'1'}}>
-            <Title level={4} className='flex justify-center bg-blue-100 w-full'>Unrectified Audits</Title>
+          </Section>
+          <Section>
+            <div className="sticky top-0 z-1 pt-5" style={bgColor}>
+            {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
+              <SectionTitle title="Unrectified Audits" />
             </div>
-            <div style={{overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
-              {/* TODO: Add props - status */}
-              <TenantCard />
+            <div style={{overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+              <ReportCardDashboard status="unrectified"/>
             </div>
-          </div>
+          </Section>
           
-          <div>
-            <div className='m-5' style={{position:'sticky', top:'0', zIndex:'1'}}>
-            <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title>
+          <Section>
+            <div className="sticky top-0 z-1 pt-5" style={bgColor}>
+            {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
+              <SectionTitle title="Drafts" />
             </div>
-            <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
-              {/* TODO: Add props - status */}
-              <TenantCard />
+            <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+              <ReportCardDashboard status="draft"/>
             </div>
-          </div>
+          </Section>
           
 
         </>

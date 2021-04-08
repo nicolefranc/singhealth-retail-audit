@@ -1,15 +1,22 @@
-import { Divider, Skeleton,Tag } from "antd";
+import { Divider, message, Skeleton,Tag,Button } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
-import { noOp } from '@sandstreamdev/std/function';
-import SwipeContentv2 from '../../components/swipe/SwipeContentv2';
-import {SwipeableListItem,SwipeableList,} from '@sandstreamdev/react-swipeable-list';
+import { useQuery } from '@apollo/client';
+import TextArea from 'antd/lib/input/TextArea';
+import {SwipeContentAction1,SwipeContentAction2} from '../../components/swipe/SwipeContent';
+import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
 import React, { useState } from 'react';
+import CustomModal from '../../components/modals/CustomModal';
+import SendEmailDemo from './SendEmailDemo';
+import { FETCH_REPORT_BY_TENANT } from "../../graphql/queries";
 
-export default function TenantListItem({ content, checkboxVisible }) {
+export default function TenantListItem({ content, checkboxVisible, auditable }) {
 
     const tenantId = content.id;
+    const { loading, error, data } = useQuery(FETCH_REPORT_BY_TENANT, {
+        variables: { getAllReportsByTenantTenantId: tenantId}
+    });
 
     const handleClick = () => {
         console.log(`TenantDetail/${tenantId}`)
@@ -20,30 +27,49 @@ export default function TenantListItem({ content, checkboxVisible }) {
         console.log(`checked: ${e.target.checked}`)
     }
 
+    // for modal
+    const [visible,setVisible]=useState(false);
+
+    function updateSubject(e){
+        setSubject(e.target.value);
+    }
+    const [subject, setSubject] = useState("");
+
+    function updateRemarks(e){
+        setRemarks(e.target.value);
+    }
+    const [remarks, setRemarks] = useState("");
+
+    const showModal = () => {
+        setVisible(content );
+    };
+    const handleCancel = () => {
+        setVisible(false);
+    };
+
+    // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
-        history.push(`audit/${tenantId}`);
-    }
-    const swipeToNotify=()=>{
-        history.push(`status/${tenantId}`);
+        if (auditable)
+            history.push(`audit/${tenantId}`);
+        else
+            message.error("Can't audit tenant from another institution");
     }
 
     const swipeNotifyOptions = () => ({
         content: (
-            <SwipeContentv2
+            <SwipeContentAction2
             label="Notify"
-            position="right"
             icon={<NotificationOutlined />}
             />
         ),
-        action: () => swipeToNotify()
+        action: () => showModal()
     });
     
     const swipeAuditOptions = () => ({
         content: (
-            <SwipeContentv2
+            <SwipeContentAction1
             label="Audit"
-            position="right"
             icon={<EditOutlined />}
             />
         ),
@@ -56,10 +82,14 @@ export default function TenantListItem({ content, checkboxVisible }) {
         handleSwipeProgress(0);
     };
 
+    const { getAllReportsByTenant } = data ? data : [] ;
+    if (getAllReportsByTenant && getAllReportsByTenant.length>0){
+        console.log(getAllReportsByTenant);
+    }
+
     if (content)
         return (
             <>
-                {/* edit if else */}
                 <SwipeableListItem 
                     threshold={0}
                     extra={ checkboxVisible && <Checkbox onChange={handleCheckbox}/>}
@@ -69,21 +99,50 @@ export default function TenantListItem({ content, checkboxVisible }) {
                     // key={id}
                 >
                     <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick}>
-                    
-                        <div className="flex items-center">
-                            <span className="swipeable-listitem-name">{content.name}</span>
-                        
-                        </div>
+                        <span className="font-semibold text-xl truncate">{content.name}</span>
                         <div className="flex">
-                            <div className="swipeable-listitem-description mr-2">{content.institution}</div>
-                            {/* <Tag >Last Audit: {content.auditDate[0]}</Tag>
-                            <Tag color="red">{content.status}</Tag> */}
-                            <Tag >Last Audit: 29/3/2021</Tag>
-                            <Tag color="red">Unrectified</Tag>
+                            <div className="text-sm text-gray-500 uppercase">{content.institution}</div>
+                            <Divider type="vertical" />
+                            {( () => {
+                                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                                    return (<Tag>Last Audit Date: {getAllReportsByTenant[0].auditDate}</Tag>)
+                                } else {
+                                    return (<div/>)
+                                }
+                            } ) ()}
+                            {( () => {
+                                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                                    if (getAllReportsByTenant[0].status==="audited" || getAllReportsByTenant[0].status==="rectified"){
+                                        return (<Tag color="success">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                    } else if (getAllReportsByTenant[0].status==="unrectified"){
+                                        return(<Tag color="error">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                    }else if (getAllReportsByTenant[0].status==="draft"){
+                                        return(<Tag color="warning">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                    }else{
+                                        return (<div/>)
+                                    }
+                                } else {
+                                    return (<div/>)
+                                }
+                            } ) ()}
                         </div>
-                        
                     </div>
                 </SwipeableListItem>
+
+                <CustomModal
+                    title="Notify Tenant"
+                    visible = {visible}
+                    actions={[
+                        <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                        // <SendEmailDemo to={tenantId} subject={subject} body={remarks}/>
+                    ]}
+                    functions={handleCancel}
+                    maskClosable={false}
+                >
+                    <TextArea onChange={updateSubject} placeholder="Subject" autoSize/>
+                    <TextArea onChange={updateRemarks} placeholder="Message" autoSize={{ minRows: 4}} className="mt-5" />
+                    
+                </CustomModal>
 
             </>
         )

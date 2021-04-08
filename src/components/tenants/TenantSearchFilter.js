@@ -5,7 +5,7 @@ import { useState, useHistory } from 'react';
 
 export default function TenantSearchFilter({tenants}) {
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const tenantss = [];
 
@@ -101,7 +101,7 @@ export default function TenantSearchFilter({tenants}) {
               onChange = {handleChange}
               filterOption={handleFilter}
             >
-              <Input.Search size="large" placeholder="input here" enterButton="Search" onSearch={onSearch}/>
+              <Input.Search size="large" placeholder="Search Tenant" enterButton="Search" onSearch={onSearch}/>
           </AutoComplete>
         </>
     )

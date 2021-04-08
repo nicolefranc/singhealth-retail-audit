@@ -24,29 +24,19 @@ export default function Notifications() {
         <>
             <Title >Notifications</Title>
 
-            {/* {
-                    getAllTenants ? getAllTenants.map((tenant, index) => (
-                        <Col key={index} xs={24} md={12} lg={8}>
-                            <TenantCard content={tenant} checkboxVisible={checkboxVisibility} />
-                        </Col>
-                    )) : 
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
-                } */}
-                <div>
-            
+            <div>
+        
             {
-                    getAllTenants ? getAllTenants.map((tenant, index) => (
-                        <SwipeableList>
-                            <TenantStatusItem content={tenant} checkboxVisible={checkboxVisibility} />
-                        </SwipeableList>
-                    )) : 
-                    <div className="flex w-full justify-center items-center">
-                        <Spin tip="Loading..." size="large" />
-                    </div>
-                }
+                getAllTenants ? getAllTenants.map((tenant, index) => (
+                    <SwipeableList>
+                        <TenantStatusItem content={tenant} checkboxVisible={checkboxVisibility} />
+                    </SwipeableList>
+                )) : 
+                <div className="flex w-full justify-center items-center">
+                    <Spin tip="Loading..." size="large" />
                 </div>
+            }
+            </div>
         </>
     )
 }
