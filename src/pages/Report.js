@@ -13,11 +13,12 @@ import Details from "../components/audit/Details";
 import { CREATE_REPORT } from "../graphql/mutations";
 import moment from "moment";
 import { resetImage } from "../redux/actions/image";
+import { PropertySafetyFilled } from "@ant-design/icons";
 
 
 
 
-export default function Report() {
+export default function Report(props) {
     const dispatch = useDispatch();
     const { tenantId, reportType } = useParams();
     const report = useSelector(state => state.report);
@@ -96,21 +97,19 @@ export default function Report() {
         console.log(variables);
     
         // createReport({ variables: { createReportBody: { tenantId: report.tenantId } } })
-        createReport({ variables })
-            .then(
-                onfulfilled => {
-                    message.success('Successfully saved report');
-                    // TODO: Clear state
+        createReport({ variables,
+             update(cache,result){
+                // TODO: Clear state
                     // resetStates();
-                    resetReport()(dispatch);
+                 message.success('Successfully saved report');
+                 resetReport()(dispatch);
                     // resetImage()(dispatch);
-                    // TODO: Redirect to view report
-                },
-                onrejected => {
-                    message.error('Failed to save report. Please try again later');
-                    console.log(onrejected);
-                }
-            )
+                    props.history.push(`/report/${result.data.createReport.id}`)
+        },onError(err){
+                message.error('Failed to save report. Please try again later');
+                console.log(err);
+            }
+        })
     }
     
 
