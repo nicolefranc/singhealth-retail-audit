@@ -200,7 +200,7 @@ export default function TenantDetail({}) {
                             visible = {visible}
                             actions={[
                                 <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                                <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                                <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
                             ]}
                             functions={handleCancel}
                             maskClosable={false}  
