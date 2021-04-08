@@ -12,6 +12,7 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
     const [selectedValue, setSelectedValue] = useState(0);
 
     const handleChange = e => {
+      console.log('selected',e);
       setSelectedValue(dropdownTenant[e].value);
     }
 
@@ -31,7 +32,8 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
             onChange={handleChange} 
             style={{ width: 200 }}
             filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              console.log(option.children.toLowerCase())
+              // option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
             {dropdownTenant.map(tenant => (

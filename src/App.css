@@ -49,58 +49,6 @@
 }
 
 
-.swipeable-listitem-left {
-  background-color: #1890ff;
-  /* box-sizing: border-box; */
-  color: white;
-  flex:1;
-  height: 100%;
-  /* width: 100%; */
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  /* align-items: center;
-  padding: 4px 8px; */
-}
-
-.swipeable-listitem-right {
-  background-color: #1890ff;
-  /* box-sizing: border-box; */
-  color: white;
-  height: 100%;
-  /* width: 100%; */
-  flex:1;
-  display: flex;
-  /* align-items: center; */
-  flex-flow:column;
-  justify-content: center;
-  align-items: flex-end;
-  /* padding: 4px 8px;
-  justify-content: flex-end; */
-}
-
-.swipeable-listitem-Audit {
-  background-color: #1890ff;
-  color: white;
-  height: 100%;
-  flex:1;
-  display: flex;
-  flex-flow:column;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.swipeable-listitem-Notify {
-  background-color: #ee8c0d;
-  color: white;
-  height: 100%;
-  flex:1;
-  display: flex;
-  flex-flow:column;
-  justify-content: center;
-  align-items: flex-end;
-}
-
 .swipeable-listitem-content {
   display: flex;
   flex-flow: column;
@@ -125,24 +73,6 @@
   border-bottom: 1px solid #c4c4c4;
 }
 
-.swipeable-listitem-name {
-  font-weight: 600;
-  font-size: 22px;
-  color: #083749;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-.swipeable-listitem-description {
-  margin-left: 2px;
-  margin-top: 4px;
-  color: #959595;
-  font-size: 14px;
-  line-height: 17px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-}
+
 

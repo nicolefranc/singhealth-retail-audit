@@ -13,11 +13,12 @@ import Details from "../components/audit/Details";
 import { CREATE_REPORT } from "../graphql/mutations";
 import moment from "moment";
 import { resetImage } from "../redux/actions/image";
+import { PropertySafetyFilled } from "@ant-design/icons";
 
 
 
 
-export default function Report() {
+export default function Report(props) {
     const dispatch = useDispatch();
     const { tenantId, reportType } = useParams();
     const report = useSelector(state => state.report);
@@ -64,8 +65,7 @@ export default function Report() {
 
     // API actions
     const handleSubmit = async action => {
-        let status = action === AUDIT_ACTIONS.SUBMIT_AUDIT ? 'audited' : action;
-    
+        
         // 1. Retrieve images, checklist from state
         // 2. Other infos: auditorId, auditDate, dueDate
         // Pass to mutate
@@ -75,7 +75,14 @@ export default function Report() {
             console.log(lineItemIDs);
             let remarks = images[lineItemId].remarks ? images[lineItemId].remarks : ''
             return { lineItemId, nonCompliances: images[lineItemId].links, nonComplRemarks: remarks }
-        })
+        });
+
+        let status;
+        console.log('length of images' + imagesArr.length);
+        if (imagesArr.length > 0) status = AUDIT_ACTIONS.UNRECTIFIED_AUDIT
+        else if (action === AUDIT_ACTIONS.SUBMIT_AUDIT) status = AUDIT_ACTIONS.AUDITED
+        else status = action
+
         console.log('images')
         console.log(imagesArr);
         console.log(report);
@@ -96,21 +103,19 @@ export default function Report() {
         console.log(variables);
     
         // createReport({ variables: { createReportBody: { tenantId: report.tenantId } } })
-        createReport({ variables })
-            .then(
-                onfulfilled => {
-                    message.success('Successfully saved report');
-                    // TODO: Clear state
-                    // resetStates();
-                    resetReport()(dispatch);
-                    // resetImage()(dispatch);
-                    // TODO: Redirect to view report
-                },
-                onrejected => {
-                    message.error('Failed to save report. Please try again later');
-                    console.log(onrejected);
-                }
-            )
+        createReport({ variables,
+             update(cache, result) {
+                // TODO: Clear state
+                // resetStates();
+                message.success('Successfully saved report');
+                resetReport()(dispatch);
+                resetImage()(dispatch);
+                props.history.push(`/report/${result.data.createReport.id}`)
+            }, onError(err) {
+                message.error('Failed to save report. Please try again later');
+                console.log(err);
+            }
+        });
     }
     
 
