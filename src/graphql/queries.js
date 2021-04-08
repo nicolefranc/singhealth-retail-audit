@@ -28,20 +28,11 @@ export const FETCH_TENANT_DETAILS = gql`
     }
 `;
 
-export const FETCH_REPORT_BY_TENANT_STATUS = gql` 
-    query Query($getReportByTenantAndStatusTenantId: String!, $getReportByTenantAndStatusStatus: String!){
-        getReportByTenantAndStatus(tenantId: $getReportByTenantAndStatusTenantId, status: $getReportByTenantAndStatusStatus){
+export const FETCH_REPORT_BY_TENANT = gql`
+    query($getAllReportsByTenantTenantId: String!){
+        getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
             id
             type
-            tenantId{
-                id
-                name
-                institution
-                email
-            }
-            auditorId{
-                id
-            }
             auditDate
             auditScore
             status
@@ -61,6 +52,7 @@ export const FETCH_REPORT_BY_AUDITOR_STATUS = gql`
                 id
                 name
                 institution
+                email
             }
             auditDate
             auditScore

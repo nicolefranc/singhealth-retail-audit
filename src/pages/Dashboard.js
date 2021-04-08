@@ -9,9 +9,10 @@ import TenantCard from "../components/tenants/TenantCard";
 import { routes } from "../const";
 import { tokenValidator } from "../utils/tokenValidator";
 import DashboardTenant from "./DashBoardTenant";
-import SendEmailDemo from "../components/audit/SendEmailDemo";
+import ReportCardDashboard from "../components/dashboard/ReportCardDashboard";
 
 export default function Dashboard() {
+
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isTenant = validatorResult.type === "tenant";
@@ -27,14 +28,12 @@ export default function Dashboard() {
           <div className='mb-10'>
             <DropdownTenantPerformance dropdownTenant={dropdownTenant} />
           </div>
-        <SendEmailDemo/>
           <div>
             <div className="m-5" style={{position:'sticky', top:'0', zIndex:'1'}}>
             <Title level={4} className='flex justify-center bg-blue-100 w-full'>Unrectified Audits</Title>
             </div>
-            <div style={{overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
-              {/* TODO: Add props - status */}
-              <TenantCard />
+            <div style={{overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+              <ReportCardDashboard status="unrectified"/>
             </div>
           </div>
           
@@ -42,9 +41,8 @@ export default function Dashboard() {
             <div className='m-5' style={{position:'sticky', top:'0', zIndex:'1'}}>
             <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title>
             </div>
-            <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto', height:'700px', zIndex:'0'}}>
-              {/* TODO: Add props - status */}
-              <TenantCard />
+            <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+              <ReportCardDashboard status="draft"/>
             </div>
           </div>
           

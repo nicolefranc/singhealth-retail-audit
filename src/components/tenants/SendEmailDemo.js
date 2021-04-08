@@ -5,7 +5,6 @@ import {SEND_EMAIL} from '../../graphql/mutations'
 import { tokenValidator } from "../../utils/tokenValidator";
 import gql from "graphql-tag";
 
-
 export default function SendEmailDemo({to, subject, body}){
 
     const [from, setFrom] = useState();

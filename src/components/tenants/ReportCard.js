@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import {Skeleton,Tag, Button,Empty,Spin,Row,Col,Checkbox} from "antd";
-import SwipeContent from '../../components/swipe/SwipeContent';
+import {Skeleton,Tag, Button,Empty,Spin,Row,Col,Checkbox,Divider } from "antd";
+import {SwipeContentAction1} from '../swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
 import SendPdf from '../audit/SendPdf';
-import ReportModal from './ReportModal';
+import ReportModal from '../report/ReportModal';
 import { routes } from '../../const';
 import { useHistory } from 'react-router';
 import TextArea from 'antd/lib/input/TextArea';
 	
-export default function ReportCard({ content, loading, error }) {
+export default function ReportCard({ content }) {
 
     const reportId = content.id;
     // console.log("reportId is this :", reportId);
@@ -53,9 +53,8 @@ export default function ReportCard({ content, loading, error }) {
     // For swipe functionality  
     const swipeLeftOptions = () => ({
         content: (
-            <SwipeContent
+            <SwipeContentAction1
             label="Email"
-            position="right"
             icon={<MailOutlined />}
             />
         ),
@@ -66,45 +65,36 @@ export default function ReportCard({ content, loading, error }) {
         history.push(`${routes.REPORT}/${reportId}`)
     }
 
-    //
-    if(loading || error) {
-        return (
-            <div className="flex w-full justify-center items-center">
-                    <Spin tip="Loading..." size="large" />
-            </div>
-        );
-    }
-    if(!content) {
-        return (
-            <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description={
-                    <span>No Tenants Found</span>
-                }
-            />
-        );
-    }
-
     if (content)
         return (
             <>
-                <SwipeableListItem 
-                    swipeLeft={swipeLeftOptions(content.type)}
-                >
+                <SwipeableListItem swipeLeft={swipeLeftOptions(content.type)}>
                     <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
-
-                            <div className="flex items-center">
-                                <span className="swipeable-listitem-name mr-2">{content.type}</span>
-                                {content.status==="audited" ? <Tag color="success" key={content.status}>{content.status.toUpperCase()}</Tag>:
-                                                    <Tag color="warning" key={content.status}>{content.status.toUpperCase()}</Tag>
-                                }
-                                {/* <Tag >{content.extension}</Tag> */}
-                            </div>
-                            <div >Audit Date: {content.auditDate}</div>
-                        </div>
+                        {( () => {
+                            if (content.status==="unrectified" || content.status==="draft"){
+                                return (<div className="font-semibold text-xl truncate">{content.tenantId.name}</div>)
+                            }else {
+                                return (<div/>)
+                            }
+                        } ) ()}
+                        <span className="font-semibold text-l truncate uppercase">Audit Checklist ({content.type})</span>
+                        <Divider type="vertical" />
+                        {( () => {
+                            if (content.status==="audited"){
+                                return (<Tag color="success">{content.status.toUpperCase()}</Tag>)
+                            } else if (content.status==="unrectified"){
+                                return(<Tag color="error">{content.status.toUpperCase()}</Tag>)
+                            }else if (content.status==="draft"){
+                                return(<Tag color="warning">{content.status.toUpperCase()}</Tag>)
+                            }else{
+                                return (<div/>)
+                            }
+                        } ) ()}
+                        <div className="text-sm text-gray-600">Date Created: {content.auditDate}</div>
+                        {/* TODO: fix extension */}
+                        {/* <Tag>Due {getAllReportsByTenant[0].extension.final.date}</Tag> */}</div>
                 </SwipeableListItem>
-                    
-
+                
                 <ReportModal
                     id={itemSelected}
                     title="Email Report PDF to..."

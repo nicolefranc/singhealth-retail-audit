@@ -5,16 +5,14 @@ import { Button, Col, Row, Input, Divider, Spin } from "antd";
 import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import { RESPONSIVE_GUTTER } from "../const";
-import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import TenantCard from "../components/tenants/TenantCard";
 
 const { Search } = Input;
 
 export default function Tenants() {
+
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    // const { data } = useQuery(FETCH_ALL_TENANTS);
-    // const { getAllTenants } = data ? data : [];
 
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)

@@ -1,16 +1,38 @@
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { Button, message, Input } from 'antd'
 import { useState } from 'react'
 import {SEND_EMAIL} from '../../graphql/mutations'
-
+import { tokenValidator } from "../../utils/tokenValidator";
+import gql from "graphql-tag";
 
 export default function SendEmailDemo(){
 
-
-    const [title, setTitle]     = useState();
-    const [body, setBody]     = useState();
-    const [to, setTo]     = useState();
     const [from, setFrom]     = useState();
+
+    //getting auditor name starts here
+    let isAuthenticated = localStorage.getItem("jwt");
+    let validatorResult = tokenValidator(isAuthenticated);
+
+    console.log("my id is : ", validatorResult.id);
+
+    const myEmailResult = useQuery(
+        gql`
+            query auditorById($id: String!) {
+                getAuditorById(id: $id) {
+                    name
+                }
+            }
+        `,
+        {
+            variables: { id: validatorResult.id },
+        }
+    );
+    if (myEmailResult.data) {
+        var userName = myEmailResult.data.getAuditorById.name;
+        console.log("my name is", userName);
+    }
+    setFrom(userName);
+    //
 
     const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {
         update(cache, result){
@@ -28,10 +50,6 @@ export default function SendEmailDemo(){
     }
 
     return (
-        <>from<Input name="from" title="from" onChange={(e) => setFrom(e.target.value)}></Input>
-        to<Input name="to" title="to" onChange={(e) => setTo(e.target.value)}></Input>
-        title<Input name="title" title="title" onChange={(e) => setTitle(e.target.value)}></Input>
-        body<Input name="body" title="body" onChange={(e) => setBody(e.target.value)}></Input>
-        <Button onClick={handleClick}>Press me to send</Button></>
+        <Button onClick={handleClick}>Send</Button>
     )
 }

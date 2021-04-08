@@ -1,17 +1,22 @@
-import { Divider, message, Skeleton,Tag } from "antd";
+import { Divider, message, Skeleton,Tag,Button } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
+import { useQuery } from '@apollo/client';
 import TextArea from 'antd/lib/input/TextArea';
-import SwipeContentv2 from '../../components/swipe/SwipeContentv2';
+import {SwipeContentAction1,SwipeContentAction2} from '../../components/swipe/SwipeContent';
 import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { NotificationOutlined,EditOutlined } from "@ant-design/icons";
 import React, { useState } from 'react';
 import CustomModal from '../../components/modals/CustomModal';
 import SendEmailDemo from './SendEmailDemo';
+import { FETCH_REPORT_BY_TENANT } from "../../graphql/queries";
 
 export default function TenantListItem({ content, checkboxVisible, auditable }) {
 
     const tenantId = content.id;
+    const { loading, error, data } = useQuery(FETCH_REPORT_BY_TENANT, {
+        variables: { getAllReportsByTenantTenantId: tenantId}
+    });
 
     const handleClick = () => {
         console.log(`TenantDetail/${tenantId}`)
@@ -41,6 +46,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
     const handleCancel = () => {
         setVisible(false);
     };
+
     // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
@@ -52,9 +58,8 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
 
     const swipeNotifyOptions = () => ({
         content: (
-            <SwipeContentv2
+            <SwipeContentAction2
             label="Notify"
-            position="right"
             icon={<NotificationOutlined />}
             />
         ),
@@ -63,9 +68,8 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
     
     const swipeAuditOptions = () => ({
         content: (
-            <SwipeContentv2
+            <SwipeContentAction1
             label="Audit"
-            position="right"
             icon={<EditOutlined />}
             />
         ),
@@ -78,10 +82,14 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
         handleSwipeProgress(0);
     };
 
+    const { getAllReportsByTenant } = data ? data : [] ;
+    if (getAllReportsByTenant && getAllReportsByTenant.length>0){
+        console.log(getAllReportsByTenant);
+    }
+
     if (content)
         return (
             <>
-                {/* edit if else */}
                 <SwipeableListItem 
                     threshold={0}
                     extra={ checkboxVisible && <Checkbox onChange={handleCheckbox}/>}
@@ -91,37 +99,33 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
                     // key={id}
                 >
                     <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick}>
-                    
-                        <div className="flex items-center">
-                            <span className="swipeable-listitem-name">{content.name}</span>
-                        
-                        </div>
+                        <span className="font-semibold text-xl truncate">{content.name}</span>
                         <div className="flex">
-                            <div className="swipeable-listitem-description mr-2">{content.institution}</div>
-                            {/* <Tag >Last Audit: {content.auditDate[0]}</Tag>
-                            <Tag color="red">{content.status}</Tag> */}
-                            <Tag >Last Audit: 29/3/2021</Tag>
-                            <Tag color="red">Unrectified</Tag>
-
-                            {/* {status.map(status => {
-                                let color = 'blue';
-                                if (status === 'Due') {
-                                color = 'volcano';
+                            <div className="text-sm text-gray-500 uppercase">{content.institution}</div>
+                            <Divider type="vertical" />
+                            {( () => {
+                                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                                    return (<Tag>Last Audit Date: {getAllReportsByTenant[0].auditDate}</Tag>)
+                                } else {
+                                    return (<div/>)
                                 }
-                                else if(status === 'Rectified'){
-                                color = 'green';
+                            } ) ()}
+                            {( () => {
+                                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                                    if (getAllReportsByTenant[0].status==="audited" || getAllReportsByTenant[0].status==="rectified"){
+                                        return (<Tag color="success">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                    } else if (getAllReportsByTenant[0].status==="unrectified"){
+                                        return(<Tag color="error">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                    }else if (getAllReportsByTenant[0].status==="draft"){
+                                        return(<Tag color="warning">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                    }else{
+                                        return (<div/>)
+                                    }
+                                } else {
+                                    return (<div/>)
                                 }
-                                else if(status ==='Unrectified'){
-                                color = 'geekblue'
-                                }
-                                return (
-                                <Tag color={color} key={status}>
-                                    {status.toUpperCase()}
-                                </Tag>
-                                );
-                            })} */}
+                            } ) ()}
                         </div>
-                        
                     </div>
                 </SwipeableListItem>
 
