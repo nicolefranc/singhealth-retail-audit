@@ -8,28 +8,6 @@ export default function TenantSearchFilter({tenants}) {
   const tenantss = [];
 
   const tenants2 = [...tenants]
-  // const tenants2= [
-  //   {
-  //     id: "604e6bf39e962017541a3dc6",
-  //     name: "cghStarbucks",
-  //     institution: "cgh"
-  //   },
-  //   {
-  //     id: "604e6c599e962017541a3dc7",
-  //     name: "sghGuardian",
-  //     institution: "sgh"
-  //   },
-  //   {
-  //     id: "604e6c599e962017541a3dc7",
-  //     name: "thsYes",
-  //     institution: "ths"
-  //   },
-  //   {
-  //     id: "604e6c599e962017541a3dc7",
-  //     name: "cghYes",
-  //     institution: "cgh"
-  //   }
-  // ]
 
   function sortByInstitution(property){
     return function(a,b){
@@ -49,28 +27,18 @@ export default function TenantSearchFilter({tenants}) {
 
   for (let i = 0; i<tenants2.length; i++){ //i< number of institution
     //need to check whether tenantss has object with instituion == tenansts2[i].institution
-    const foundSameInstitution = false;
+    let foundSameInstitution = false;
     for (let j = 0; j < tenantss.length; j ++){
-      console.log(tenantss.institution)
-      console.log(tenantss.name)
-      if (tenantss[j].institution === tenants2[i].institution){
+      console.log("tenantss",tenantss[j].label)
+      console.log("tenants2",tenants2[i])
+      if (tenantss[j].label === tenants2[i].institution){
         foundSameInstitution = true;
-        tenantss[i].options.push({value: tenants2[i].name});
+        tenantss[j].options.push({value: tenants2[i].name});
       }
     }
     if(!foundSameInstitution){
       tenantss.push( {label: tenants2[i].institution, options: [{value: tenants2[i].name}]})
     };
-    // for (let y = 0; y<tenants2.length;y++){
-    //   if (tenants2[y].institution === tenantss[i].label){
-    //     try {
-    //       tenantss[i].options.push({value: tenants2[y].name}) 
-    //     } catch(err){
-    //       console.log(err);
-    //     }
-    //     console.log("hi");
-    //   }
-    // }
   }
 
   // const tenants1 = tenants2.filter(t => t.institution === "cgh")
@@ -121,21 +89,6 @@ export default function TenantSearchFilter({tenants}) {
   
     return(
       <>
-          {/* <Select 
-            className='mb-12'  
-            showSearch
-            onSearch ={onSearch}
-            defaultValue= {options[0].label}
-            onChange={handleChange} 
-            style={{ width: 200 }}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            >
-            {options.map(tenant => (
-            <Option key={tenant.value}>{tenant.label}</Option>
-            ))}
-          </Select>       */}
           <AutoComplete
               className="w-full"
               dropdownClassName="certain-category-search-dropdown"
@@ -145,14 +98,6 @@ export default function TenantSearchFilter({tenants}) {
               onChange = {handleChange}
               filterOption={handleFilter}
             >
-              {/* {options.map(institution => {
-                institution.options.map(tenant => (
-                  <>
-                    <Option> <span>{institution.label}</span></Option>
-                    <Option key={tenant.value}>{tenant.value}</Option>
-                    </>
-                ))
-              })} */}
               <Input.Search size="large" placeholder="input here" enterButton="Search" onSearch={onSearch}/>
           </AutoComplete>
         </>

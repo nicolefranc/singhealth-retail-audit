@@ -14,9 +14,16 @@ const { Search } = Input;
 
 export default function Tenants() {
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    const { data } = useQuery(FETCH_ALL_TENANTS);
-    const { getAllTenants } = data ? data : [];
+    const { data , loading, error} = useQuery(FETCH_ALL_TENANTS);
+    
+    if (loading) return <Spin size="large" />
 
+
+    else if(error) {
+        return <div>{ JSON.stringify(error) }</div>
+    }
+
+    const {getAllTenants} = data;
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)
     }
@@ -25,8 +32,7 @@ export default function Tenants() {
         console.log(value);
     }
 
-    if(!data) console.log("nodata");
-    if(!getAllTenants) console.log("no tenants");
+
 
     // function sortByInstitution(property){
     //     return function(a,b){
