@@ -19,7 +19,10 @@ export const TOKEN = 'jwt';
 export const DATE_FORMAT = 'DD MMM YYYY';
 export const AUDIT_ACTIONS = {
     SUBMIT_AUDIT: 'submit',
-    DRAFT_AUDIT: 'draft'
+    DRAFT_AUDIT: 'draft',
+    UNRECTIFIED_AUDIT: 'unrectified',
+    RECTIFIED_AUDIT: 'rectified',
+    AUDITED: 'audited'
 }
 
 export const RESPONSIVE_GUTTER = { xs: 8, sm: 16, md: 24, lg: 32 };

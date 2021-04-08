@@ -83,8 +83,11 @@ export default function TenantDetail({}) {
     const history = useHistory();
     const goToReport = () => {
         history.push(`${routes.REPORT}/${getAllReportsByTenant[0].id}`)
-        
-    }  
+    }
+
+    const audit = () => {
+        history.push(`${routes.AUDIT}/${tenantId}`)
+    }
 
     if (loading) return <Spin />
     else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
@@ -114,7 +117,7 @@ export default function TenantDetail({}) {
                 </Descriptions>
                 <div className="flex my-6">
                     <Button block className="mr-2">Notify</Button>
-                    <Button block className="ml-2" type="primary">Audit</Button>
+                    <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
                     <div block className="ml-2">
                 <Popover
                     content={<a><ExpiryPopover tenant={tenant} makeInvisible={makeInvisible}/></a>}

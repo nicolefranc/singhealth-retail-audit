@@ -65,8 +65,7 @@ export default function Report(props) {
 
     // API actions
     const handleSubmit = async action => {
-        let status = action === AUDIT_ACTIONS.SUBMIT_AUDIT ? 'audited' : action;
-    
+        
         // 1. Retrieve images, checklist from state
         // 2. Other infos: auditorId, auditDate, dueDate
         // Pass to mutate
@@ -76,7 +75,14 @@ export default function Report(props) {
             console.log(lineItemIDs);
             let remarks = images[lineItemId].remarks ? images[lineItemId].remarks : ''
             return { lineItemId, nonCompliances: images[lineItemId].links, nonComplRemarks: remarks }
-        })
+        });
+
+        let status;
+        console.log('length of images' + imagesArr.length);
+        if (imagesArr.length > 0) status = AUDIT_ACTIONS.UNRECTIFIED_AUDIT
+        else if (action === AUDIT_ACTIONS.SUBMIT_AUDIT) status = AUDIT_ACTIONS.AUDITED
+        else status = action
+
         console.log('images')
         console.log(imagesArr);
         console.log(report);
@@ -98,18 +104,18 @@ export default function Report(props) {
     
         // createReport({ variables: { createReportBody: { tenantId: report.tenantId } } })
         createReport({ variables,
-             update(cache,result){
+             update(cache, result) {
                 // TODO: Clear state
-                    // resetStates();
-                 message.success('Successfully saved report');
-                 resetReport()(dispatch);
-                    // resetImage()(dispatch);
-                    props.history.push(`/report/${result.data.createReport.id}`)
-        },onError(err){
+                // resetStates();
+                message.success('Successfully saved report');
+                resetReport()(dispatch);
+                resetImage()(dispatch);
+                props.history.push(`/report/${result.data.createReport.id}`)
+            }, onError(err) {
                 message.error('Failed to save report. Please try again later');
                 console.log(err);
             }
-        })
+        });
     }
     
 

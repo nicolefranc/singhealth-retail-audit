@@ -11,6 +11,7 @@ import ViewPhotos from "./ViewPhotos";
 import ViewExtentions from "./ViewExtensions";
 import SendPdf from '../../components/audit/SendPdf';
 import ReportModal from '../../components/report/ReportModal';
+import { round } from '../../utils/utils';
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -77,7 +78,7 @@ export default function ViewReport() {
                 <PageTitle title={getReportById.tenantId.name} />
                 <Row align="middle" className="pb-6">
                     <Statistic title="Type" value={getReportById.type.toUpperCase()} />
-                    <Statistic title="Score" suffix="%" value={getReportById.auditScore} className="px-8" />
+                    <Statistic title="Score" suffix="%" value={round(getReportById.auditScore, 0)} className="px-8" />
                     {/* TODO: change color based on Status */}
                     <Tag color="blue" className="px-3 py-1"><Statistic title="Status" value={getReportById.status} className="capitalize" /></Tag>
                     
