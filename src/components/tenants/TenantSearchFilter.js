@@ -1,9 +1,11 @@
 import { Input, AutoComplete, Select} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 // import Select from 'react-select';
-import { useState } from 'react';
+import { useState, useHistory } from 'react';
 
 export default function TenantSearchFilter({tenants}) {
+
+  const history = useHistory();
 
   const tenantss = [];
 
@@ -76,6 +78,7 @@ export default function TenantSearchFilter({tenants}) {
     }
 
     function onSearch(val) {
+      // history.push(`${routes.REPORT}/${reportId}`)
       console.log('search:', val);
     }
 
