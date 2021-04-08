@@ -8,13 +8,14 @@ import { RESPONSIVE_GUTTER } from "../const";
 import {SwipeableList} from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import TenantCard from "../components/tenants/TenantCard";
+import TenantSearchFilter from "../components/tenants/TenantSearchFilter";
 
 const { Search } = Input;
 
 export default function Tenants() {
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
-    // const { data } = useQuery(FETCH_ALL_TENANTS);
-    // const { getAllTenants } = data ? data : [];
+    const { data } = useQuery(FETCH_ALL_TENANTS);
+    const { getAllTenants } = data ? data : [];
 
     const toggleCheckbox = () => {
         setCheckboxVisibility(!checkboxVisibility)
@@ -24,13 +25,34 @@ export default function Tenants() {
         console.log(value);
     }
 
+    if(!data) console.log("nodata");
+    if(!getAllTenants) console.log("no tenants");
+
+    // function sortByInstitution(property){
+    //     return function(a,b){
+    //       if(a[property] > b[property]){
+    //         return 1;
+    //       }
+    //       else if(a[property] < b[property]){
+    //         return -1;
+    //       }
+    //       return 0;
+    //     }
+    //   }
+    
+    // getAllTenants.sort(sortByInstitution("institution"))
+
     return (
         <>
             <Title>Tenants</Title>
 
             <Divider />
 
-            <Row gutter={16} justify="space-between">
+            <div className='mb-4'>
+                <TenantSearchFilter tenants={getAllTenants}/>
+            </div>
+
+            {/* <Row gutter={16} justify="space-between">
                 <Col className="mb-4">
                     <Search
                         placeholder="Search a tenant"
@@ -46,8 +68,9 @@ export default function Tenants() {
                         onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }
                     </Button>
                 </Col>
-            </Row>
-                <TenantCard/>
+            </Row> */}
+
+            <TenantCard/>
         </>
     )
 }
