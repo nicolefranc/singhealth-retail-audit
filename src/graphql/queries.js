@@ -152,13 +152,15 @@ export const FETCH_REPORT_BY_ID = gql`
 `;
 
 const FETCH_ALL_TENANTS_PERFORMANCE = gql`
-  query getAllTenants{
+  query{
+  getAllTenants{
     performance{
       month
-      key
+      entry
       score
     }
   }
+}
 `;
 
 const FETCH_ALL_TENANT_PERFORMANCE = gql`
