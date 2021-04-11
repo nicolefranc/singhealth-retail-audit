@@ -6,7 +6,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { useParams } from "react-router";
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import ViewChecklist from "./ViewChecklist";
-import { PageSubtitle, PageTitle, Section } from "../layout/PageLayout";
+import { PageContent, PageSubtitle, PageTitle, Section } from "../layout/PageLayout";
 import ViewPhotos from "./ViewPhotos";
 import ViewExtentions from "./ViewExtensions";
 import SendPdf from '../../components/audit/SendPdf';
@@ -63,7 +63,7 @@ export default function ViewReport() {
     const { getReportById } = data;
 
     return (
-        <>
+        <PageContent>
             <PageHeader
                 className="p-0"
                 onBack={() => window.history.back()}
@@ -137,6 +137,6 @@ export default function ViewReport() {
                     <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
                 </div>
         </ReportModal>
-        </>
+        </PageContent>
     )
 }

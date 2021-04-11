@@ -13,7 +13,7 @@ import ReportCard from "../components/tenants/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
 import { useParams } from "react-router";
 import { useHistory } from 'react-router';
-import { PageTitle, SectionTitle, Section, PageSubtitle } from "../components/layout/PageLayout";
+import { PageTitle, SectionTitle, Section, PageSubtitle, PageContent } from "../components/layout/PageLayout";
 import TextArea from 'antd/lib/input/TextArea';
 import ExpiryPopover from "../components/tenants/ExpiryPopover";
 
@@ -102,7 +102,7 @@ export default function TenantDetail({}) {
     console.log(getAllReportsByTenant[0]);
 
     return (    
-        <div>
+        <PageContent>
             <PageHeader
                 className="p-0"
                 onBack={() => window.history.back()}
@@ -137,7 +137,8 @@ export default function TenantDetail({}) {
                     return (
                         <Section>
                             <SectionTitle title="Latest Report" />
-                            <SwipeableListItem swipeLeft={swipeLeftOptions()}>
+                            <ReportCard content={getAllReportsByTenant[0]} />
+                            {/* <SwipeableListItem swipeLeft={swipeLeftOptions()}>
                                 <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
                                     <span className="font-semibold text-l truncate uppercase">Audit Checklist ({getAllReportsByTenant[0].type.toUpperCase()})</span>
                                     <Divider type="vertical" />
@@ -155,8 +156,8 @@ export default function TenantDetail({}) {
                                     <div className="text-sm text-gray-600">Date Created: {getAllReportsByTenant[0].auditDate}</div>
                                     {/* TODO: fix extension */}
                                     {/* <Tag>Due {getAllReportsByTenant[0].extension.final.date}</Tag> */}
-                                </div>
-                            </SwipeableListItem>
+                                {/* </div>
+                            </SwipeableListItem> */}
                         </Section>
                     )
                 } else {
@@ -221,6 +222,6 @@ export default function TenantDetail({}) {
                 }
             } ) ()}
             
-        </div>
+        </PageContent>
     )
 }

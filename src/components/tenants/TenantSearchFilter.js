@@ -77,9 +77,9 @@ export default function TenantSearchFilter({tenants}) {
       setSelectedValue(a);
     }
 
-    function onSearch(val) {
+    function onSearch(e) {
       // history.push(`${routes.REPORT}/${reportId}`)
-      console.log('search:', val);
+      console.log('search:', e.target.value);
     }
 
     //(inputValue, option) => option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
@@ -101,7 +101,7 @@ export default function TenantSearchFilter({tenants}) {
               onChange = {handleChange}
               filterOption={handleFilter}
             >
-              <Input.Search size="large" placeholder="Search Tenant" enterButton="Search" onSearch={onSearch}/>
+              <Input size="large" placeholder="Search Tenant" enterButton={false} onPressEnter={onSearch} style={{ borderRadius: '0.375rem' }} />
           </AutoComplete>
         </>
     )
