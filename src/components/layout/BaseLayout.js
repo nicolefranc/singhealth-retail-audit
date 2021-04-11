@@ -33,7 +33,7 @@ export default function BaseLayout({ children }) {
 
     return (
         <Layout>
-            <Header>Header</Header>
+            {/* <Header>Header</Header> */}
             <Content
                 // style={{
                 //     padding: 14,
