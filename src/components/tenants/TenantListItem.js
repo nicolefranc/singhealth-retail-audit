@@ -1,4 +1,4 @@
-import { Divider, message, Skeleton,Tag,Button } from "antd";
+import { Divider, message, Skeleton,Tag,Button, Spin, Result } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { useHistory } from "react-router-dom";
 import { useQuery } from '@apollo/client';
@@ -82,6 +82,13 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
         handleSwipeProgress(0);
     };
 
+    if (loading) return (
+        <div className="px-4 pt-2 pb-5 rounded-md shadow-md bg-white">
+            <Skeleton loading={loading} />
+        </div>
+    )
+    else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
+
     const { getAllReportsByTenant } = data ? data : [] ;
     if (getAllReportsByTenant && getAllReportsByTenant.length>0){
         console.log(getAllReportsByTenant);
@@ -98,34 +105,42 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
                     onSwipeEnd={handleSwipeEnd}
                     // key={id}
                 >
-                    <div className="swipeable-listitem p-2.5 flex-1" onClickCapture={handleClick}>
-                        <span className="font-semibold text-xl truncate">{content.name}</span>
-                        <div className="flex">
-                            <div className="text-sm text-gray-500 uppercase">{content.institution}</div>
-                            <Divider type="vertical" />
-                            {( () => {
-                                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-                                    return (<Tag>Last Audit Date: {getAllReportsByTenant[0].auditDate}</Tag>)
-                                } else {
-                                    return (<div/>)
-                                }
-                            } ) ()}
-                            {( () => {
-                                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-                                    if (getAllReportsByTenant[0].status==="audited" || getAllReportsByTenant[0].status==="rectified"){
-                                        return (<Tag color="success">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
-                                    } else if (getAllReportsByTenant[0].status==="unrectified"){
-                                        return(<Tag color="error">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
-                                    }else if (getAllReportsByTenant[0].status==="draft"){
-                                        return(<Tag color="warning">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
-                                    }else{
-                                        return (<div/>)
-                                    }
-                                } else {
-                                    return (<div/>)
-                                }
-                            } ) ()}
-                        </div>
+                    <div className="swipeable-listitem px-4 py-5 flex-1 rounded-md" onClickCapture={handleClick}>
+                        {/* <span className="font-semibold text-xl truncate">{content.name}</span> */}
+                        <div className="font-semibold text-xl truncate">{content.name}</div>
+                        <span className="font-semibold truncate uppercase text-gray-500">{content.institution}</span>
+                        
+                        { (getAllReportsByTenant && getAllReportsByTenant.length > 0) && <div className="flex items-center mt-4">
+                            {/* <Divider type="vertical" /> */}
+                            <div className="mt-2 mr-4">
+                                <h4 className="text-xs font-semibold text-gray-400 uppercase">Type</h4>
+                                <h3 className="text-base uppercase">{getAllReportsByTenant[0].type}</h3>
+                            </div>
+                            <div className="mt-2 mr-4">
+                                <h4 className="text-xs font-semibold text-gray-400 uppercase">Date of Audit</h4>
+                                <h3 className="text-base">{getAllReportsByTenant[0].auditDate}</h3>
+                            </div>
+                            <div className="mt-2">
+                                <h4 className="text-xs font-semibold text-gray-400 uppercase">Status</h4>
+                                <h3 className="text-base uppercase">
+                                    {( () => {
+                                        if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                                            if (getAllReportsByTenant[0].status==="audited" || getAllReportsByTenant[0].status==="rectified"){
+                                                return (<Tag color="success">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                            } else if (getAllReportsByTenant[0].status==="unrectified"){
+                                                return(<Tag color="error">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                            }else if (getAllReportsByTenant[0].status==="draft"){
+                                                return(<Tag color="warning">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                            }else{
+                                                return (<div/>)
+                                            }
+                                        } else {
+                                            return (<div/>)
+                                        }
+                                    } ) ()}
+                                </h3>
+                            </div>
+                        </div>}
                     </div>
                 </SwipeableListItem>
 
