@@ -54,6 +54,8 @@ export default function TenantSearchFilter({tenants}) {
 
   const { Option } = AutoComplete;
 
+  const [changeValue, setChangeValue] = useState("");
+
   const [selectedValue, setSelectedValue] = useState("");
 
   // const { loading, error, data }= useQuery(GET_TENANT_BY_NAME, {variables: {name :tenantName}});
@@ -68,17 +70,23 @@ export default function TenantSearchFilter({tenants}) {
 
   const handleChange = (a) => {
     console.log(`selected ${a}`);
-    setSelectedValue(a);
+    setChangeValue(a);
     tenantName = a;
-    console.log("tenantName", tenantName)
+    console.log("tenantNameChange", changeValue)
+  }
+
+  const handleSelect = (a) => {
+    setSelectedValue(a);
+    setSearchValue(a);
+    console.log("selectedSearch", selectedValue)
   }
 
   function onSearch(val) {
-    tenantName = val;
+    // tenantName = val;
     setSearchValue(val)
     console.log("searchValue",searchValue)
     getSearch({
-      variables: {name :tenantName}
+      variables: {name :searchValue}
     })
     console.log('searchData:', data);
     const { getTenantByName } = data ? data : [] ;
@@ -104,6 +112,7 @@ export default function TenantSearchFilter({tenants}) {
             dropdownMatchSelectWidth={500}
             options={options}
             onChange = {handleChange}
+            onSelect = {handleSelect}
             filterOption={handleFilter}
           >
             <Input.Search size="large" placeholder="Search Tenant" enterButton="Search" onSearch={onSearch}/>
