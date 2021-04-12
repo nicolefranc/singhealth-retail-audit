@@ -122,7 +122,7 @@ export default function ViewReport() {
                 visible = {visible}
                 actions={[
                     <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                    <SendPdf reportId={getReportById.id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
+                    <SendPdf reportId={getReportById.id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
                 ]}
                 functions={handleCancel}
                 maskClosable={false}  

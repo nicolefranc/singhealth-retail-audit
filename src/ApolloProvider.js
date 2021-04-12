@@ -10,8 +10,8 @@ import { typeDefs } from './graphql/typeDefs';
 import { TOKEN } from './const';
 
 const httpLink = createUploadLink({
-    uri: 'http://localhost:5000' // pointing to the server
-    // uri: 'https://sra-gql.herokuapp.com/' // production
+    // uri: 'http://localhost:5000' // pointing to the server
+    uri: 'https://sra-gql.herokuapp.com/' // production
 });
 
 const authLink = setContext((_, { headers }) => {
