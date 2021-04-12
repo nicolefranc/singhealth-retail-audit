@@ -8,6 +8,7 @@ import { RESPONSIVE_GUTTER } from "../const";
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import TenantCard from "../components/tenants/TenantCard";
 import TenantSearchFilter from "../components/tenants/TenantSearchFilter";
+import { PageContent, PageHeading } from "../components/layout/PageLayout";
 
 const { Search } = Input;
 
@@ -50,33 +51,37 @@ export default function Tenants() {
 
     return (
         <>
-            <Title>Tenants</Title>
-
-            <Divider />
-
-            <div className='mb-4'>
+            
+            <PageHeading title="Tenants">
+                {/* <div className="bg-white p-6 rounded-md shadow-md flex justify-evenly cursor-pointer">
+                
+                </div> */}
                 <TenantSearchFilter tenants={getAllTenants}/>
-            </div>
+            </PageHeading>
+            <PageContent>
+                <div className='mb-4'>
+                </div>
 
-            {/* <Row gutter={16} justify="space-between">
-                <Col className="mb-4">
-                    <Search
-                        placeholder="Search a tenant"
-                        allowClear
-                        enterButton="Search"
-                        size="large"
-                        onSearch={onSearch}
-                    />
-                </Col>
-                <Col className="mb-4">
-                    <Button icon={<FilterOutlined />} type="text" size="large">Filter</Button>
-                    <Button icon={checkboxVisibility ? <CloseOutlined /> : <SelectOutlined />} size="large"
-                        onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }
-                    </Button>
-                </Col>
-            </Row> */}
+                {/* <Row gutter={16} justify="space-between">
+                    <Col className="mb-4">
+                        <Search
+                            placeholder="Search a tenant"
+                            allowClear
+                            enterButton="Search"
+                            size="large"
+                            onSearch={onSearch}
+                        />
+                    </Col>
+                    <Col className="mb-4">
+                        <Button icon={<FilterOutlined />} type="text" size="large">Filter</Button>
+                        <Button icon={checkboxVisibility ? <CloseOutlined /> : <SelectOutlined />} size="large"
+                            onClick={toggleCheckbox}>{ checkboxVisibility ? "Cancel" : "Select" }
+                        </Button>
+                    </Col>
+                </Row> */}
 
-            <TenantCard/>
+                <TenantCard/>
+            </PageContent>
         </>
     )
 }

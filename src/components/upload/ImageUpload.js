@@ -9,7 +9,7 @@ import { addImage, removeImage } from "../../redux/actions/image";
 /*
  * This functions allows images to be captured and stored in the state
  */
-export default function ImageUpload({ id }) {
+export default function ImageUpload({ id, lineItem }) {
     // const [files, setFiles] = useState([]);
     const files = useSelector(state => state.images[id] ? state.images[id].images : []);
     const links = useSelector(state => state.images[id] ? state.images[id].links : null);
@@ -39,13 +39,16 @@ export default function ImageUpload({ id }) {
         },
         beforeUpload: file => {
             const newFiles = [...files, file];
-            addImage(id, newFiles)(dispatch);
+            addImage(id, newFiles, lineItem)(dispatch);
             return false;
         },
         fileList: files,
         listType: 'picture',
+        maxCount: 3,
+        accept: 'image/*'
     };
 
+    console.log('imageupload.js ' + lineItem);
     // if (error) return <div>{JSON.stringify(error, null, 2)}</div>;
     return (
         <div>

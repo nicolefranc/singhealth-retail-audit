@@ -13,7 +13,7 @@ import ReportCard from "../components/tenants/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
 import { useParams } from "react-router";
 import { useHistory } from 'react-router';
-import { PageTitle, SectionTitle, Section, PageSubtitle } from "../components/layout/PageLayout";
+import { PageTitle, SectionTitle, Section, PageSubtitle, PageContent, PageHeading, BackHeader } from "../components/layout/PageLayout";
 import TextArea from 'antd/lib/input/TextArea';
 import ExpiryPopover from "../components/tenants/ExpiryPopover";
 
@@ -102,12 +102,14 @@ export default function TenantDetail({}) {
     console.log(getAllReportsByTenant[0]);
 
     return (    
-        <div>
-            <PageHeader
-                className="p-0"
-                onBack={() => window.history.back()}
-                title={<PageSubtitle title="Tenant Details" />}
-            >
+        <>
+            <PageHeading title={tenant.name} node={
+                <div className="flex mt-4">
+                    <Button block className="mr-2">Notify</Button>
+                    <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
+                </div>
+            }>
+                <BackHeader title="Tenant Details" />
                 <PageTitle title={tenant.name} />
                 <Descriptions size="small" column={1} layout="horizontal" bordered>
                     <Descriptions.Item label="Institution">{ tenant.institution }</Descriptions.Item>
@@ -115,112 +117,93 @@ export default function TenantDetail({}) {
                     <Descriptions.Item label="Tenancy Expiry">{ tenant.expiry ? tenant.expiry : "-" }</Descriptions.Item>
                     
                 </Descriptions>
-                <div className="flex my-6">
+                <div className="flex mt-6">
                     <Button block className="mr-2">Notify</Button>
                     <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
                     <div block className="ml-2">
-                <Popover
-                    content={<a><ExpiryPopover tenant={tenant} makeInvisible={makeInvisible}/></a>}
-                    title="Extension Request"
-                    trigger="click"
-                    visible={visible1}
-                    onVisibleChange={handleVisibleChange}
-                >
-                    <Button type="ghost" disabled={tenant.expiry === "Pending Approval"}>Edit Expiry</Button>
-                </Popover>
-            </div>
-                </div>
-            </PageHeader>
-
-            {( () => {
-                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-                    return (
-                        <Section>
-                            <SectionTitle title="Latest Report" />
-                            <SwipeableListItem swipeLeft={swipeLeftOptions()}>
-                                <div className="swipeable-listitem p-2.5 flex-1" onClick={goToReport}>
-                                    <span className="font-semibold text-l truncate uppercase">Audit Checklist ({getAllReportsByTenant[0].type.toUpperCase()})</span>
-                                    <Divider type="vertical" />
-                                    {( () => {
-                                        if (getAllReportsByTenant[0].status==="audited"){
-                                            return (<Tag color="success">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
-                                        } else if (getAllReportsByTenant[0].status==="unrectified"){
-                                            return(<Tag color="error">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
-                                        }else if (getAllReportsByTenant[0].status==="draft"){
-                                            return(<Tag color="warning">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
-                                        }else{
-                                            return (<div/>)
-                                        }
-                                    } ) ()}
-                                    <div className="text-sm text-gray-600">Date Created: {getAllReportsByTenant[0].auditDate}</div>
-                                    {/* TODO: fix extension */}
-                                    {/* <Tag>Due {getAllReportsByTenant[0].extension.final.date}</Tag> */}
-                                </div>
-                            </SwipeableListItem>
-                        </Section>
-                    )
-                } else {
-                    return (<div/>)
-                }
-            } ) ()}
-                   
-            <Section>
-                <SectionTitle title="Performance Graph" />
-                <PerformanceGraph content={Performance} type={undefined}/>
-            </Section>
-
-            <Section>
-                <SectionTitle title="Audits" />
-                {
-                    getAllReportsByTenant.length > 0 ? getAllReportsByTenant.map((report, index)=> (
-                        <SwipeableList key={index}>
-                            <ReportCard content={report}  />
-                        </SwipeableList>
-                    )) : <Empty description="No Audits">
-                        {/* <Button type="primary">New Audit</Button> */}
-                    </Empty>
-                }
-            </Section>
-
-            <div className="mt-12 mb-6">
-                <Button type="primary" danger block>
-                    <Popconfirm
-                        title="Are you sure to delete tenant x?"
-                        onConfirm={confirm}
-                        onCancel= {null}
-                        okText="Yes"
-                        cancelText="No"
-                    >Delete Tenant</Popconfirm>
-                </Button>
-            </div>
-
-            {( () => {
-                if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-                    return (
-                        <ReportModal 
-                            id={getAllReportsByTenant[0].id}
-                            title="Email Report PDF to..."
-                            visible = {visible}
-                            actions={[
-                                <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                                <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
-                            ]}
-                            functions={handleCancel}
-                            maskClosable={false}  
+                        <Popover
+                            content={<a><ExpiryPopover tenant={tenant} makeInvisible={makeInvisible}/></a>}
+                            title="Extension Request"
+                            trigger="click"
+                            visible={visible1}
+                            onVisibleChange={handleVisibleChange}
                         >
-                            <div className="flex flex-col">
-                                <Row>
-                                    <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
-                                    <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
-                                </Row>
+                            <Button type="ghost" disabled={tenant.expiry === "Pending Approval"}>Edit Expiry</Button>
+                        </Popover>
+                    </div>
+                </div>
+            </PageHeading>
+            <PageContent>
+                {( () => {
+                    if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                        return (
+                            <Section>
+                                <SectionTitle title="Latest Report" />
+                                <ReportCard content={getAllReportsByTenant[0]} />
+                            </Section>
+                        )
+                    } else {
+                        return (<div/>)
+                    }
+                } ) ()}
+                    
+                <Section>
+                    <SectionTitle title="Performance Graph" />
+                    <PerformanceGraph content={Performance} type={undefined}/>
+                </Section>
 
-                                <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
-                            </div>
-                    </ReportModal>
-                    )
-                }
-            } ) ()}
-            
-        </div>
+                <Section>
+                    <SectionTitle title="Audits" />
+                    {
+                        getAllReportsByTenant.length > 0 ? getAllReportsByTenant.map((report, index)=> (
+                            <SwipeableList key={index}>
+                                <ReportCard content={report}  />
+                            </SwipeableList>
+                        )) : <Empty description="No Audits">
+                            {/* <Button type="primary">New Audit</Button> */}
+                        </Empty>
+                    }
+                </Section>
+
+                <div className="my-6">
+                    <Button type="primary" danger block size="large">
+                        <Popconfirm
+                            title="Are you sure to delete tenant x?"
+                            onConfirm={confirm}
+                            onCancel= {null}
+                            okText="Yes"
+                            cancelText="No"
+                        >Delete Tenant</Popconfirm>
+                    </Button>
+                </div>
+
+                {( () => {
+                    if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                        return (
+                            <ReportModal 
+                                id={getAllReportsByTenant[0].id}
+                                title="Email Report PDF to..."
+                                visible = {visible}
+                                actions={[
+                                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                                    <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
+                                ]}
+                                functions={handleCancel}
+                                maskClosable={false}  
+                            >
+                                <div className="flex flex-col">
+                                    <Row>
+                                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
+                                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
+                                    </Row>
+
+                                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                                </div>
+                        </ReportModal>
+                        )
+                    }
+                } ) ()}
+            </PageContent>
+        </>
     )
 }

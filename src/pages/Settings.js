@@ -1,6 +1,6 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
-import { Button, Upload } from "antd";
+import { Button, Image, Upload } from "antd";
 import Title from "antd/lib/typography/Title";
 import { MULTIPLE_UPLOADS } from "../graphql/mutations";
 

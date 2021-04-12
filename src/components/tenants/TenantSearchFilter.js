@@ -105,38 +105,12 @@ export default function TenantSearchFilter({tenants}) {
         var tenantId = tenants2[i].id;
       }
     }
-    history.push(`TenantDetail/${tenantId}`);
+
+    if (val !== '' && tenantId !== undefined) {
+      history.push(`TenantDetail/${tenantId}`);
+    }
     // getData(searchValue);
-  } 
-
-  // function settingSelected(a){
-  //   setSelectedValue(a)
-  // }
-
-  // function settingSearch(a){
-  //   setSearchValue(a)
-  // }
-
-  // function getData(searchValue){
-  //   console.log("search value", searchValue);
-  //   getSearch({
-  //     variables: {name :searchValue}
-  //   })
-
-  //   if (loading) return <Spin size="large" />
-  //   else if(error) {
-  //     return <div>{ JSON.stringify(error) }</div> 
-  //   }
-
-  //   if(!data){
-  //     console.log('searchData:', data);
-  //   }
-  //   const { getTenantByName } = data? data : [];
-  //   if (getTenantByName){
-  //   console.log("getTenantByname" ,getTenantByName)
-  //   history.push(`TenantDetail/${getTenantByName.id}`)
-  //   };
-  // }
+  }
   
   function handleFilter(inputValue,option) {
     let optionString = "";
@@ -155,9 +129,25 @@ export default function TenantSearchFilter({tenants}) {
             onSelect = {handleSelect}
             filterOption={handleFilter}
           >
-            <Input.Search size="large" placeholder="Search Tenant" enterButton="Search" onSearch={onSearch}/>
+            <Input.Search size="large" placeholder="Search Tenant" enterButton="Search" onSearch={onSearch} style={{ borderRadius: '0.375rem' }}  />
+            {/* <Input.Search size="large" placeholder="Search Tenant" enterButton={false} onPressEnter={onSearch} style={{ borderRadius: '0.375rem' }} /> */}
         </AutoComplete>
       </>
   )
 }
 
+    // return(
+    //   <>
+    //       <AutoComplete
+    //           className="w-full"
+    //           dropdownClassName="certain-category-search-dropdown"
+    //           dropdownMatchSelectWidth={500}
+    //           options={tenantss}
+    //           onSearch = {onSearch}
+    //           onChange = {handleChange}
+    //           filterOption={handleFilter}
+    //         >
+    //           <Input size="large" placeholder="Search Tenant" enterButton={false} onPressEnter={onSearch} style={{ borderRadius: '0.375rem' }} />
+    //       </AutoComplete>
+    //     </>
+    // )

@@ -17,6 +17,7 @@ export const routes = {
 
 export const TOKEN = 'jwt';
 export const DATE_FORMAT = 'DD MMM YYYY';
+export const EXT_INITIAL = 'No Extensions';
 export const AUDIT_ACTIONS = {
     SUBMIT_AUDIT: 'submit',
     DRAFT_AUDIT: 'draft',

@@ -6,6 +6,7 @@ import PerformanceGraph from './PerformanceGraph';
 import {PerformanceAll, Performance} from './TenantData';
 import { useQuery, useLazyQuery} from '@apollo/client';
 import { FETCH_ALL_TENANTS_PERFORMANCE, FETCH_ALL_TENANT_PERFORMANCE } from '../../graphql/queries';
+import { SectionTitle } from '../layout/PageLayout';
 
 export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
 
@@ -72,8 +73,8 @@ export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
 
     return(
       <>
-        <div className='mb-6'>
-
+        <div className='mb-6 flex justify-between '>
+          <h2 className="font-medium text-lg uppercase tracking-wide pb-2">Performance</h2>
           <Select 
             className='mb-12'  
             showSearch
@@ -89,14 +90,19 @@ export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
             <Option key={tenant.value}>{tenant.label}</Option>
             ))}
           </Select>
-
-          <PerformanceGraph
-            content= {!selectedValue? performanceAll: performance}
-            type={!selectedValue? 'all' : null}
-            >
-          </PerformanceGraph>
           
         </div>
-        </>
-    )
-        }
+
+        <PerformanceGraph
+          content= {!selectedValue? performanceAll: performance}
+          type={!selectedValue? 'all' : null}
+          >
+        </PerformanceGraph>
+
+        {/* <PerformanceGraph
+          content= {!selectedValue? PerformanceAll: Performance}
+          type={!selectedValue? 'all' : null}
+          >
+        </PerformanceGraph> */}
+    </>
+)}
