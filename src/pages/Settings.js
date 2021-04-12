@@ -1,6 +1,6 @@
 import { PropertySafetyFilled, UploadOutlined } from "@ant-design/icons";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Button, Descriptions, Input, message, Spin, Tabs, Upload } from "antd";
+import { Button, Descriptions, Input, message, Spin, Tabs,Tag, Upload } from "antd";
 import Title from "antd/lib/typography/Title";
 import { validate } from "graphql";
 import { useState } from "react";
@@ -22,6 +22,7 @@ export default function Settings() {
     let history = useHistory();
 
     const isTenant = validatorResult.type === "tenant";
+    console.log(validatorResult.institutions)
     const isAuditor = ["auditor", "admin"].includes(validatorResult.type);
 
     const QUERY_TYPE =
@@ -100,7 +101,7 @@ export default function Settings() {
     const saveChanges = () => {
       updateEmail();
     };
-
+    const colours = ["magenta","red","volcano","orange","gold","lime","green","cyan","blue","geekblue","purple"]
     return (
         <>
             <Title>Settings</Title>
@@ -129,7 +130,8 @@ export default function Settings() {
                             </Descriptions.Item>
                         )}
                         <Descriptions.Item label="Institutions">
-                            {validatorResult.institutions}
+                        
+                            {validatorResult.institutions.map((item,idx) => <Tag color={colours[idx*2]}>{item}</Tag>)}
                         </Descriptions.Item>
                         <Descriptions.Item label="Email">
                             <Input
