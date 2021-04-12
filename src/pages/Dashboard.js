@@ -66,25 +66,29 @@ export default function Dashboard() {
             <Section className='mb-10'>
               <DropdownTenantPerformance getAllTenantsPerformance={getAllTenants} />
             </Section>
-            <Section>
-              <div id="unrectified" className="sticky top-0 z-1 pt-5" style={bgColor}>
-              {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
-                <SectionTitle title="Unrectified Audits" />
-              </div>
-              <div style={{overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
-                <ReportCardDashboard status="unrectified" setLength={setUnrectLength} />
-              </div>
-            </Section>
+            <div id="unrectified">
+              <Section>
+                <div className="sticky top-0 z-1 pt-5" style={bgColor}>
+                {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
+                  <SectionTitle title="Unrectified Audits" />
+                </div>
+                <div style={{overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+                  <ReportCardDashboard status="unrectified" setLength={setUnrectLength} />
+                </div>
+              </Section>
+            </div>
             
-            <Section>
-              <div id="drafts" className="sticky top-0 z-1 pt-5" style={bgColor}>
-              {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
-                <SectionTitle title="Drafts" />
-              </div>
-              <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
-                <ReportCardDashboard status="draft" setLength={setDraftLength} />
-              </div>
-            </Section>
+            <div id="drafts">
+              <Section>
+                <div id="drafts" className="sticky top-0 z-1 pt-5" style={bgColor}>
+                {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
+                  <SectionTitle title="Drafts" />
+                </div>
+                <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+                  <ReportCardDashboard status="draft" setLength={setDraftLength} />
+                </div>
+              </Section>
+            </div>
           </PageContent>
 
         </>

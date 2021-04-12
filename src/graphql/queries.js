@@ -24,6 +24,9 @@ export const FETCH_TENANT_DETAILS = gql`
             institution
             email
             expiry
+            performance {
+                month entry score
+            }
         }
     }
 `;
