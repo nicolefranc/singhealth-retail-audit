@@ -62,6 +62,7 @@ export default function ViewReport() {
 
     const { getReportById } = data;
 
+    console.log(getReportById)
     return (
         <PageContent>
             <PageHeader
@@ -109,7 +110,7 @@ export default function ViewReport() {
                         <ViewChecklist checklist={getReportById.checklist} />
                     </TabPane>
                     <TabPane tab="Images" key="3">
-                        <ViewPhotos />
+                        <ViewPhotos report={getReportById} />
                     </TabPane>
                     <TabPane tab="Extensions" key="4">
                         <ViewExtentions report={getReportById}/>
