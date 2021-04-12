@@ -24,6 +24,7 @@ import AuthRoute from "./utils/AuthRoute";
 import Status from "./pages/Status";
 import ChecklistPhotos from "./components/audit/ChecklistPhotos";
 import ViewReport from "./components/report/ViewReport";
+import ScrollToTop from "./components/layout/ScrollToTop";
 
 function App() {
     // let isAuthenticated = useSelector(state => state.user);
@@ -37,77 +38,79 @@ function App() {
     );
     return (
         <Router>
-            <Switch>
-                <Route path={`${routes.LOGIN}`} component={Login} />
+            <ScrollToTop>
+                <Switch>
+                    <Route path={`${routes.LOGIN}`} component={Login} />
 
-                <Route path="/register/:token" component={Register} />
-                <BaseLayout>
-                    <AuthRoute
-                        exact
-                        path={routes.DEFAULT}
-                        users={["admin", "auditor", "tenant"]}
-                        component={Dashboard}
-                    />
-                    <AuthRoute
-                        path={routes.TENANTS}
-                        users={["admin", "auditor"]}
-                        component={Tenants}
-                    />
-                    <AuthRoute
-                        path={routes.NOTIFICATIONS}
-                        users={["admin", "auditor", "tenant"]}
-                        component={Notifications}
-                    />
-                    <AuthRoute
-                        path={routes.SETTINGS}
-                        users={["admin", "auditor", "tenant"]}
-                        component={Settings}
-                    />
-                    <AuthRoute exact
-                        path={`${routes.AUDIT}/:tenantId/:reportType/photos`}
-                        users={["admin", "auditor", "tenant"]}
-                        component={ChecklistPhotos}
-                    />
-                    <AuthRoute exact
-                        path={`${routes.AUDIT}/:tenantId/:reportType`}
-                        users={["admin", "auditor"]}
-                        component={Report}
-                    />
-                    <AuthRoute exact path={`${routes.REPORT}/:reportId`}
-                        component={ViewReport}
-                        users={["admin", "auditor", "tenant"]}
-                    />
-                    <AuthRoute path="/status/:tenantId"
-                        component={Status} 
-                        users={["admin", "auditor", "tenant"]} 
-                    />
-                    <AuthRoute exact
-                        path={`${routes.AUDIT}/:tenantId`}
-                        users={["admin", "auditor"]}
-                        component={ChecklistTemplates}
-                    />
-                    <AuthRoute
-                        path={routes.CREATE_USER}
-                        users={["admin", "auditor", "tenant"]}
-                        component={CreateUser}
-                    />
-                    <AuthRoute
-                        path="/TenantDetail/:tenantId"
-                        component={TenantDetail}
-                        users={["admin", "auditor"]}
-                    />
-                    <AuthRoute
-                        path="/DashboardTenant"
-                        component={DashboardTenant}
-                        users={["tenant"]}
-                    />
-                    {/* TODO: Request extension */}
-                    <Route
-                        path="/RequestExtension"
-                        component={RequestExtension}
-                    />
-                </BaseLayout>
-            </Switch>
+                    <Route path="/register/:token" component={Register} />
+                    <BaseLayout>
+                        <AuthRoute
+                            exact
+                            path={routes.DEFAULT}
+                            users={["admin", "auditor", "tenant"]}
+                            component={Dashboard}
+                        />
+                        <AuthRoute
+                            path={routes.TENANTS}
+                            users={["admin", "auditor"]}
+                            component={Tenants}
+                        />
+                        <AuthRoute
+                            path={routes.NOTIFICATIONS}
+                            users={["admin", "auditor", "tenant"]}
+                            component={Notifications}
+                        />
+                        <AuthRoute
+                            path={routes.SETTINGS}
+                            users={["admin", "auditor", "tenant"]}
+                            component={Settings}
+                        />
+                        <AuthRoute exact
+                            path={`${routes.AUDIT}/:tenantId/:reportType/photos`}
+                            users={["admin", "auditor", "tenant"]}
+                            component={ChecklistPhotos}
+                        />
+                        <AuthRoute exact
+                            path={`${routes.AUDIT}/:tenantId/:reportType`}
+                            users={["admin", "auditor"]}
+                            component={Report}
+                        />
+                        <AuthRoute exact path={`${routes.REPORT}/:reportId`}
+                            component={ViewReport}
+                            users={["admin", "auditor", "tenant"]}
+                        />
+                        <AuthRoute path="/status/:tenantId"
+                            component={Status} 
+                            users={["admin", "auditor", "tenant"]} 
+                        />
+                        <AuthRoute exact
+                            path={`${routes.AUDIT}/:tenantId`}
+                            users={["admin", "auditor"]}
+                            component={ChecklistTemplates}
+                        />
+                        <AuthRoute
+                            path={routes.CREATE_USER}
+                            users={["admin", "auditor", "tenant"]}
+                            component={CreateUser}
+                        />
+                        <AuthRoute
+                            path="/TenantDetail/:tenantId"
+                            component={TenantDetail}
+                            users={["admin", "auditor"]}
+                        />
+                        <AuthRoute
+                            path="/DashboardTenant"
+                            component={DashboardTenant}
+                            users={["tenant"]}
+                        />
+                        {/* TODO: Request extension */}
+                        <Route
+                            path="/RequestExtension"
+                            component={RequestExtension}
+                        />
+                    </BaseLayout>
+                </Switch>
+            </ScrollToTop>
         </Router>
     );
 }

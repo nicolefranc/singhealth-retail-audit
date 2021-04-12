@@ -1,80 +1,128 @@
-import Title from "antd/lib/typography/Title";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph"
-import ScrollList from "../components/dashboard/ScrollList";
-import {PerformanceAll, Performance, pastReports, reportColumns} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm, message } from 'antd';
+import { Performance } from "../components/dashboard/TenantData";
+import { Typography, Button, Spin, Empty, Progress } from 'antd';
 import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
 
 import Pdf from "../components/audit/Pdf";
+import { tokenValidator } from "../utils/tokenValidator";
+import { FETCH_TENANT_DETAILS } from "../graphql/queries";
+import { BackHeader, PageContent, PageHeading, PageTitle, Section, SectionTitle } from "../components/layout/PageLayout";
+import ExpiryPopover from "../components/tenants/ExpiryPopover";
+import ReportCard from "../components/tenants/ReportCard";
+import { SwipeableList } from "@sandstreamdev/react-swipeable-list";
+import unrectified from "../assets/images/unrectified.png";
+import checklist from "../assets/images/checklist.png";
+import evaluation from "../assets/images/evaluation.png";
+import ReportModal from "../components/report/ReportModal";
+import SendPdf from "../components/audit/SendPdf";
+import Checkbox from "../components/audit/Checkbox";
+import TextArea from "antd/lib/input/TextArea";
+import { AUDIT_ACTIONS } from "../const";
 
-const { Text} = Typography;
+const { Text } = Typography;
 
 export default function DashboardTenant() {
 
-    function confirm(e) {
-        console.log(e);
-        message.success('Tenant Deleted');
-      }
+    let tenant = tokenValidator(localStorage.getItem("jwt"));
+    // console.log(tenant);
 
-    const tenantId = "";
 
-    const data = useQuery(FETCH_REPORT_BY_TENANTID, {variables: tenantId})
+    const { loading, error, data } = useQuery(FETCH_TENANT_DETAILS, {
+        variables: { getAllReportsByTenantTenantId: tenant.id, getTenantByIdId: tenant.id }
+    });
+
+    if (loading) return (<Spin />)
+    else if (error) return (<div>{JSON.stringify(error)}</div>)
+
+    const { getAllReportsByTenant, getTenantById } = data;
+    if (getAllReportsByTenant && getAllReportsByTenant.length>0){
+        console.log(getAllReportsByTenant);
+    }
+
+    const unrectLength = getAllReportsByTenant.filter(report => report.status === AUDIT_ACTIONS.UNRECTIFIED_AUDIT).length;
+    const auditedLength = getAllReportsByTenant.filter(report => report.status === AUDIT_ACTIONS.AUDITED).length;
+    const progress = (auditedLength / getAllReportsByTenant.length) * 100;
 
     return (    
         <>
-            <div id= "test" className='flex justify-between'>
-            <Title >Dashboard Tenant X </Title>
-            </div>
-
-            <div className='mb-6 flex justify-between'>
-                <Title level={5} type="danger">Due on 04/03/2021</Title>
-                <Title level={5} type="danger">3 Days Due</Title> 
-            </div>
-        
-            <div className='mb-20' >
-                <PerformanceGraph content={Performance} type= {undefined}/>
-
-                <div className='mt-12' style={{justifyContent:'center'}}>
-                <Title level={5}>Tenant Expiry:</Title>
-                <Title level={5}>Date of Latest Audit:</Title>
-                <Title level={5}>Audit Status:</Title>
+            <PageHeading title={tenant.name} node={
+                <div className="flex mt-4">
+                    <Progress status={`${progress < 100 && 'active'}`} percent={progress} />
+                </div>
+            }>
+                <PageTitle title={`Hello, ${tenant.name}!`} />
+                
+                <div className="bg-white p-6 rounded-md shadow-md flex justify-evenly cursor-pointer">
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center">
+                        <h1 className="text-3xl font-semibold mr-1">{ unrectLength }</h1>
+                        <img src={unrectified} alt="Unrectified" width="30" />
+                        </div>
+                        <h2 className="uppercase font-medium text-xs">Unrectified</h2>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center">
+                        <h1 className="text-3xl font-semibold mr-1">{ auditedLength }</h1>
+                        <img src={evaluation} alt="Completed Audits" width="30" />
+                        </div>
+                        <h2 className="uppercase font-medium text-xs">Completed</h2>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center">
+                        <h1 className="text-3xl font-semibold mr-1">{ getAllReportsByTenant.length }</h1>
+                        <img src={checklist} alt="Total Audits" width="30" />
+                        </div>
+                        <h2 className="uppercase font-medium text-xs">Total</h2>
+                    </div>
+                </div>
+            </PageHeading>
+            <PageContent>
+                    
+                <div>
+                    <SectionTitle title="Performance Graph" />
+                    <PerformanceGraph content={getTenantById.performance} type={undefined}/>
                 </div>
 
-                <Title className='mt-12' level={4}>Past Audits</Title>
-                <ScrollList columns={reportColumns} data={pastReports}/>
-            </div>
-            
-            {/* <Pdf checklistData={data}/> */}
+                <Section>
+                    <SectionTitle title="Audits" />
+                    {
+                        getAllReportsByTenant.length > 0 ? getAllReportsByTenant.map((report, index)=> (
+                            <SwipeableList key={index}>
+                                <ReportCard content={report}  />
+                            </SwipeableList>
+                        )) : <Empty description="No Audits">
+                            {/* <Button type="primary">New Audit</Button> */}
+                        </Empty>
+                    }
+                </Section>
 
-            <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>
+                {/* {( () => {
+                    if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+                        return (
+                            <ReportModal 
+                                id={getAllReportsByTenant[0].id}
+                                title="Email Report PDF to..."
+                                visible = {visible}
+                                actions={[
+                                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                                    <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
+                                ]}
+                                functions={handleCancel}
+                                maskClosable={false}  
+                            >
+                                <div className="flex flex-col">
+                                    <Row>
+                                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
+                                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
+                                    </Row>
+
+                                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                                </div>
+                        </ReportModal>
+                        )
+                    }
+                } ) ()} */}
+            </PageContent>
         </>
     )
 }
-
-const FETCH_REPORT_BY_TENANTID = gql`
-    query($tenantId: String!){
-        getLatestReportByTenantId(tenantId: $tenantId) {
-            type
-            checklist {
-                category
-                weightage
-                score
-                subcategories {
-                    subcategory
-                    subcatScore
-                    lineItems {
-                    lineItem
-                    complied
-                    images {
-                        nonCompliances
-                        nonComplRemarks
-                        rectifications
-                        rectRemarks
-                    }
-                    }
-                }
-            }
-        }
-    }
-`

@@ -1,4 +1,5 @@
 import Title from "antd/lib/typography/Title";
+import { Spin } from 'antd';
 import { Redirect } from "react-router";
 import DropdownTenantPerformance from "../components/dashboard/DropdownTenantPerformance";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph";
@@ -10,6 +11,8 @@ import { tokenValidator } from "../utils/tokenValidator";
 import DashboardTenant from "./DashBoardTenant";
 import ReportCardDashboard from "../components/dashboard/ReportCardDashboard";
 import { PageHeading, PageContent, Section, SectionTitle } from "../components/layout/PageLayout";
+import { useQuery } from "@apollo/client";
+import { FETCH_ALL_TENANTS_PERFORMANCE } from '../graphql/queries';
 import unrectified from "../assets/images/unrectified.png";
 import draft from "../assets/images/draft.png";
 import { useState } from "react";
@@ -17,14 +20,23 @@ import { useState } from "react";
 const bgColor = { backgroundColor: "#f0f2f5"};
 
 export default function Dashboard() {
-
+  const [draftLength, setDraftLength] = useState(null);
+  const [unrectLength, setUnrectLength] = useState(null);
   let validatorResult = tokenValidator(localStorage.getItem("jwt"));
 
   const isTenant = validatorResult.type === "tenant";
   const isAuditor = ["auditor","admin"].includes(validatorResult.type);
 
-  const [draftLength, setDraftLength] = useState(null);
-  const [unrectLength, setUnrectLength] = useState(null);
+  const { loading, error, data } = useQuery(FETCH_ALL_TENANTS_PERFORMANCE);
+
+  if (loading) return <Spin size="large" />
+
+  else if(error) {
+      return <div>{ JSON.stringify(error) }</div>
+  }
+
+  const { getAllTenants } = data ;
+  console.log("getAlltenantPerformance", getAllTenants)
 
   return (
     <div>
@@ -52,27 +64,31 @@ export default function Dashboard() {
           </PageHeading>
           <PageContent>
             <Section className='mb-10'>
-              <DropdownTenantPerformance dropdownTenant={dropdownTenant} />
+              <DropdownTenantPerformance getAllTenantsPerformance={getAllTenants} />
             </Section>
-            <Section>
-              <div id="unrectified" className="sticky top-0 z-1 pt-5" style={bgColor}>
-              {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
-                <SectionTitle title="Unrectified Audits" />
-              </div>
-              <div style={{overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
-                <ReportCardDashboard status="unrectified" setLength={setUnrectLength} />
-              </div>
-            </Section>
+            <div id="unrectified">
+              <Section>
+                <div className="sticky top-0 z-1 pt-5" style={bgColor}>
+                {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
+                  <SectionTitle title="Unrectified Audits" />
+                </div>
+                <div style={{overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+                  <ReportCardDashboard status="unrectified" setLength={setUnrectLength} />
+                </div>
+              </Section>
+            </div>
             
-            <Section>
-              <div id="drafts" className="sticky top-0 z-1 pt-5" style={bgColor}>
-              {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
-                <SectionTitle title="Drafts" />
-              </div>
-              <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
-                <ReportCardDashboard status="draft" setLength={setDraftLength} />
-              </div>
-            </Section>
+            <div id="drafts">
+              <Section>
+                <div id="drafts" className="sticky top-0 z-1 pt-5" style={bgColor}>
+                {/* <Title level={4} className='flex justify-center bg-blue-100'>Drafts</Title> */}
+                  <SectionTitle title="Drafts" />
+                </div>
+                <div style={{position:'sticky',top:'30px', overflowX:'hidden', overflowY:'auto',  zIndex:'0'}}>
+                  <ReportCardDashboard status="draft" setLength={setDraftLength} />
+                </div>
+              </Section>
+            </div>
           </PageContent>
 
         </>

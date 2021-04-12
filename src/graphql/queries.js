@@ -23,6 +23,9 @@ export const FETCH_TENANT_DETAILS = gql`
             institution
             email
             expiry
+            performance {
+                month entry score
+            }
         }
     }
 `;
@@ -158,23 +161,25 @@ export const FETCH_REPORT_BY_ID = gql`
     }
 `;
 
-const FETCH_ALL_TENANTS_PERFORMANCE = gql`
-    query getAllTenants {
-        performance {
-            month
-            key
-            score
-        }
+export const FETCH_ALL_TENANTS_PERFORMANCE = gql`
+  query{
+  getAllTenants{
+      name
+    performance{
+      month
+      entry
+      score
     }
+  }
+}
 `;
 
-const FETCH_ALL_TENANT_PERFORMANCE = gql`
-    query Query($id: String) {
-        getTenantById(id: $id) {
-            name
+export const FETCH_ALL_TENANT_PERFORMANCE = gql`
+    query Query($name: String!) {
+        getTenantByName(name: $name) {
             performance {
                 month
-                entries
+                entry
                 score
             }
         }
