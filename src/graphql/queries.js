@@ -136,6 +136,8 @@ export const FETCH_REPORT_BY_ID = gql`
                 }
             }
             images {
+                lineItemId
+                lineItem
                 nonCompliances
                 nonComplRemarks
                 rectifications

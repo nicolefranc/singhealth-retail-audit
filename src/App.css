@@ -80,6 +80,14 @@
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.ant-image {
+  margin-right: 16px; /* mr-4 */
+}
 
+.ant-image-preview-img {
+  display: inline;
+}
 
-
+svg {
+  vertical-align: 'unset';
+}

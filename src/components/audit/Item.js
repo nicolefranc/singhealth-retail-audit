@@ -15,6 +15,7 @@ export default function Item({ items, cIndex, sIndex }) {
     const [lineItems, setLineItems] = useState(items); // Array of line item objects
     const [compliance] = useState(null);
     const [itemSelected, setItemSelected] = useState(null);
+    const [lineItem, setLineItem] = useState(null);
     const images = useSelector(state => state.images);
     const dispatch = useDispatch();
 
@@ -85,7 +86,10 @@ export default function Item({ items, cIndex, sIndex }) {
     
     const showUploadModal = (index) => {
         setVisible(true);
+        console.log('show');
+        console.log(items[index]);
         setItemSelected(items[index].id);
+        setLineItem(items[index].lineItem)
     };
 
     const handleOk = () => {
@@ -110,7 +114,7 @@ export default function Item({ items, cIndex, sIndex }) {
         }
     }
 
-    // console.log(imgSources);
+    console.log('item.js ' + lineItem);
 
     return (
         <>
@@ -126,7 +130,7 @@ export default function Item({ items, cIndex, sIndex }) {
             )} />
 
             {/* Image upload modal */}
-            <NonCompliances id={itemSelected} modal={{
+            <NonCompliances id={itemSelected} lineItem={lineItem} modal={{
                 title: "Upload Photo for Non-compliance",
                 visible: visible,
                 actions: [

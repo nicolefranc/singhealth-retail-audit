@@ -1,9 +1,9 @@
 import { ADD_IMAGE, REMOVE_IMAGE, RESET_IMAGE_STATE, UPDATE_REMARKS, UPDATE_UPLOAD_STATUS } from "../redux-consts"
 
-export const addImage = (id, images) => (dispatch) => {
+export const addImage = (id, images, lineItem) => (dispatch) => {
     dispatch({
         type: ADD_IMAGE,
-        payload: { id, images },
+        payload: { id, images, lineItem },
     })
 }
 

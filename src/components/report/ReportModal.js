@@ -9,6 +9,7 @@ export default function ReportModal({ id, title, visible, actions, functions, ma
             title={title}
             visible={visible}
             centered
+            closable={false}
             maskClosable={maskClosable}
             footer={actions}
             onOk={functions.handleOk}
