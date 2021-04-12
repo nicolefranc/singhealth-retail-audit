@@ -14,6 +14,7 @@ import { CREATE_REPORT } from "../graphql/mutations";
 import moment from "moment";
 import { resetImage } from "../redux/actions/image";
 import { PropertySafetyFilled } from "@ant-design/icons";
+import { useEffect } from "react";
 
 
 
@@ -27,9 +28,10 @@ export default function Report(props) {
     const { loading, error, data } = useQuery(FETCH_CHECKLIST, {
         variables: { "getReportTemplateType": reportType, "getTenantByIdId": tenantId }
     });
-    const [createReport] = useMutation(CREATE_REPORT);
+    const [createReport, { loading: mutationLoading, error: mutationError }] = useMutation(CREATE_REPORT);
+    const [draftLoading, setDraftLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
     
-
     if (loading) {
         // console.log("loading");
         return (
@@ -65,7 +67,6 @@ export default function Report(props) {
 
     // API actions
     const handleSubmit = async action => {
-        
         // 1. Retrieve images, checklist from state
         // 2. Other infos: auditorId, auditDate, dueDate
         // Pass to mutate
@@ -74,14 +75,17 @@ export default function Report(props) {
             console.log('map')
             console.log(lineItemIDs);
             let remarks = images[lineItemId].remarks ? images[lineItemId].remarks : ''
-            return { lineItemId, nonCompliances: images[lineItemId].links, nonComplRemarks: remarks }
+            return { lineItemId, lineItem: images[lineItemId].lineItem, nonCompliances: images[lineItemId].links, nonComplRemarks: remarks }
         });
 
         let status;
         console.log('length of images' + imagesArr.length);
-        if (imagesArr.length > 0) status = AUDIT_ACTIONS.UNRECTIFIED_AUDIT
-        else if (action === AUDIT_ACTIONS.SUBMIT_AUDIT) status = AUDIT_ACTIONS.AUDITED
-        else status = action
+        if (imagesArr.length > 0) status = AUDIT_ACTIONS.UNRECTIFIED_AUDIT;
+        else if (action === AUDIT_ACTIONS.SUBMIT_AUDIT) status = AUDIT_ACTIONS.AUDITED;
+        else if (action === AUDIT_ACTIONS.DRAFT_AUDIT) status = AUDIT_ACTIONS.DRAFT_AUDIT;
+        
+        (status === AUDIT_ACTIONS.SUBMIT_AUDIT && mutationLoading) 
+            ? setSubmitLoading(true) : setDraftLoading(true);
 
         console.log('images')
         console.log(imagesArr);
@@ -145,8 +149,8 @@ export default function Report(props) {
                 )}
                 { current === steps.length - 1 && (
                     <div>
-                        <Button className="mr-8" onClick={() => handleSubmit(AUDIT_ACTIONS.DRAFT_AUDIT)}>Save as Draft</Button>
-                        <Button type="primary" onClick={() => handleSubmit(AUDIT_ACTIONS.SUBMIT_AUDIT)}>Submit</Button>
+                        <Button className="mr-8" loading={submitLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.DRAFT_AUDIT)}>Save as Draft</Button>
+                        <Button type="primary" loading={draftLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.SUBMIT_AUDIT)}>Submit</Button>
                     </div>
                 )}
             </div>
