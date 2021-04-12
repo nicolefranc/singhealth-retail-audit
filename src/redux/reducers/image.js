@@ -18,10 +18,12 @@ const imageReducer = (state= {}, action) => {
 }
 
 const addImage = (state, payload) => {
-    const { id, images } = payload;
+    const { id, images, lineItem } = payload;
+    console.log(state[id]);
+    const newState = !state[id] ? { images, lineItem } : { ...state[id], images, lineItem };
     return {
         ...state,
-        [id]: { ...state[id], images }
+        [id]: newState
     }
 }
 
@@ -38,18 +40,20 @@ const removeImage = (state, payload) => {
 
 const updateRemarks = (state, payload) => {
     const { id, remarks } = payload;
+    const newState = !state[id] ? { remarks } : { ...state[id], remarks };
     return {
         ...state,
-        [id]: { remarks, images: state[id]?.images }
+        [id]: newState
     }
 }
 
 const updateUploadStatus = (state, payload) => {
     const { id, images } = payload;
     let links = images.map(image => image.uri);
+    const newState = !state[id] ? { links, uploaded: true } : { ...state[id], links, upload: true };
     return {
         ...state,
-        [id]: { ...state[id], links, uploaded: true }
+        [id]: newState
     }
 }
 
