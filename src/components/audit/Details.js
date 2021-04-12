@@ -1,7 +1,7 @@
 import { DatePicker, Descriptions } from "antd";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { DATE_FORMAT } from "../../const";
+import { DATE_FORMAT, EXT_INITIAL } from "../../const";
 import { updateAuditDetails } from "../../redux/actions/report";
 
 export default function Details({ tenant, template }) {
@@ -14,9 +14,9 @@ export default function Details({ tenant, template }) {
     const onDueDateChange = (date, dateString) => {
         console.log(date, dateString)
         const extension = {
-            proposed: { date: dateString, remarks: null },
+            proposed: { date: null, remarks: null },
             final: { date: dateString, remarks: null },
-            status: 'initial'
+            status: EXT_INITIAL,
         }
         updateAuditDetails('extension', extension)(dispatch);
     }

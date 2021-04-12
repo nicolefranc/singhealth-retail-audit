@@ -3,11 +3,11 @@ import moment from "moment";
 import { DATE_FORMAT } from "../../const";
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { PROPOSE_EXTENSION } from "../../graphql/mutations";
+import { APPROVE_EXTENSION } from "../../graphql/mutations";
 import { ContactsOutlined } from "@ant-design/icons";
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 
-export default function ExtensionPopover({ report, makeInvisible }) {
+export default function ApproveExtensionPopover({ report, makeInvisible }) {
     const { TextArea } = Input;
 
     const [remarks, setRemarks] = useState("");
@@ -21,14 +21,14 @@ export default function ExtensionPopover({ report, makeInvisible }) {
         setdateChosen(dateString);
     };
 
-    const [requestExtension, { loading }] = useMutation(PROPOSE_EXTENSION, {
+    const [requestExtension, { loading }] = useMutation(APPROVE_EXTENSION, {
         update(cache, result) {
             const { getReportById: cachedReport } = cache.readQuery({
                 query: FETCH_REPORT_BY_ID,
                 variables: { getReportByIdReportId: report.id },
             });
             const newReport = JSON.parse(JSON.stringify(cachedReport)); //deep clone
-            newReport.extension = result.data.proposeExtension.extension;
+            newReport.extension = result.data.approveExtension.extension;
             cache.writeQuery({
                 query: FETCH_REPORT_BY_ID,
                 variables: { getReportByIdReportId: report.id },
@@ -46,7 +46,7 @@ export default function ExtensionPopover({ report, makeInvisible }) {
                 console.log(err);
             }
         },
-        variables: { reportId: report.id, date: dateChosen, remarks },
+        variables: { reportId: report.id, date: dateChosen, remarks: remarks },
     });
 
     const handleSubmit = () => {
@@ -55,7 +55,7 @@ export default function ExtensionPopover({ report, makeInvisible }) {
     };
     return (
         <>
-            <h1>Proposed Date</h1>
+            <h1>Approved Due Date</h1>
             {/* <DatePicker
                 onChange={onAuditDateChange}
                 format={DATE_FORMAT}
@@ -63,7 +63,7 @@ export default function ExtensionPopover({ report, makeInvisible }) {
                 defaultValue={report.extension.final.date && moment(report.extension.final.date, DATE_FORMAT)}
                 
             />   */}
-             <DatePicker className="mb-2 mt-2" defaultValue={report.extension.final.date && moment(report.extension.final.date, DATE_FORMAT)} onChange={onAuditDateChange} showToday={false} dateRender={current => {
+             <DatePicker className="mb-2 mt-2" defaultValue={report.extension.proposed.date && moment(report.extension.proposed.date, DATE_FORMAT)} onChange={onAuditDateChange} showToday={false} dateRender={current => {
                         const style = {};
                         if (current.format(DATE_FORMAT) === report.extension.final.date) {
                             style.backgroundColor = "rgba(252, 165, 165)";

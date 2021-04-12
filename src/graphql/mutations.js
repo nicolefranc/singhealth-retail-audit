@@ -52,6 +52,23 @@ export const PROPOSE_EXTENSION = gql`
         }
     }
 `;
+export const APPROVE_EXTENSION = gql`
+    mutation($reportId: String!, $date: String!, $remarks: String!) {
+        approveExtension(reportId: $reportId, finalDate: $date, finalRemarks: $remarks) {
+            extension {
+                proposed {
+                    date
+                    remarks
+                }
+                final {
+                    date
+                    remarks
+                }
+                status
+            }
+        }
+    }
+`;
 
 
 export const SEND_EMAIL = gql`

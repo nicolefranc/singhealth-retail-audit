@@ -3,7 +3,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
 import { Button, Descriptions, PageHeader, Popover, Result, Row, Spin, Statistic, Tabs, Tag, Col, Checkbox, } from "antd";
 import TextArea from 'antd/lib/input/TextArea';
-import { useParams } from "react-router";
+import { Redirect, useParams } from "react-router";
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import ViewChecklist from "./ViewChecklist";
 import { PageContent, PageSubtitle, PageTitle, Section } from "../layout/PageLayout";
@@ -12,6 +12,8 @@ import ViewExtentions from "./ViewExtensions";
 import SendPdf from '../../components/audit/SendPdf';
 import ReportModal from '../../components/report/ReportModal';
 import { round } from '../../utils/utils';
+import { routes } from '../../const';
+import { tokenValidator } from '../../utils/tokenValidator';
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -26,7 +28,7 @@ export default function ViewReport() {
     // TODO: retrieve from params instead
     const { reportId } = useParams();
     // const reportId = "6060d37dc9fd5a18c33be070";
-    const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, { variables: { getReportByIdReportId: reportId }, fetchPolicy: 'cache-first' });
+    const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, { variables: { getReportByIdReportId: reportId }, fetchPolicy: 'cache-first' });    
 
     // for modal
     const [visible,setVisible]=useState(false);
@@ -61,6 +63,14 @@ export default function ViewReport() {
     
 
     const { getReportById } = data;
+
+    //check authorized
+    let validatorResult = tokenValidator(localStorage.getItem("jwt"));
+    const isTenant = validatorResult.type === "tenant";
+    const sameInstitution = validatorResult.institutions.includes(getReportById.tenantId.institution);
+    if(isTenant && !sameInstitution){
+        <Redirect to={routes.DEFAULT}/>
+    }
 
     return (
         <PageContent>
