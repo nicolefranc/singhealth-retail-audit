@@ -151,9 +151,10 @@ export const FETCH_REPORT_BY_ID = gql`
     }
 `;
 
-const FETCH_ALL_TENANTS_PERFORMANCE = gql`
+export const FETCH_ALL_TENANTS_PERFORMANCE = gql`
   query{
   getAllTenants{
+      name
     performance{
       month
       entry
@@ -163,13 +164,12 @@ const FETCH_ALL_TENANTS_PERFORMANCE = gql`
 }
 `;
 
-const FETCH_ALL_TENANT_PERFORMANCE = gql`
-    query Query($id: String) {
-        getTenantById(id: $id) {
-            name
+export const FETCH_ALL_TENANT_PERFORMANCE = gql`
+    query Query($name: String!) {
+        getTenantByName(name: $name) {
             performance {
                 month
-                entries
+                entry
                 score
             }
         }

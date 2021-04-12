@@ -1,7 +1,7 @@
-import { Input, AutoComplete, Select} from 'antd';
+import { Input, AutoComplete, Select, Spin} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 // import Select from 'react-select';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import gql from 'graphql-tag';
 import { useQuery, useLazyQuery} from '@apollo/client';
@@ -65,38 +65,78 @@ export default function TenantSearchFilter({tenants}) {
   // if(getTenantByName) console.log("getTenantByName",getTenantByName);
 
   const [searchValue, setSearchValue] = useState("");
-  const [getSearch, { loading, error, data } ] = useLazyQuery(GET_TENANT_BY_NAME);
 
+  // const [getSearch, { loading, error, data } ] = useLazyQuery(GET_TENANT_BY_NAME);
+  // useEffect(() => { console.log("selected", selectedValue)}, [selectedValue]);
+  // useEffect(()=>{ searchValue && getData(searchValue)}, [searchValue]);
+
+  // if(!data){
+  //   console.log('searchData:', data);
+  //   }
+  //   const { getTenantByName } = data? data : [];
+  //   if (getTenantByName){
+  //   console.log("getTenantByname" ,getTenantByName)
+  //   history.push(`TenantDetail/${getTenantByName.id}`)
+  //   };
 
   const handleChange = (a) => {
-    console.log(`selected ${a}`);
+    console.log(`changing ${a}`);
     setChangeValue(a);
     tenantName = a;
     console.log("tenantNameChange", changeValue)
   }
 
   const handleSelect = (a) => {
+    // console.log("selectedsearch1",a)
     setSelectedValue(a);
     setSearchValue(a);
-    console.log("selectedSearch", selectedValue)
+    // console.log("selectedSearch", selectedValue)
+    // settingSelected(a)
+    // settingSearch(a)
   }
 
   function onSearch(val) {
     // tenantName = val;
-    setSearchValue(val)
-    console.log("searchValue",searchValue)
-    getSearch({
-      variables: {name :searchValue}
-    })
-    console.log('searchData:', data);
-    const { getTenantByName } = data ? data : [] ;
+    setSearchValue(val);
+    //want the id of the tenant where the tenant.name == val
 
-    if (getTenantByName){
-    console.log("getTenantByname" ,getTenantByName)
-    history.push(`TenantDetail/${getTenantByName.id}`)
-    };
-    
-  }
+    for (var i = 0; i < tenants2.length; i++){
+      if (tenants2[i].name === val){
+        var tenantId = tenants2[i].id;
+      }
+    }
+    history.push(`TenantDetail/${tenantId}`);
+    // getData(searchValue);
+  } 
+
+  // function settingSelected(a){
+  //   setSelectedValue(a)
+  // }
+
+  // function settingSearch(a){
+  //   setSearchValue(a)
+  // }
+
+  // function getData(searchValue){
+  //   console.log("search value", searchValue);
+  //   getSearch({
+  //     variables: {name :searchValue}
+  //   })
+
+  //   if (loading) return <Spin size="large" />
+  //   else if(error) {
+  //     return <div>{ JSON.stringify(error) }</div> 
+  //   }
+
+  //   if(!data){
+  //     console.log('searchData:', data);
+  //   }
+  //   const { getTenantByName } = data? data : [];
+  //   if (getTenantByName){
+  //   console.log("getTenantByname" ,getTenantByName)
+  //   history.push(`TenantDetail/${getTenantByName.id}`)
+  //   };
+  // }
   
   function handleFilter(inputValue,option) {
     let optionString = "";
@@ -121,11 +161,3 @@ export default function TenantSearchFilter({tenants}) {
   )
 }
 
-const GET_TENANT_BY_NAME = gql`
-  query getTenantByName($name: String!) {
-    getTenantByName(name: $name) {
-      id
-      name
-    }
-  }
-`;

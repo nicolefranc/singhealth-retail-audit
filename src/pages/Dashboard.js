@@ -1,5 +1,5 @@
 import Title from "antd/lib/typography/Title";
-import { PageHeader } from 'antd';
+import { PageHeader, Spin } from 'antd';
 import { Redirect } from "react-router";
 import DropdownTenantPerformance from "../components/dashboard/DropdownTenantPerformance";
 import PerformanceGraph from "../components/dashboard/PerformanceGraph";
@@ -11,6 +11,8 @@ import { tokenValidator } from "../utils/tokenValidator";
 import DashboardTenant from "./DashBoardTenant";
 import ReportCardDashboard from "../components/dashboard/ReportCardDashboard";
 import { Section, SectionTitle } from "../components/layout/PageLayout";
+import { useQuery } from "@apollo/client";
+import { FETCH_ALL_TENANTS_PERFORMANCE, FETCH_ALL_TENANT_PERFORMANCE } from '../graphql/queries';
 
 const bgColor = { backgroundColor: "#f0f2f5"};
 
@@ -21,6 +23,17 @@ export default function Dashboard() {
   const isTenant = validatorResult.type === "tenant";
   const isAuditor = ["auditor","admin"].includes(validatorResult.type);
 
+  const { loading, error, data } = useQuery(FETCH_ALL_TENANTS_PERFORMANCE);
+
+  if (loading) return <Spin size="large" />
+
+  else if(error) {
+      return <div>{ JSON.stringify(error) }</div>
+  }
+
+  const { getAllTenants } = data ;
+  console.log("getAlltenantPerformance", getAllTenants)
+
   return (
     <>
       {isTenant ? (
@@ -29,7 +42,7 @@ export default function Dashboard() {
         <>
           <Title>Dashboard</Title>
           <Section className='mb-10'>
-            <DropdownTenantPerformance dropdownTenant={dropdownTenant} />
+            <DropdownTenantPerformance getAllTenantsPerformance={getAllTenants} />
           </Section>
           <Section>
             <div className="sticky top-0 z-1 pt-5" style={bgColor}>
