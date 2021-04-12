@@ -14,6 +14,7 @@ import ReportModal from '../../components/report/ReportModal';
 import { round } from '../../utils/utils';
 import { routes } from '../../const';
 import { tokenValidator } from '../../utils/tokenValidator';
+import DownloadPdf from '../audit/DownloadPdf';
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -94,7 +95,7 @@ export default function ViewReport() {
                     
                 </Row>
                 <div className="flex">
-                    <Button block className="mr-2">Download</Button>
+                    <DownloadPdf report={getReportById}/>
                     <Button onClick={() => showModal()} block className="ml-2" type="primary">Send Email</Button>
                 </div>
 

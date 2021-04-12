@@ -16,7 +16,6 @@ export const FETCH_TENANT_DETAILS = gql`
             auditDate
             auditScore
             status
-
         }
         getTenantById(id: $getTenantByIdId) {
             name
@@ -29,26 +28,32 @@ export const FETCH_TENANT_DETAILS = gql`
 `;
 
 export const FETCH_REPORT_BY_TENANT = gql`
-    query($getAllReportsByTenantTenantId: String!){
-        getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId){
+    query($getAllReportsByTenantTenantId: String!) {
+        getAllReportsByTenant(tenantId: $getAllReportsByTenantTenantId) {
             id
             type
             auditDate
             auditScore
             status
-            checklist{
+            checklist {
                 category
             }
         }
     }
 `;
 
-export const FETCH_REPORT_BY_AUDITOR_STATUS = gql` 
-    query($getReportByAuditorAndStatusAuditorId: String!, $getReportByAuditorAndStatusStatus: String!){
-        getReportByAuditorAndStatus(auditorId: $getReportByAuditorAndStatusAuditorId, status: $getReportByAuditorAndStatusStatus){
+export const FETCH_REPORT_BY_AUDITOR_STATUS = gql`
+    query(
+        $getReportByAuditorAndStatusAuditorId: String!
+        $getReportByAuditorAndStatusStatus: String!
+    ) {
+        getReportByAuditorAndStatus(
+            auditorId: $getReportByAuditorAndStatusAuditorId
+            status: $getReportByAuditorAndStatusStatus
+        ) {
             id
             type
-            tenantId{
+            tenantId {
                 id
                 name
                 institution
@@ -57,7 +62,7 @@ export const FETCH_REPORT_BY_AUDITOR_STATUS = gql`
             auditDate
             auditScore
             status
-            checklist{
+            checklist {
                 category
             }
         }
@@ -152,13 +157,13 @@ export const FETCH_REPORT_BY_ID = gql`
 `;
 
 const FETCH_ALL_TENANTS_PERFORMANCE = gql`
-  query getAllTenants{
-    performance{
-      month
-      key
-      score
+    query getAllTenants {
+        performance {
+            month
+            key
+            score
+        }
     }
-  }
 `;
 
 const FETCH_ALL_TENANT_PERFORMANCE = gql`
@@ -170,6 +175,28 @@ const FETCH_ALL_TENANT_PERFORMANCE = gql`
                 entries
                 score
             }
+        }
+    }
+`;
+
+export const FETCH_TENANT = gql`
+    query getTenantById($id: String!) {
+        getTenantById(id: $id) {
+            name
+            id
+            institution
+            email
+            expiry
+        }
+    }
+`;
+export const FETCH_AUDITOR = gql`
+    query getAuditorById($id: String!) {
+        getAuditorById(id: $id) {
+            name
+            id
+            institutions
+            email
         }
     }
 `;
