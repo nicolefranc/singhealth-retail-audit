@@ -13,8 +13,7 @@ import Details from "../components/audit/Details";
 import { CREATE_REPORT } from "../graphql/mutations";
 import moment from "moment";
 import { resetImage } from "../redux/actions/image";
-import { PropertySafetyFilled } from "@ant-design/icons";
-import { useEffect } from "react";
+import { PageContent, PageHeading } from "../components/layout/PageLayout";
 
 
 
@@ -133,27 +132,31 @@ export default function Report(props) {
     ]
 
     return (
-        <> 
-            <Title>New Audit</Title>
-            <Steps current={current}>
-                { steps.map(item => <Step key={item.title} title={item.title} />) }
-            </Steps>
-            <div className="mt-10">{ steps[current].content() }</div>
-            {/* <Checklist data={ getReportTemplate.checklist} /> */}
-            <div className="mt-6 flex justify-between">
-                { current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>Previous</Button>
-                )}
-                { current < steps.length - 1 && (
-                    <Button type="primary" onClick={() => next()}>Next</Button>
-                )}
-                { current === steps.length - 1 && (
-                    <div>
-                        <Button className="mr-8" loading={submitLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.DRAFT_AUDIT)}>Save as Draft</Button>
-                        <Button type="primary" loading={draftLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.SUBMIT_AUDIT)}>Submit</Button>
-                    </div>
-                )}
-            </div>
+        <>
+            <PageHeading title="New Audit">
+                <Steps current={current}>
+                    { steps.map(item => <Step key={item.title} title={item.title} />) }
+                </Steps>
+            </PageHeading>
+            {/* <Title>New Audit</Title> */}
+            <PageContent>
+                <div>{ steps[current].content() }</div>
+                {/* <Checklist data={ getReportTemplate.checklist} /> */}
+                <div className="mt-6 flex justify-between">
+                    { current > 0 && (
+                        <Button style={{ margin: '0 8px' }} onClick={() => prev()}>Previous</Button>
+                    )}
+                    { current < steps.length - 1 && (
+                        <Button type="primary" onClick={() => next()}>Next</Button>
+                    )}
+                    { current === steps.length - 1 && (
+                        <div>
+                            <Button className="mr-8" loading={submitLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.DRAFT_AUDIT)}>Save as Draft</Button>
+                            <Button type="primary" loading={draftLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.SUBMIT_AUDIT)}>Submit</Button>
+                        </div>
+                    )}
+                </div>
+            </PageContent>
         </>
     )
 }

@@ -3,15 +3,16 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
 import { Button, Descriptions, PageHeader, Popover, Result, Row, Spin, Statistic, Tabs, Tag, Col, Checkbox, } from "antd";
 import TextArea from 'antd/lib/input/TextArea';
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import ViewChecklist from "./ViewChecklist";
-import { PageContent, PageSubtitle, PageTitle, Section } from "../layout/PageLayout";
+import { BackHeader, PageContent, PageHeading, PageSubtitle, PageTitle, Section } from "../layout/PageLayout";
 import ViewPhotos from "./ViewPhotos";
 import ViewExtentions from "./ViewExtensions";
 import SendPdf from '../../components/audit/SendPdf';
 import ReportModal from '../../components/report/ReportModal';
 import { round } from '../../utils/utils';
+import { AUDIT_ACTIONS, routes } from '../../const';
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -27,7 +28,7 @@ export default function ViewReport() {
     const { reportId } = useParams();
     // const reportId = "6060d37dc9fd5a18c33be070";
     const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, { variables: { getReportByIdReportId: reportId }, fetchPolicy: 'cache-first' });
-
+    const history = useHistory();
     // for modal
     const [visible,setVisible]=useState(false);
     //for self checkbox
@@ -61,62 +62,89 @@ export default function ViewReport() {
     
 
     const { getReportById } = data;
-
+    const report = getReportById;
     console.log(getReportById)
+    let statusColor;
+    if (report.status === AUDIT_ACTIONS.AUDITED) statusColor = "text-green-400";
+    else if (report.status === AUDIT_ACTIONS.UNRECTIFIED_AUDIT) statusColor = "text-red-400";
+    else if (report.status === AUDIT_ACTIONS.DRAFT_AUDIT) statusColor = "text-yellow-400";
+    
+    let scoreColor;
+    if (report.auditScore >= 95) scoreColor = "text-green-400";
+    else scoreColor = "text-red-400";
+
+    const audit = () => {
+        history.push(`${routes.AUDIT}/${report.tenantId.id}/${report.type}`)
+    }
+    
     return (
-        <PageContent>
-            <PageHeader
-                className="p-0"
-                onBack={() => window.history.back()}
-                title={<PageSubtitle title="Audit Checklist" />}
-                tags={<Popover content={infoContent} title="Title" trigger="click">
-                        <Button type="text" className="py-0 px-1">
-                            <div className="flex items-center"><InfoCircleOutlined /></div>
-                        </Button>
-                    </Popover>
-                }
-            >
-                <PageTitle title={getReportById.tenantId.name} />
-                <Row align="middle" className="pb-6">
-                    <Statistic title="Type" value={getReportById.type.toUpperCase()} />
-                    <Statistic title="Score" suffix="%" value={round(getReportById.auditScore, 0)} className="px-8" />
-                    {/* TODO: change color based on Status */}
-                    <Tag color="blue" className="px-3 py-1"><Statistic title="Status" value={getReportById.status} className="capitalize" /></Tag>
-                    
+        <>
+            <PageHeading title={getReportById.tenantId.name} node={
+                <Row align="middle" className="bg-white mt-4 p-4 shadow-md rounded-md justify-evenly">
+                    <div className="flex flex-col items-center">
+                        <h2 className="uppercase font-medium text-xs">Score (%)</h2>
+                        <h1 className={`text-3xl font-semibold mr-1 ${scoreColor}`}>{round(getReportById.auditScore, 0)}</h1>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <h2 className="uppercase font-medium text-xs">Status</h2>
+                        <h1 className={`text-3xl font-semibold mr-1 capitalize ${statusColor}`}>{getReportById.status}</h1>
+                    </div>
                 </Row>
-                <div className="flex">
-                    <Button block className="mr-2">Download</Button>
-                    <Button onClick={() => showModal()} block className="ml-2" type="primary">Send Email</Button>
+            }>
+                <BackHeader title="Audit Checklist" />
+                <PageTitle title={getReportById.tenantId.name} />
+                <Row align="middle" className="bg-white p-6 shadow-md rounded-md justify-evenly">
+                    <div className="flex flex-col items-center">
+                        <h2 className="uppercase font-medium text-xs">Type</h2>
+                        <h1 className="text-3xl font-semibold mr-1">{ getReportById.type.toUpperCase() }</h1>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <h2 className="uppercase font-medium text-xs">Score (%)</h2>
+                        <h1 className={`text-3xl font-semibold mr-1 ${scoreColor}`}>{round(getReportById.auditScore, 0)}</h1>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <h2 className="uppercase font-medium text-xs">Status</h2>
+                        <h1 className={`text-3xl font-semibold mr-1 capitalize ${statusColor}`}>{getReportById.status}</h1>
+                    </div>
+                    
+                    <div className="flex mt-6">
+                        { report.status === AUDIT_ACTIONS.DRAFT_AUDIT 
+                            ? <Button className="mr-2" onClick={audit}>Continue Editing</Button>
+                            : <Button block className="mr-2">Download</Button> }
+                        <Button onClick={() => showModal()} block className="ml-2" type="primary">Send Email</Button>
+                    </div>
+                </Row>
+
+                {/* </PageHeader> */}
+            </PageHeading>
+            <PageContent>
+                <div>
+                    <Tabs defaultActiveKey="1" type="card">
+                        <TabPane tab="Details" key="1">
+                            <Descriptions size="small" column={1} layout="horizontal" bordered>
+                                <Descriptions.Item label="Auditor">{ report.auditorId.name }</Descriptions.Item>
+                                <Descriptions.Item label="Auditee">{ report.tenantId.name }</Descriptions.Item>
+                                <Descriptions.Item label="Institution">{ report.tenantId.institution }</Descriptions.Item>
+                                <Descriptions.Item label="Audit Date">{ report.auditDate }</Descriptions.Item>
+                                <Descriptions.Item label="Due Date">{ report.dueDate }</Descriptions.Item>
+
+                                <Descriptions.Item label="Remarks">
+                                    { report.remarks || 'No remarks'}
+                                </Descriptions.Item>
+                            </Descriptions>
+                        </TabPane>
+                        <TabPane tab="Checklist" key="2">
+                            <ViewChecklist checklist={getReportById.checklist} />
+                        </TabPane>
+                        <TabPane tab="Images" key="3">
+                            <ViewPhotos report={getReportById} />
+                        </TabPane>
+                        <TabPane tab="Extensions" key="4">
+                            <ViewExtentions report={getReportById}/>
+                        </TabPane>
+                    </Tabs>
                 </div>
-
-            </PageHeader>
-            <Section>
-                <Tabs defaultActiveKey="1" type="card">
-                    <TabPane tab="Details" key="1">
-                        <Descriptions size="small" column={1} layout="horizontal" bordered>
-                            {/* TODO: auditor details */}
-                            <Descriptions.Item label="Auditor">Beatrice</Descriptions.Item>
-                            <Descriptions.Item label="Auditee">{ getReportById.tenantId.name }</Descriptions.Item>
-                            <Descriptions.Item label="Institution">{ getReportById.tenantId.institution }</Descriptions.Item>
-                            <Descriptions.Item label="Audit Date">23 March 2021</Descriptions.Item>
-                            <Descriptions.Item label="Due Date">04 April 2021</Descriptions.Item>
-
-                            <Descriptions.Item label="Remarks">
-                                These are the general comments of the report. Lorem ipsum dolor sit amet...
-                            </Descriptions.Item>
-                        </Descriptions>
-                    </TabPane>
-                    <TabPane tab="Checklist" key="2">
-                        <ViewChecklist checklist={getReportById.checklist} />
-                    </TabPane>
-                    <TabPane tab="Images" key="3">
-                        <ViewPhotos report={getReportById} />
-                    </TabPane>
-                    <TabPane tab="Extensions" key="4">
-                        <ViewExtentions report={getReportById}/>
-                    </TabPane>
-                </Tabs>
-            </Section>
+            </PageContent>
 
             <ReportModal 
                 id={getReportById.id}
@@ -127,7 +155,7 @@ export default function ViewReport() {
                     <SendPdf reportId={getReportById.id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
                 ]}
                 functions={handleCancel}
-                maskClosable={false}  
+                maskClosable={true}  
             >
                 <div className="flex flex-col">
                     <Row>
@@ -137,7 +165,7 @@ export default function ViewReport() {
 
                     <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
                 </div>
-        </ReportModal>
-        </PageContent>
+            </ReportModal>
+        </>
     )
 }

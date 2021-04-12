@@ -21,7 +21,7 @@ export default function Photo() {
     const showUploadModal = (id, lineItem) => {
         setVisible(true);
         setItemSelected(id);
-        setLineItem(lineItem)
+        setLineItem(lineItem);
     };
 
     const handleOk = () => {

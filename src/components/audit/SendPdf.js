@@ -71,7 +71,7 @@ export default function SendPdf({
     });
     return (
         <>
-            <Button onClick={handleSubmit}>Send PDF</Button>
+            <Button type="primary" loading={loading} onClick={handleSubmit}>Send PDF</Button>
         </>
     );
 }
