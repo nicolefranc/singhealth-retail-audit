@@ -4,6 +4,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import PerformanceGraph from './PerformanceGraph';
 import {PerformanceAll, Performance} from './TenantData';
+import { SectionTitle } from '../layout/PageLayout';
 
 export default function DropdownTenantPerformance({dropdownTenant}) {
 
@@ -12,6 +13,7 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
     const [selectedValue, setSelectedValue] = useState(0);
 
     const handleChange = e => {
+      console.log('selected',e);
       setSelectedValue(dropdownTenant[e].value);
     }
 
@@ -21,8 +23,8 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
 
     return(
       <>
-        <div className='mb-6'>
-
+        <div className='mb-6 flex justify-between '>
+          <h2 className="font-medium text-lg uppercase tracking-wide pb-2">Performance</h2>
           <Select 
             className='mb-12'  
             showSearch
@@ -31,21 +33,21 @@ export default function DropdownTenantPerformance({dropdownTenant}) {
             onChange={handleChange} 
             style={{ width: 200 }}
             filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              console.log(option.children.toLowerCase())
+              // option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
             {dropdownTenant.map(tenant => (
             <Option key={tenant.value}>{tenant.label}</Option>
             ))}
           </Select>
-
-          <PerformanceGraph
-            content= {!selectedValue? PerformanceAll: Performance}
-            type={!selectedValue? 'all' : null}
-            >
-          </PerformanceGraph>
-          
         </div>
+
+        <PerformanceGraph
+          content= {!selectedValue? PerformanceAll: Performance}
+          type={!selectedValue? 'all' : null}
+          >
+        </PerformanceGraph>
         </>
     )
         }

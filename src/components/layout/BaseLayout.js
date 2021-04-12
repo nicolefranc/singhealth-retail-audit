@@ -33,14 +33,14 @@ export default function BaseLayout({ children }) {
 
     return (
         <Layout>
-            <Header>Header</Header>
+            {/* <Header>Header</Header> */}
             <Content
                 // style={{
                 //     padding: 14,
                 //     margin: 0,
                 //     minHeight: '100vh',
                 // }}
-                className="p-6 m-0 min-h-screen"
+                className="m-0 min-h-screen"
             >
                 { children }
             </Content>

@@ -273,19 +273,19 @@ export const dropdownTenant = [
   },
   {
     value: 1,
-    label: 'tenant 1'
+    label: 'Tenant 1'
   },
   {
     value: 2,
-    label: 'tenant 2'
+    label: 'Tenant 2'
   },
   {
     value: 3,
-    label: 'tenant 3'
+    label: 'Tenant 3'
   },
   {
     value: 4,
-    label: 'tenant 4'
+    label: 'Tenant 4'
   },
 ];
 
