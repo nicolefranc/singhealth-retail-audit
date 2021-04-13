@@ -31,7 +31,10 @@ export default function SendEmailDemo({to, subject, body}){
         var userName = myEmailResult.data.getAuditorById.name;
         console.log("my name is", userName);
     }
-    setFrom(userName);
+    if (!from){
+
+        setFrom(userName);
+    }
     //
 
     const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {
@@ -53,6 +56,7 @@ export default function SendEmailDemo({to, subject, body}){
         <>
         {/* title<Input name="title" title="title" onChange={ (e) => setTitle(e.target.value) }></Input> */}
 
-        <Button onClick={handleClick}>Send</Button></>
+        <Button onClick={()=>handleClick}>Send</Button>
+        </>
     )
 }
