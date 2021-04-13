@@ -59,6 +59,7 @@ const FETCH_ALL_TENANTS = gql`
             id
             name
             institution
+            email
         }
     }
 `

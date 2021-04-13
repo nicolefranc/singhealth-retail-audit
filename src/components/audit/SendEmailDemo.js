@@ -5,9 +5,9 @@ import {SEND_EMAIL} from '../../graphql/mutations'
 import { tokenValidator } from "../../utils/tokenValidator";
 import gql from "graphql-tag";
 
-export default function SendEmailDemo(){
+export default function SendEmailDemo({to, title, body}){
 
-    const [from, setFrom]     = useState();
+    // const [from, setFrom]     = useState();
 
     //getting auditor name starts here
     let isAuthenticated = localStorage.getItem("jwt");
@@ -15,23 +15,24 @@ export default function SendEmailDemo(){
 
     console.log("my id is : ", validatorResult.id);
 
-    const myEmailResult = useQuery(
-        gql`
-            query auditorById($id: String!) {
-                getAuditorById(id: $id) {
-                    name
-                }
-            }
-        `,
-        {
-            variables: { id: validatorResult.id },
-        }
-    );
-    if (myEmailResult.data) {
-        var userName = myEmailResult.data.getAuditorById.name;
-        console.log("my name is", userName);
-    }
-    setFrom(userName);
+    // const myEmailResult = useQuery(
+    //     gql`
+    //         query auditorById($id: String!) {
+    //             getAuditorById(id: $id) {
+    //                 name
+    //             }
+    //         }
+    //     `,
+    //     {
+    //         variables: { id: validatorResult.id },
+    //     }
+    // );
+    // if (myEmailResult.data) {
+    //     var userName = myEmailResult.data.getAuditorById.name;
+    //     console.log("my name is", userName);
+    // }
+    // setFrom(userName);
+    const from = validatorResult.name;
     //
 
     const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {
@@ -50,6 +51,6 @@ export default function SendEmailDemo(){
     }
 
     return (
-        <Button onClick={handleClick}>Send</Button>
+        <Button onClick={()=>handleClick}>Send</Button>
     )
 }
