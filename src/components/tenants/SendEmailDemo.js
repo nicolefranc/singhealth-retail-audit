@@ -5,7 +5,7 @@ import {SEND_EMAIL} from '../../graphql/mutations'
 import { tokenValidator } from "../../utils/tokenValidator";
 import gql from "graphql-tag";
 
-export default function SendEmailDemo({to, subject, body}){
+export default function SendEmailDemo({to, title, body}){
 
     const [from, setFrom] = useState();
 
@@ -45,10 +45,11 @@ export default function SendEmailDemo({to, subject, body}){
         onError(err){
             console.log(err);
         },
-        variables: {from: validatorResult.name,to,subject,body}
+        variables: {from: validatorResult.name,to,title,body}
     })
 
     const handleClick = () => {
+        console.log("var",validatorResult.name,to,title,body);
         sendEmail();
     }
 
@@ -56,6 +57,6 @@ export default function SendEmailDemo({to, subject, body}){
         <>
         {/* title<Input name="title" title="title" onChange={ (e) => setTitle(e.target.value) }></Input> */}
 
-        <Button onClick={()=>handleClick}>Send</Button></>
+        <Button onClick={handleClick}>Send</Button></>
     )
 }
