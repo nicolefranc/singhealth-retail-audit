@@ -52,10 +52,46 @@ export const PROPOSE_EXTENSION = gql`
         }
     }
 `;
+export const APPROVE_EXTENSION = gql`
+    mutation($reportId: String!, $date: String!, $remarks: String!) {
+        approveExtension(reportId: $reportId, finalDate: $date, finalRemarks: $remarks) {
+            extension {
+                proposed {
+                    date
+                    remarks
+                }
+                final {
+                    date
+                    remarks
+                }
+                status
+            }
+        }
+    }
+`;
 
 
 export const SEND_EMAIL = gql`
 mutation ($from: String!, $to: String!, $title: String!, $body:String!){
   sendEmail(from:$from, to:$to, title: $title, body: $body)
 }
+`;
+
+export const CHANGE_AUDITOR_EMAIL = gql `
+    mutation change($email: String!, $id: String!){
+      changeAuditorEmail(email:$email ,id: $id){
+        name
+        email
+      }
+    }
+
+`;
+export const CHANGE_TENANT_EMAIL = gql `
+    mutation change($email: String!, $id: String!){
+      changeTenantEmail(email:$email ,id: $id){
+        name
+        email
+      }
+    }
+
 `;

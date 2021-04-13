@@ -1,8 +1,9 @@
 import { DatePicker, Descriptions } from "antd";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { DATE_FORMAT } from "../../const";
+import { DATE_FORMAT, EXT_INITIAL } from "../../const";
 import { updateAuditDetails } from "../../redux/actions/report";
+import { tokenValidator } from "../../utils/tokenValidator";
 
 export default function Details({ tenant, template }) {
     const { auditDate, extension } = useSelector(state => state.report);
@@ -11,12 +12,14 @@ export default function Details({ tenant, template }) {
         updateAuditDetails('auditDate', dateString)(dispatch);
     }
 
+    const user = tokenValidator(localStorage.getItem('jwt'));
+
     const onDueDateChange = (date, dateString) => {
         console.log(date, dateString)
         const extension = {
-            proposed: { date: dateString, remarks: null },
+            proposed: { date: null, remarks: null },
             final: { date: dateString, remarks: null },
-            status: 'initial'
+            status: EXT_INITIAL,
         }
         updateAuditDetails('extension', extension)(dispatch);
     }
@@ -25,7 +28,7 @@ export default function Details({ tenant, template }) {
         <>
             <Descriptions size="small" column={1} layout="horizontal" bordered>
                 {/* TODO: auditor details */}
-                <Descriptions.Item label="Auditor">Beatrice</Descriptions.Item>
+                <Descriptions.Item label="Auditor">{ user.name }</Descriptions.Item>
                 <Descriptions.Item label="Auditee">{ tenant.name }</Descriptions.Item>
                 <Descriptions.Item label="Institution">{ tenant.institution }</Descriptions.Item>
                 <Descriptions.Item label="Checklist Type">{ template[0] }</Descriptions.Item>

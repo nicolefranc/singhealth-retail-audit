@@ -21,14 +21,15 @@ export default function TenantCard({ status }) {
     const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
     const { getAllTenants } = data ? data : [];
 
-    if(loading || error) {
+    if (loading) {
         return (
             <div className="flex w-full justify-center items-center">
                     <Spin tip="Loading..." size="large" />
             </div>
         );
     }
-    if(!data) {
+
+    else if (error) {
         return (
             <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -42,11 +43,11 @@ export default function TenantCard({ status }) {
     return (
         <div className="z-0">
             {
-                getAllTenants.map((tenant, index) => (
-                    <SwipeableList key={index}>
+                getAllTenants.map((tenant, index) => {
+                    return <SwipeableList key={index}>
                         <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} auditable={myInstitutions.includes(tenant.institution)}/>
                     </SwipeableList>
-                )) 
+                }) 
             }
         </div>
     )

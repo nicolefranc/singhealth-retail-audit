@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
 import SingHealth_Logo from "../assets/images/SingHealth_Logo.png";
+import { PageSubtitle, PageTitle } from "../components/layout/PageLayout";
 
 import { useDispatch } from 'react-redux';
 
@@ -78,18 +79,22 @@ export default function Login(props) {
   }
 
   return (
-    <>
+    <div className="flex flex-col h-full justify-end bg-gradient-to-b from-yellow-400 via-red-400 to-yellow-500">
       {/* <div className="flex justify-between">
             <Button className='ml-16' size='large'>Login as Tenant</Button>
             <Button className='mr-16' size='large'>Login as auditor</Button>
         </div> */}
 
       
-      <div className='flex justify-center mb-12 '>
+      <div className='flex flex-col justify-center items-center flex-1'>
 
-        <img src={SingHealth_Logo} style={{maxWidth: '100%', maxHeight: '100%'}} alt='SingHealth' />
+        {/* <img src={SingHealth_Logo} style={{maxWidth: '100%', maxHeight: '100%'}} alt='SingHealth' /> */}
+        <h1 className="text-5xl font-bold tracking-wide text-white">SingHealth</h1>
+        <h2 className="uppercase font-bold mt-2">Defining Tomorrow's Medicine</h2>
 
       </div>
+      
+      {/* <PageTitle title="Log In" /> */}
 
         <Form
           layout="vertical"
@@ -100,25 +105,26 @@ export default function Login(props) {
           requiredMark={requiredMark}
           onFinish={onSubmit}
           onFinishFailed={onFinishFailed}
+          className="bg-white rounded-t-2xl shadow-lg flex-1"
         >
-          <div className='flex justify-center mb-6'>
-          <Title style={{paddingRight: '1rem', paddingTop: '0.25rem'}} level={5}>Login As</Title>
-          <Radio.Group className='mb-6' value={loginAs} label="Login As">
-            <Radio.Button value="tenant" onClick={handleLoginAs}>
-              Tenant
-            </Radio.Button>
-            <Radio.Button value="auditor" onClick={handleLoginAs}>
-              auditor
-            </Radio.Button>
-          </Radio.Group>
-          </div>
+          <div className="p-10 shadow-lg">
+            <h2 className="font-bold text-2xl mb-4">Log In</h2>
+            <div className="flex mb-6">
+              <Radio.Group className="" value={loginAs} label="Login As">
+                <Radio.Button value="tenant" onClick={handleLoginAs} className="uppercase font-medium">
+                  Tenant
+                </Radio.Button>
+                <Radio.Button value="auditor" onClick={handleLoginAs} className="uppercase font-medium">
+                  Auditor
+                </Radio.Button>
+              </Radio.Group>
+            </div>
 
           
 
-          <div className='pl-10 pr-10'>
           <Form.Item label="Email" required tooltip="This is a required field">
             <Input
-              placeholder="input email"
+              placeholder="Email"
               onChange={onChange}
               name="email"
               value={values.email}
@@ -136,19 +142,19 @@ export default function Login(props) {
             <Input
               type="password"
               name="password"
-              placeholder="input password"
+              placeholder="Password"
               onChange={onChange}
               value={values.password}
             />
           </Form.Item>
 
-          <Form.Item name="remember" valuePropName="checked" className='mb-4'>
+          <Form.Item name="remember" valuePropName="checked" className="">
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
           {Object.keys(errors).length > 0 && (
             <div className="ui error message">
-              <ul className="list p-3">
+              <ul className="list">
                 {Object.values(errors).map((value) => (
                   <Alert className='p-2 mb-4' message={value} type="error" />
                 ))}
@@ -157,7 +163,7 @@ export default function Login(props) {
           )}
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button block loading={loading} type="primary" size="large" htmlType="submit" className="">
               Submit
             </Button>
           </Form.Item>
@@ -165,7 +171,7 @@ export default function Login(props) {
           </div>
         </Form>
       
-    </>
+    </div>
   );
 }
 

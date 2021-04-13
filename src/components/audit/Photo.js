@@ -8,18 +8,20 @@ import NonCompliances from '../upload/NonCompliances';
 // for card
 const { Meta } = Card; 
 
-export default function Photo(){
+export default function Photo() {
     const nonCompliances = useSelector(state => state.images);
     const [itemSelected, setItemSelected] = useState(null);
+    const [lineItem, setLineItem] = useState(null);
     const lineItemIds = Object.keys(nonCompliances);
     const dispatch = useDispatch();
     
 
     // for pop up
     const [visible,setVisible]=useState(false);
-    const showUploadModal = (id) => {
+    const showUploadModal = (id, lineItem) => {
         setVisible(true);
         setItemSelected(id);
+        setLineItem(lineItem);
     };
 
     const handleOk = () => {
@@ -48,15 +50,13 @@ export default function Photo(){
 
     return (
         <>
-            {/* <h4 className="shadow bg-white mb-20">Staff Attendance: adequate staff for peak and non-peak hours.</h4> */}
             {
                 lineItemIds.map((id, index) => {
-                    const { images, remarks } = nonCompliances[id];
-                    // console.log(images);
-                    // console.log(id);
+                    const { lineItem, images, remarks } = nonCompliances[id];
+                    
                     return (
                         <>
-                            <h1>{ id }</h1>
+                            <h1 className="bg-white px-6 py-4 text-base font-normal">{ lineItem }</h1>
                             <Card
                                 cover={
                                     <Carousel>
@@ -67,16 +67,18 @@ export default function Photo(){
                                             let url = URL.createObjectURL(image);
                                             // console.log('url')
                                             // console.log(url);
-                                            return <img alt={image.name} src={url} className="object-contain max-h-80"/>
+                                            return <img alt={image.name} src={url} className="object-contain max-h-52"/>
                                         })}
                                     </Carousel>
                                 }
                                 actions={[
                                     // <DeleteOutlined key="delete" onClick={() => handleDelete(id, index)} />,
-                                    <EditOutlined key="editphoto" onClick={() => showUploadModal(id)}/>
+                                    <EditOutlined key="editphoto" onClick={() => showUploadModal(id, lineItem)}/>
                                 ]}
                             >
-                                <Meta description={remarks || 'No remarks'} />
+                                <Meta description={<h2 className="text-base">
+                                    <span className="uppercase text-sm font-medium text-gray-400">Remarks<br/></span>{remarks || 'No remarks'}
+                                </h2>} />
                             </Card>
                         </>
                     )
@@ -84,7 +86,7 @@ export default function Photo(){
             }
 
             
-            <NonCompliances id={itemSelected} modal={{
+            <NonCompliances id={itemSelected} lineItem={lineItem} modal={{
                 title: "Upload Photo for Non-compliance",
                 visible: visible,
                 actions: [

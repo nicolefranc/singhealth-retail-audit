@@ -13,11 +13,12 @@ import Details from "../components/audit/Details";
 import { CREATE_REPORT } from "../graphql/mutations";
 import moment from "moment";
 import { resetImage } from "../redux/actions/image";
+import { PageContent, PageHeading } from "../components/layout/PageLayout";
 
 
 
 
-export default function Report() {
+export default function Report(props) {
     const dispatch = useDispatch();
     const { tenantId, reportType } = useParams();
     const report = useSelector(state => state.report);
@@ -26,9 +27,10 @@ export default function Report() {
     const { loading, error, data } = useQuery(FETCH_CHECKLIST, {
         variables: { "getReportTemplateType": reportType, "getTenantByIdId": tenantId }
     });
-    const [createReport] = useMutation(CREATE_REPORT);
+    const [createReport, { loading: mutationLoading, error: mutationError }] = useMutation(CREATE_REPORT);
+    const [draftLoading, setDraftLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
     
-
     if (loading) {
         // console.log("loading");
         return (
@@ -64,8 +66,6 @@ export default function Report() {
 
     // API actions
     const handleSubmit = async action => {
-        let status = action === AUDIT_ACTIONS.SUBMIT_AUDIT ? 'audited' : action;
-    
         // 1. Retrieve images, checklist from state
         // 2. Other infos: auditorId, auditDate, dueDate
         // Pass to mutate
@@ -74,8 +74,18 @@ export default function Report() {
             console.log('map')
             console.log(lineItemIDs);
             let remarks = images[lineItemId].remarks ? images[lineItemId].remarks : ''
-            return { lineItemId, nonCompliances: images[lineItemId].links, nonComplRemarks: remarks }
-        })
+            return { lineItemId, lineItem: images[lineItemId].lineItem, nonCompliances: images[lineItemId].links, nonComplRemarks: remarks }
+        });
+
+        let status;
+        console.log('length of images' + imagesArr.length);
+        if (imagesArr.length > 0) status = AUDIT_ACTIONS.UNRECTIFIED_AUDIT;
+        else if (action === AUDIT_ACTIONS.SUBMIT_AUDIT) status = AUDIT_ACTIONS.AUDITED;
+        else if (action === AUDIT_ACTIONS.DRAFT_AUDIT) status = AUDIT_ACTIONS.DRAFT_AUDIT;
+        
+        (status === AUDIT_ACTIONS.SUBMIT_AUDIT && mutationLoading) 
+            ? setSubmitLoading(true) : setDraftLoading(true);
+
         console.log('images')
         console.log(imagesArr);
         console.log(report);
@@ -96,21 +106,19 @@ export default function Report() {
         console.log(variables);
     
         // createReport({ variables: { createReportBody: { tenantId: report.tenantId } } })
-        createReport({ variables })
-            .then(
-                onfulfilled => {
-                    message.success('Successfully saved report');
-                    // TODO: Clear state
-                    // resetStates();
-                    resetReport()(dispatch);
-                    // resetImage()(dispatch);
-                    // TODO: Redirect to view report
-                },
-                onrejected => {
-                    message.error('Failed to save report. Please try again later');
-                    console.log(onrejected);
-                }
-            )
+        createReport({ variables,
+             update(cache, result) {
+                // TODO: Clear state
+                // resetStates();
+                message.success('Successfully saved report');
+                resetReport()(dispatch);
+                resetImage()(dispatch);
+                props.history.push(`/report/${result.data.createReport.id}`)
+            }, onError(err) {
+                message.error('Failed to save report. Please try again later');
+                console.log(err);
+            }
+        });
     }
     
 
@@ -124,27 +132,31 @@ export default function Report() {
     ]
 
     return (
-        <> 
-            <Title>New Audit</Title>
-            <Steps current={current}>
-                { steps.map(item => <Step key={item.title} title={item.title} />) }
-            </Steps>
-            <div className="mt-10">{ steps[current].content() }</div>
-            {/* <Checklist data={ getReportTemplate.checklist} /> */}
-            <div className="mt-6 flex justify-between">
-                { current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>Previous</Button>
-                )}
-                { current < steps.length - 1 && (
-                    <Button type="primary" onClick={() => next()}>Next</Button>
-                )}
-                { current === steps.length - 1 && (
-                    <div>
-                        <Button className="mr-8" onClick={() => handleSubmit(AUDIT_ACTIONS.DRAFT_AUDIT)}>Save as Draft</Button>
-                        <Button type="primary" onClick={() => handleSubmit(AUDIT_ACTIONS.SUBMIT_AUDIT)}>Submit</Button>
-                    </div>
-                )}
-            </div>
+        <>
+            <PageHeading title="New Audit">
+                <Steps current={current}>
+                    { steps.map(item => <Step key={item.title} title={item.title} />) }
+                </Steps>
+            </PageHeading>
+            {/* <Title>New Audit</Title> */}
+            <PageContent>
+                <div>{ steps[current].content() }</div>
+                {/* <Checklist data={ getReportTemplate.checklist} /> */}
+                <div className="mt-6 flex justify-between">
+                    { current > 0 && (
+                        <Button style={{ margin: '0 8px' }} onClick={() => prev()}>Previous</Button>
+                    )}
+                    { current < steps.length - 1 && (
+                        <Button type="primary" onClick={() => next()}>Next</Button>
+                    )}
+                    { current === steps.length - 1 && (
+                        <div>
+                            <Button className="mr-8" loading={submitLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.DRAFT_AUDIT)}>Save as Draft</Button>
+                            <Button type="primary" loading={draftLoading} onClick={() => handleSubmit(AUDIT_ACTIONS.SUBMIT_AUDIT)}>Submit</Button>
+                        </div>
+                    )}
+                </div>
+            </PageContent>
         </>
     )
 }
