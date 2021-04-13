@@ -131,7 +131,8 @@ export default function Settings() {
                         )}
                         <Descriptions.Item label="Institutions">
                         
-                            {validatorResult.institutions.map((item,idx) => <Tag color={colours[idx*2]}>{item}</Tag>)}
+                            {isTenant ? validatorResult.institutions
+                                : validatorResult.institutions.map((item,idx) => <Tag color={colours[idx*2]}>{item}</Tag>)}
                         </Descriptions.Item>
                         <Descriptions.Item label="Email">
                             <Input
