@@ -133,7 +133,7 @@ const CreateUser = () => {
         console.log("institutions",institutions)
 
         for(let i = 0; i<institutions.length; i++){
-            dropdownInstitution.push({label: institutions[i], value:i})
+            dropdownInstitution.push({label: institutions[i]})
         }
 
         console.log("dropdownInstitution",dropdownInstitution)
@@ -143,7 +143,7 @@ const CreateUser = () => {
 
     const handleChange = (e) => {
         console.log('selected',e);
-        setSelectedValue(dropdownInstitution[e].label);
+        setSelectedValue(e);
       }
   
       function onSearch(val) {
@@ -190,7 +190,7 @@ const CreateUser = () => {
                     }
                     >
                     {dropdownInstitution.map(tenant => (
-                    <Option key={tenant.value}>{tenant.label}</Option>
+                    <Option key={tenant.label}>{tenant.label}</Option>
                     ))}
                 </Select>
 
