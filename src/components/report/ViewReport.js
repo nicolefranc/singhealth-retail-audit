@@ -124,10 +124,6 @@ export default function ViewReport() {
                         <Button onClick={() => showModal()} block className="ml-2" type="primary">Send Email</Button>
                     </div>
                 </Row>
-                <div className="flex">
-                    <DownloadPdf report={getReportById}/>
-                    <Button onClick={() => showModal()} block className="ml-2" type="primary">Send Email</Button>
-                </div>
 
                 {/* </PageHeader> */}
             </PageHeading>

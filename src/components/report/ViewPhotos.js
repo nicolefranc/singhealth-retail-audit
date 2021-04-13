@@ -3,7 +3,7 @@ import { Button, Card, Carousel, Collapse, Divider, Empty, Image } from "antd";
 import Meta from "antd/lib/card/Meta";
 
 export default function ViewPhotos({ report }) {
-    return (
+    return report.images.length === 0 ? <Empty description="No Images" /> : (
         <Collapse ghost defaultActiveKey={['0']}>
             { report.images.map((item, index) => {
                 return (
