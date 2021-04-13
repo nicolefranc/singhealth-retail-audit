@@ -1,6 +1,6 @@
 import { Form, Input, Button, Select, Radio, Alert } from "antd";
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import { tokenValidator } from "../utils/tokenValidator";
 
@@ -97,6 +97,59 @@ const CreateUser = () => {
         createUser();
     }
 
+    const fetch_all_tenant = useQuery(FETCH_ALL_TENANTS);
+
+    const dropdownInstitution = [];
+
+    function sortByInstitution(property){
+        return function(a,b){
+            if(a[property] > b[property]){
+            return 1;
+            }
+            else if(a[property] < b[property]){
+            return -1;
+            }
+            return 0;
+        }
+    }
+
+    if(fetch_all_tenant.data){
+        const {getAllTenants} = fetch_all_tenant.data;
+        const getAllTenantsDup = [...getAllTenants]
+
+        var institutions = []
+
+        getAllTenantsDup.sort(sortByInstitution("institution"))
+        console.log(getAllTenantsDup);
+
+        for (let i = 0; i<getAllTenantsDup.length; i++){
+            if (!(getAllTenantsDup[i].institution in institutions)){
+                const eachInstitution = getAllTenantsDup[i].institution.slice()
+                console.log("eachInstitution",eachInstitution)
+                institutions.push(eachInstitution)
+            }
+        }
+        institutions = [...new Set(institutions)]
+        console.log("institutions",institutions)
+
+        for(let i = 0; i<institutions.length; i++){
+            dropdownInstitution.push({label: institutions[i], value:i})
+        }
+
+        console.log("dropdownInstitution",dropdownInstitution)
+    } 
+
+    const [selectedValue, setSelectedValue] = useState("");
+
+    const handleChange = (e) => {
+        console.log('selected',e);
+        setSelectedValue(dropdownInstitution[e].label);
+      }
+  
+      function onSearch(val) {
+        console.log('search:', val);
+      }
+
     return (
         <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
             {isAdmin ?<><p>New User Type</p>
@@ -126,7 +179,21 @@ const CreateUser = () => {
                 label="Institution"
                 rules={[{ required: true }]}
             >
-                <Input />
+                 <Select 
+                    className='mb-12'  
+                    showSearch
+                    onSearch ={onSearch}
+                    onChange={handleChange} 
+                    style={{ width: 200 }}
+                    filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                    >
+                    {dropdownInstitution.map(tenant => (
+                    <Option key={tenant.value}>{tenant.label}</Option>
+                    ))}
+                </Select>
+
             </Form.Item>
             {createType === "tenant" ? (
                 <Form.Item name="type" rules={[{ required: true }]}>
@@ -221,6 +288,14 @@ const CREATE_AUDITOR = gql`
             token
             name
             role
+        }
+    }
+`;
+
+const FETCH_ALL_TENANTS = gql`
+    query fetchAllTenants {
+        getAllTenants {
+            institution
         }
     }
 `;
