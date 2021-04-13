@@ -15,23 +15,26 @@ export default function SendEmailDemo({to, subject, body}){
 
     console.log("my id is : ", validatorResult.id);
 
-    const myEmailResult = useQuery(
-        gql`
-            query auditorById($id: String!) {
-                getAuditorById(id: $id) {
-                    name
-                }
-            }
-        `,
-        {
-            variables: { id: validatorResult.id },
-        }
-    );
-    if (myEmailResult.data) {
-        var userName = myEmailResult.data.getAuditorById.name;
-        console.log("my name is", userName);
-    }
-    setFrom(userName);
+    // const myEmailResult = useQuery(
+    //     gql`
+    //         query auditorById($id: String!) {
+    //             getAuditorById(id: $id) {
+    //                 name
+    //             }
+    //         }
+    //     `,
+    //     {
+    //         variables: { id: validatorResult.id },
+    //     }
+    // );
+    // if (myEmailResult.data) {
+    //     var userName = myEmailResult.data.getAuditorById.name;
+    //     console.log("my name is", userName);
+    // }
+    // if(!from){
+
+    //     setFrom(userName);
+    // }
     //
 
     const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {
@@ -42,7 +45,7 @@ export default function SendEmailDemo({to, subject, body}){
         onError(err){
             console.log(err);
         },
-        variables: {from,to,subject,body}
+        variables: {from: validatorResult.name,to,subject,body}
     })
 
     const handleClick = () => {
@@ -53,6 +56,6 @@ export default function SendEmailDemo({to, subject, body}){
         <>
         {/* title<Input name="title" title="title" onChange={ (e) => setTitle(e.target.value) }></Input> */}
 
-        <Button onClick={handleClick}>Send</Button></>
+        <Button onClick={()=>handleClick}>Send</Button></>
     )
 }
