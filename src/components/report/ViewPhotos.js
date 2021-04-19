@@ -4,7 +4,8 @@ import { Affix, Button, Card, Carousel, Collapse, Divider, Empty, Image, message
 import Meta from "antd/lib/card/Meta";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CREATE_RECTIFICATION } from "../../graphql/mutations";
+import { AUDIT_ACTIONS } from "../../const";
+import { APPROVE_RECTIFICATION, CREATE_RECTIFICATION } from "../../graphql/mutations";
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import { resetImage } from "../../redux/actions/image";
 import { tokenValidator } from "../../utils/tokenValidator";
@@ -48,11 +49,28 @@ export default function ViewPhotos({ report }) {
         }
     });
 
+    const [approve] = useMutation(APPROVE_RECTIFICATION, {
+        update(cache, result) {
+            const { getReportById } = cache.readQuery({
+                query: FETCH_REPORT_BY_ID,
+                variables: { getReportByIdReportId: report.id },
+            });
+            const newReport = JSON.parse(JSON.stringify(getReportById)); //deep clone
+            // const newReport = getReportById; 
+            console.log(newReport);
+            newReport.status = result.data.approveRectification.status;
+            cache.writeQuery({ query: FETCH_REPORT_BY_ID,  variables: { getReportByIdReportId: report.id }, data: {  getReportById: newReport } });
+            message.success("Rectification sucessfully approved.");
+        },
+        onError(err) {
+            console.log(err);
+            message.error('Failed to approve rectification. Please try again later.');
+        }
+    })
+
     const jwt = localStorage.getItem('jwt');
     const user = tokenValidator(jwt);
     const isTenant = user.type === 'tenant';
-
-    // console.log(report);
 
     const showUploadModal = (id, lineItem) => {
         setVisible(true);
@@ -86,28 +104,8 @@ export default function ViewPhotos({ report }) {
         });
 
         console.log('Sending rectification...')
-        // console.log(report.id)
-        // console.log(newImages);
         const { data } = await rectify({ variables: { createRectificationId: report.id, createRectificationImages: newImages }});
-        // console.log(data);
         console.log('Rectified.');
-    }
-
-    const updateCache = (cache, report) => {
-        const { getReportById: cachedReport } = cache.readQuery({
-                query: FETCH_REPORT_BY_ID,
-                variables: { getReportByIdReportId: report.id },
-            });
-            const newReport = JSON.parse(JSON.stringify(cachedReport)); //deep clone
-            newReport.images = report.images;
-            cache.writeQuery({
-                query: FETCH_REPORT_BY_ID,
-                variables: { getReportByIdReportId: report.id },
-                data: {
-                    getReportById: newReport,
-                },
-            });
-            message.success("Report cache updated.");
     }
 
     const rectImages = (item) => {
@@ -132,6 +130,11 @@ export default function ViewPhotos({ report }) {
         return <Empty description="No Rectifications" className="max-h-52 flex flex-col justify-center">
             { isTenant && <Button type="primary" onClick={() => showUploadModal(item.lineItemId, item.lineItem)}>Rectify</Button> }
         </Empty>
+    }
+
+    const handleApproval = async () => {
+        // message.success('Rectification approved');
+        await approve({ variables: { approveRectificationId: report.id, approveRectificationStatus: AUDIT_ACTIONS.AUDITED } });
     }
 
     return report.images.length === 0 ? <Empty description="No Images" /> : (
@@ -184,6 +187,11 @@ export default function ViewPhotos({ report }) {
             { Object.keys(images).length > 0 && <Affix offsetBottom={60}>
                 <Button block type="primary" className="mt-4" loading={loading}
                     onClick={handleRectification}>Submit Rectifications</Button>
+            </Affix> }
+
+            { report.status === AUDIT_ACTIONS.RECTIFIED_AUDIT && <Affix offsetBottom={60}>
+                <Button block type="primary" className="mt-4" loading={loading}
+                    onClick={handleApproval}>Approve Rectifications</Button>
             </Affix> }
             <NonCompliances type="rectification" reportId={report.id} id={itemSelected} lineItem={lineItem} modal={{
                 title: "Upload Photo(s) for Rectification",

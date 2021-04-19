@@ -30,7 +30,11 @@ export const RECTIFICATION_UPLOADS = gql`
     }
 `;
 
-
+export const DELETE_UPLOAD = gql`
+    mutation($filename: String!) {
+        deleteUpload(filename: $filename)
+    }
+`;
 
 export const CREATE_RECTIFICATION = gql`
     mutation CreateRectificationMutation($createRectificationId: String, $createRectificationImages: [IImages]) {
@@ -49,11 +53,13 @@ export const CREATE_RECTIFICATION = gql`
     }
 `;
 
-
-export const DELETE_UPLOAD = gql`
-    mutation($filename: String!) {
-        deleteUpload(filename: $filename)
-    }
+export const APPROVE_RECTIFICATION = gql`
+    mutation ApproveRectificationMutation($approveRectificationId: String, $approveRectificationStatus: String) {
+        approveRectification(id: $approveRectificationId, status: $approveRectificationStatus) {
+            id
+            status
+        }
+    }   
 `;
 
 export const CREATE_REPORT = gql`
