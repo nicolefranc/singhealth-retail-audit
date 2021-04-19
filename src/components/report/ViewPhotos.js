@@ -1,8 +1,10 @@
 import { ArrowRightOutlined, LeftOutlined, NotificationOutlined, RightOutlined } from "@ant-design/icons";
+import { useMutation } from "@apollo/client";
 import { Affix, Button, Card, Carousel, Collapse, Divider, Empty, Image, message } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { CREATE_RECTIFICATION } from "../../graphql/mutations";
 import { tokenValidator } from "../../utils/tokenValidator";
 import NonCompliances from "../upload/NonCompliances";
 
@@ -11,12 +13,36 @@ export default function ViewPhotos({ report }) {
     const [itemSelected, setItemSelected] = useState(null);
     const [lineItem, setLineItem] = useState(null);
     const images = useSelector(state => state.images);
+    const [rectifications, setRectifications] = useState(null);
+
+    const [rectify, { loading, error }] = useMutation(CREATE_RECTIFICATION, 
+        // {
+        // update(cache, result) {
+        //     console.log('Rectification created.');
+        //     console.log(result);
+            // const { getReportById: cachedReport } = cache.readQuery({
+            //     query: FETCH_REPORT_BY_ID,
+            //     variables: { getReportByIdReportId: reportId },
+            // });
+            // const newReport = JSON.parse(JSON.stringify(cachedReport)); //deep clone
+            // newReport.images = result.data.rectificationUploads.images;
+            // cache.writeQuery({
+            //     query: FETCH_REPORT_BY_ID,
+            //     variables: { getReportByIdReportId: reportId },
+            //     data: {
+            //         getReportById: newReport,
+            //     },
+            // });
+            // message.success("Report cache updated.");
+        // }
+    // }
+    );
 
     const jwt = localStorage.getItem('jwt');
     const user = tokenValidator(jwt);
     const isTenant = user.type === 'tenant';
 
-    console.log(report);
+    // console.log(report);
 
     const showUploadModal = (id, lineItem) => {
         setVisible(true);
@@ -31,7 +57,7 @@ export default function ViewPhotos({ report }) {
         setVisible(false);
     };
 
-    const handleRectification = () => {
+    const handleRectification = async () => {
         if (Object.keys(images).length !== report.images.length) {
             message.error('Please upload rectifications for all line items.');
             return;
@@ -39,21 +65,22 @@ export default function ViewPhotos({ report }) {
 
         message.success('Rectification submitted');
         let reportImages = report.images; // images array
-        let invalid = false;
 
         const newImages = reportImages.map(reportImage => {
             let stateImages = images[reportImage.lineItemId];
             if(stateImages) {
                 let remarks = stateImages.remarks ? stateImages.remarks : null
-                let newImage = { ...reportImage, rectifications: stateImages.links, rectRemarks: remarks }
+                let newImage = { lineItemId: reportImage.lineItemId, lineItem: reportImage.lineItem, nonCompliances: reportImage.nonCompliances, nonComplRemarks: reportImage.nonComplRemarks, rectifications: stateImages.links, rectRemarks: remarks }
                 return newImage;
-            } 
-            // else {
-            //     message.error('Please upload rectifications for all line items.');
-            // }
+            }
         });
 
+        console.log('Sending rectification...')
+        console.log(report.id)
         console.log(newImages);
+        const { data } = await rectify({ variables: { createRectificationId: report.id, createRectificationImages: newImages }});
+        console.log(data);
+        console.log('Rectified.');
     }
 
     const rectImages = (item) => {
@@ -84,7 +111,7 @@ export default function ViewPhotos({ report }) {
         <>
             <Collapse ghost defaultActiveKey={['0']}>
                 { report.images.map((item, index) => {
-                    console.log(item);
+                    // console.log(item);
                     return (
                         <Collapse.Panel key={index}
                             header={<h3 className="font-medium text-base">{item.lineItem}</h3>} showArrow={true}>
@@ -128,7 +155,8 @@ export default function ViewPhotos({ report }) {
                 })}
             </Collapse>
             { Object.keys(images).length > 0 && <Affix offsetBottom={60}>
-                <Button block type="primary" className="mt-4" onClick={handleRectification}>Submit Rectifications</Button>
+                <Button block type="primary" className="mt-4" loading={loading}
+                    onClick={handleRectification}>Submit Rectifications</Button>
             </Affix> }
             <NonCompliances type="rectification" reportId={report.id} id={itemSelected} lineItem={lineItem} modal={{
                 title: "Upload Photo(s) for Rectification",

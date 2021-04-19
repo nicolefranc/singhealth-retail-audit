@@ -33,11 +33,18 @@ export const RECTIFICATION_UPLOADS = gql`
 
 
 export const CREATE_RECTIFICATION = gql`
-    mutation($files: [Upload], $id: String!) {
-        createRectification(files: $files, id: $id) {
-            filename
-            mimetype
-            uri
+    mutation CreateRectificationMutation($createRectificationId: String, $createRectificationImages: [IImages]) {
+        createRectification(id: $createRectificationId, images: $createRectificationImages) {
+            id
+            type
+            images {
+                lineItemId
+                lineItem
+                nonCompliances
+                nonComplRemarks
+                rectifications
+                rectRemarks
+            }
         }
     }
 `;

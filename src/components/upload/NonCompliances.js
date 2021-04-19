@@ -2,8 +2,7 @@ import { useMutation } from "@apollo/client";
 import { Button, message } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { useDispatch, useSelector } from "react-redux";
-import { MULTIPLE_UPLOADS, RECTIFICATION_UPLOADS, CREATE_RECTIFICATION } from "../../graphql/mutations";
-import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
+import { MULTIPLE_UPLOADS, RECTIFICATION_UPLOADS } from "../../graphql/mutations";
 import { updateRemarks, updateUploadStatus } from "../../redux/actions/image";
 import CustomModal from "../modals/CustomModal";
 import ImageUpload from "./ImageUpload";
@@ -14,26 +13,6 @@ export default function NonCompliances({ type, reportId, id, lineItem, modal: { 
     const dispatch = useDispatch();
     const isRectification = type === 'rectification';
     const [mutate, { loading, error }] = useMutation(isRectification ? RECTIFICATION_UPLOADS : MULTIPLE_UPLOADS);
-    const [rectify, { loading: mutationLoading, error: mutationError }] = useMutation(CREATE_RECTIFICATION, {
-        update(cache, result) {
-            console.log('Rectification created.');
-            console.log(result);
-            // const { getReportById: cachedReport } = cache.readQuery({
-            //     query: FETCH_REPORT_BY_ID,
-            //     variables: { getReportByIdReportId: reportId },
-            // });
-            // const newReport = JSON.parse(JSON.stringify(cachedReport)); //deep clone
-            // newReport.images = result.data.rectificationUploads.images;
-            // cache.writeQuery({
-            //     query: FETCH_REPORT_BY_ID,
-            //     variables: { getReportByIdReportId: reportId },
-            //     data: {
-            //         getReportById: newReport,
-            //     },
-            // });
-            // message.success("Report cache updated.");
-        }
-    });
 
     const handleRemarks = ({ target: { value } }) => {
         updateRemarks(id, value)(dispatch);
@@ -53,8 +32,6 @@ export default function NonCompliances({ type, reportId, id, lineItem, modal: { 
     }
 
     console.log('modal ' + lineItem);
-
-    if (mutationError) return <div>{ JSON.stringify(mutationError) }</div>
 
     return (
         <CustomModal
