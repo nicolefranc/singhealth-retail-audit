@@ -146,9 +146,9 @@ const CreateUser = () => {
         setSelectedValue(e);
       }
   
-      function onSearch(val) {
-        console.log('search:', val);
-      }
+    function onSearch(val) {
+    console.log('search:', val);
+    }
 
     return (
         <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
