@@ -32,7 +32,28 @@ export default function ViewPhotos({ report }) {
     };
 
     const handleRectification = () => {
+        if (Object.keys(images).length !== report.images.length) {
+            message.error('Please upload rectifications for all line items.');
+            return;
+        } 
+
         message.success('Rectification submitted');
+        let reportImages = report.images; // images array
+        let invalid = false;
+
+        const newImages = reportImages.map(reportImage => {
+            let stateImages = images[reportImage.lineItemId];
+            if(stateImages) {
+                let remarks = stateImages.remarks ? stateImages.remarks : null
+                let newImage = { ...reportImage, rectifications: stateImages.links, rectRemarks: remarks }
+                return newImage;
+            } 
+            // else {
+            //     message.error('Please upload rectifications for all line items.');
+            // }
+        });
+
+        console.log(newImages);
     }
 
     const rectImages = (item) => {
@@ -73,7 +94,6 @@ export default function ViewPhotos({ report }) {
                             <h5><span className=" text-xs uppercase text-gray-500">Remarks:</span> {item.nonComplRemarks || 'No remarks'}</h5>
                             <div className="overflow-x-scroll overflow-y-hidden whitespace-nowrap mt-4">
                                 <div className="inline-block">
-                                    {/* <div className="flex justify-evenly mb-2"> */}
                                     <Image.PreviewGroup>
                                     { item.nonCompliances.map((image, index) => {
                                         // return <img alt={image.name} src={image} className="object-contain max-h-80"/>
