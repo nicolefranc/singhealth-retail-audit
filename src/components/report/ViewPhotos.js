@@ -3,8 +3,10 @@ import { useMutation } from "@apollo/client";
 import { Affix, Button, Card, Carousel, Collapse, Divider, Empty, Image, message } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CREATE_RECTIFICATION } from "../../graphql/mutations";
+import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
+import { resetImage } from "../../redux/actions/image";
 import { tokenValidator } from "../../utils/tokenValidator";
 import NonCompliances from "../upload/NonCompliances";
 
@@ -13,30 +15,38 @@ export default function ViewPhotos({ report }) {
     const [itemSelected, setItemSelected] = useState(null);
     const [lineItem, setLineItem] = useState(null);
     const images = useSelector(state => state.images);
-    const [rectifications, setRectifications] = useState(null);
+    // const [rectifications, setRectifications] = useState(null);
+    const dispatch = useDispatch();
 
-    const [rectify, { loading, error }] = useMutation(CREATE_RECTIFICATION, 
-        // {
-        // update(cache, result) {
-        //     console.log('Rectification created.');
-        //     console.log(result);
-            // const { getReportById: cachedReport } = cache.readQuery({
-            //     query: FETCH_REPORT_BY_ID,
-            //     variables: { getReportByIdReportId: reportId },
-            // });
-            // const newReport = JSON.parse(JSON.stringify(cachedReport)); //deep clone
-            // newReport.images = result.data.rectificationUploads.images;
-            // cache.writeQuery({
-            //     query: FETCH_REPORT_BY_ID,
-            //     variables: { getReportByIdReportId: reportId },
-            //     data: {
-            //         getReportById: newReport,
-            //     },
-            // });
-            // message.success("Report cache updated.");
-        // }
-    // }
-    );
+    const [rectify, { loading, error }] = useMutation(CREATE_RECTIFICATION, {
+        update(cache, result) {
+            console.log('Rectification created.');
+            console.log(result);
+            // updateCache(cache, result.data.createRectification);
+            const { getReportById } = cache.readQuery({
+                query: FETCH_REPORT_BY_ID,
+                variables: { getReportByIdReportId: report.id },
+            });
+            const newReport = JSON.parse(JSON.stringify(getReportById)); //deep clone
+            // const newReport = getReportById; 
+            console.log(newReport);
+            newReport.status = result.data.createRectification.status;
+            newReport.images = result.data.createRectification.images;
+            cache.writeQuery({
+                query: FETCH_REPORT_BY_ID,
+                variables: { getReportByIdReportId: report.id },
+                data: {
+                    getReportById: newReport,
+                },
+            });
+            message.success("Rectification sucessfully submitted.");
+            resetImage()(dispatch);
+        },
+        onError(err) {
+            console.log(err);
+            message.error('Failed to submit rectification. Please try again later.');
+        }
+    });
 
     const jwt = localStorage.getItem('jwt');
     const user = tokenValidator(jwt);
@@ -63,7 +73,7 @@ export default function ViewPhotos({ report }) {
             return;
         } 
 
-        message.success('Rectification submitted');
+        // message.success('Rectification submitted');
         let reportImages = report.images; // images array
 
         const newImages = reportImages.map(reportImage => {
@@ -76,11 +86,28 @@ export default function ViewPhotos({ report }) {
         });
 
         console.log('Sending rectification...')
-        console.log(report.id)
-        console.log(newImages);
+        // console.log(report.id)
+        // console.log(newImages);
         const { data } = await rectify({ variables: { createRectificationId: report.id, createRectificationImages: newImages }});
-        console.log(data);
+        // console.log(data);
         console.log('Rectified.');
+    }
+
+    const updateCache = (cache, report) => {
+        const { getReportById: cachedReport } = cache.readQuery({
+                query: FETCH_REPORT_BY_ID,
+                variables: { getReportByIdReportId: report.id },
+            });
+            const newReport = JSON.parse(JSON.stringify(cachedReport)); //deep clone
+            newReport.images = report.images;
+            cache.writeQuery({
+                query: FETCH_REPORT_BY_ID,
+                variables: { getReportByIdReportId: report.id },
+                data: {
+                    getReportById: newReport,
+                },
+            });
+            message.success("Report cache updated.");
     }
 
     const rectImages = (item) => {

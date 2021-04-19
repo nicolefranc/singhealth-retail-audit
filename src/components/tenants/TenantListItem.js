@@ -125,8 +125,10 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
                                 <h3 className="text-base uppercase">
                                     {( () => {
                                         if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-                                            if (getAllReportsByTenant[0].status==="audited" || getAllReportsByTenant[0].status==="rectified"){
+                                            if (getAllReportsByTenant[0].status==="audited"){
                                                 return (<Tag color="success">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
+                                            } else if (getAllReportsByTenant[0].status==="rectified") {
+                                                return (<Tag color="blue">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
                                             } else if (getAllReportsByTenant[0].status==="unrectified"){
                                                 return(<Tag color="error">{getAllReportsByTenant[0].status.toUpperCase()}</Tag>)
                                             }else if (getAllReportsByTenant[0].status==="draft"){

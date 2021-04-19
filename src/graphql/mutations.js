@@ -36,7 +36,7 @@ export const CREATE_RECTIFICATION = gql`
     mutation CreateRectificationMutation($createRectificationId: String, $createRectificationImages: [IImages]) {
         createRectification(id: $createRectificationId, images: $createRectificationImages) {
             id
-            type
+            status
             images {
                 lineItemId
                 lineItem
