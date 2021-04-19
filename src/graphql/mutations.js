@@ -20,6 +20,29 @@ export const MULTIPLE_UPLOADS = gql`
     }
 `;
 
+export const RECTIFICATION_UPLOADS = gql`
+    mutation($files: [Upload], $id: String!) {
+        rectificationUploads(files: $files, id: $id) {
+            filename
+            mimetype
+            uri
+        }
+    }
+`;
+
+
+
+export const CREATE_RECTIFICATION = gql`
+    mutation($files: [Upload], $id: String!) {
+        createRectification(files: $files, id: $id) {
+            filename
+            mimetype
+            uri
+        }
+    }
+`;
+
+
 export const DELETE_UPLOAD = gql`
     mutation($filename: String!) {
         deleteUpload(filename: $filename)
