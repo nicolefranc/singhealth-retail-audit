@@ -8,10 +8,11 @@ export default function PerformanceGraph({content, type}) {
     yField: 'score',
     legend: false,
     stepType: 'vh',
+    seriesField: 'key'
   };
 
-  if (type === 'all'){
-      config['seriesField'] = 'key'
+  if (type === 'performance'){
+      config['seriesField'] = undefined
   }
 
   return <Line {...config} />;

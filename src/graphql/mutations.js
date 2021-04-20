@@ -20,10 +20,46 @@ export const MULTIPLE_UPLOADS = gql`
     }
 `;
 
+export const RECTIFICATION_UPLOADS = gql`
+    mutation($files: [Upload], $id: String!) {
+        rectificationUploads(files: $files, id: $id) {
+            filename
+            mimetype
+            uri
+        }
+    }
+`;
+
 export const DELETE_UPLOAD = gql`
     mutation($filename: String!) {
         deleteUpload(filename: $filename)
     }
+`;
+
+export const CREATE_RECTIFICATION = gql`
+    mutation CreateRectificationMutation($createRectificationId: String, $createRectificationImages: [IImages]) {
+        createRectification(id: $createRectificationId, images: $createRectificationImages) {
+            id
+            status
+            images {
+                lineItemId
+                lineItem
+                nonCompliances
+                nonComplRemarks
+                rectifications
+                rectRemarks
+            }
+        }
+    }
+`;
+
+export const APPROVE_RECTIFICATION = gql`
+    mutation ApproveRectificationMutation($approveRectificationId: String, $approveRectificationStatus: String) {
+        approveRectification(id: $approveRectificationId, status: $approveRectificationStatus) {
+            id
+            status
+        }
+    }   
 `;
 
 export const CREATE_REPORT = gql`

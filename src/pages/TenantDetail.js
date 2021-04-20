@@ -99,6 +99,8 @@ export default function TenantDetail({}) {
         console.log(getAllReportsByTenant);
     }
 
+    console.log("gtid",tenant)
+
     console.log(getAllReportsByTenant[0]);
 
     return (    
@@ -149,7 +151,7 @@ export default function TenantDetail({}) {
                     
                 <Section>
                     <SectionTitle title="Performance Graph" />
-                    <PerformanceGraph content={Performance} type={undefined}/>
+                    <PerformanceGraph content={tenant.performance} type={"performance"}/>
                 </Section>
 
                 <Section>

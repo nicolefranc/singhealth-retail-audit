@@ -5,7 +5,7 @@ import {SwipeableListItem} from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
 import SendPdf from '../audit/SendPdf';
 import ReportModal from '../report/ReportModal';
-import { routes } from '../../const';
+import { AUDIT_ACTIONS, routes } from '../../const';
 import { useHistory, useLocation } from 'react-router';
 import TextArea from 'antd/lib/input/TextArea';
 	
@@ -100,6 +100,8 @@ export default function ReportCard({ content }) {
                             {( () => {
                                 if (content.status==="audited"){
                                     return (<Tag color="success">{content.status.toUpperCase()}</Tag>)
+                                } else if (content.status === AUDIT_ACTIONS.RECTIFIED_AUDIT) {
+                                    return <Tag color="blue">{content.status.toUpperCase()}</Tag>
                                 } else if (content.status==="unrectified"){
                                     return(<Tag color="error">{content.status.toUpperCase()}</Tag>)
                                 }else if (content.status==="draft"){
