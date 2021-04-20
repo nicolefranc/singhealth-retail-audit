@@ -16,7 +16,6 @@ export default function ViewPhotos({ report }) {
     const [itemSelected, setItemSelected] = useState(null);
     const [lineItem, setLineItem] = useState(null);
     const images = useSelector(state => state.images);
-    // const [rectifications, setRectifications] = useState(null);
     const dispatch = useDispatch();
 
     const [rectify, { loading, error }] = useMutation(CREATE_RECTIFICATION, {
@@ -189,10 +188,11 @@ export default function ViewPhotos({ report }) {
                     onClick={handleRectification}>Submit Rectifications</Button>
             </Affix> }
 
-            { report.status === AUDIT_ACTIONS.RECTIFIED_AUDIT && <Affix offsetBottom={60}>
-                <Button block type="primary" className="mt-4" loading={loading}
-                    onClick={handleApproval}>Approve Rectifications</Button>
-            </Affix> }
+            { (report.status === AUDIT_ACTIONS.RECTIFIED_AUDIT && !isTenant) 
+                && <Affix offsetBottom={60}>
+                    <Button block type="primary" className="mt-4" loading={loading}
+                        onClick={handleApproval}>Approve Rectifications</Button>
+                </Affix> }
             <NonCompliances type="rectification" reportId={report.id} id={itemSelected} lineItem={lineItem} modal={{
                 title: "Upload Photo(s) for Rectification",
                 visible: visible,

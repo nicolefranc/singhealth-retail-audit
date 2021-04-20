@@ -50,8 +50,9 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
     // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
+        console.log(data);
         if (auditable)
-            history.push(`audit/${tenantId}`);
+            history.push(`audit/${tenantId}/${content.type}`);
         else
             message.error("Can't audit tenant from another institution");
     }
