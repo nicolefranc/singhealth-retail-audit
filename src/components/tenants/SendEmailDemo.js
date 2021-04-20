@@ -3,44 +3,20 @@ import { Button, message, Input } from 'antd'
 import { useState } from 'react'
 import {SEND_EMAIL} from '../../graphql/mutations'
 import { tokenValidator } from "../../utils/tokenValidator";
-import gql from "graphql-tag";
 
 export default function SendEmailDemo({to, title, body}){
 
-    const [from, setFrom] = useState();
+    // const [from, setFrom] = useState();
 
-    //getting my email starts here
+    //getting auditor data
     let isAuthenticated = localStorage.getItem("jwt");
     let validatorResult = tokenValidator(isAuthenticated);
-
-    console.log("my id is : ", validatorResult.id);
-
-    // const myEmailResult = useQuery(
-    //     gql`
-    //         query auditorById($id: String!) {
-    //             getAuditorById(id: $id) {
-    //                 name
-    //             }
-    //         }
-    //     `,
-    //     {
-    //         variables: { id: validatorResult.id },
-    //     }
-    // );
-    // if (myEmailResult.data) {
-    //     var userName = myEmailResult.data.getAuditorById.name;
-    //     console.log("my name is", userName);
-    // }
-    // if(!from){
-
-    //     setFrom(userName);
-    // }
     //
 
     const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {
         update(cache, result){
             console.log(result);
-            message.success("yay sent!");
+            message.success("Email Sent");
         },
         onError(err){
             console.log(err);
@@ -55,8 +31,7 @@ export default function SendEmailDemo({to, title, body}){
 
     return (
         <>
-        {/* title<Input name="title" title="title" onChange={ (e) => setTitle(e.target.value) }></Input> */}
 
-        <Button onClick={handleClick}>Send</Button></>
+        <Button type="primary" loading={loading} onClick={handleClick}>Send</Button></>
     )
 }
