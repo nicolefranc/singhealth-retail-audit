@@ -39,6 +39,8 @@ export default function DashboardTenant() {
         console.log(getAllReportsByTenant);
     }
 
+    console.log("gtid",getTenantById)
+
     const unrectLength = getAllReportsByTenant.filter(report => report.status === AUDIT_ACTIONS.UNRECTIFIED_AUDIT).length;
     const auditedLength = getAllReportsByTenant.filter(report => report.status === AUDIT_ACTIONS.AUDITED).length;
     const progress = (auditedLength / getAllReportsByTenant.length) * 100;

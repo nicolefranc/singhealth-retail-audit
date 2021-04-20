@@ -112,6 +112,7 @@ export const FETCH_REPORT_BY_ID = gql`
                 name
                 institution
                 type
+                email
             }
             auditorId {
                 id

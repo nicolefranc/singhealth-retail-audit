@@ -17,6 +17,19 @@ export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
       value : 0
     }];
 
+    if(getAllTenantsPerformance){
+      for(let i = 0; i < getAllTenantsPerformance.length; i++){
+        dropdownTenant.push({label: getAllTenantsPerformance[i].name, value: i+1 });
+        if (getAllTenantsPerformance[i].performance.length > 0){
+          for(let j = 0; j < getAllTenantsPerformance[i].performance.length; j++){ 
+            const eachPerformance = {...getAllTenantsPerformance[i].performance[j]};
+            eachPerformance.key = getAllTenantsPerformance[i].name
+            performanceAll.push(eachPerformance)
+          } 
+        }   
+      }
+    }
+
     // if(getAllTenantsPerformance){
     //   for(let i = 0; i < getAllTenantsPerformance.length; i++){
     //     if (getAllTenantsPerformance[i].performance.length > 0){
@@ -30,19 +43,7 @@ export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
     //     }   
     //   }
     // }
-
-    if(getAllTenantsPerformance){
-      for(let i = 0; i < getAllTenantsPerformance.length; i++){
-        dropdownTenant.push({label: getAllTenantsPerformance[i].name, value: i+1 });
-        if (getAllTenantsPerformance[i].performance.length > 0){
-          for(let j = 0; j < getAllTenantsPerformance[i].performance.length; j++){ 
-            const eachPerformance = {...getAllTenantsPerformance[i].performance[j]};
-            eachPerformance.key = getAllTenantsPerformance[i].name
-            performanceAll.push(eachPerformance)
-          } 
-        }   
-      }
-    }
+    
     console.log("dropdown",dropdownTenant)
 
     console.log("performanceAll", performanceAll)
@@ -61,7 +62,7 @@ export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
       performance = [];
       for(let i = 0; i < performanceAll.length ; i++){
         if(dropdownTenant[e].label == performanceAll[i].key){
-          performance.push({month: performanceAll[i].month, score: performanceAll[i].score})
+          performance.push({month: performanceAll[i].month, score: performanceAll[i].score, key:performanceAll[i].key})
         }
       }
       console.log("performance",performance)
@@ -95,7 +96,7 @@ export default function DropdownTenantPerformance({getAllTenantsPerformance}) {
 
         <PerformanceGraph
           content= {!selectedValue? performanceAll: performance}
-          type={!selectedValue? 'all' : null}
+         //!selectedValue? 'all' : undefined
           >
         </PerformanceGraph>
 

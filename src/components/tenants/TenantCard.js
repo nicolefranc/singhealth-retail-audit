@@ -8,7 +8,7 @@ import TenantListItem from "./TenantListItem";
 import { tokenValidator } from '../../utils/tokenValidator';
 
 
-export default function TenantCard({ status }) {
+export default function TenantCard({ tenants }) {
 
     const [checkboxVisibility, setCheckboxVisibility] = useState(null)
 
@@ -18,32 +18,33 @@ export default function TenantCard({ status }) {
     console.log(auditorId);
 
     // TODO: add status as query variable when filter functionality is done
-    const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
-    const { getAllTenants } = data ? data : [];
+    // const { loading, error, data } = useQuery(FETCH_ALL_TENANTS);
+    // const { getAllTenants } = data ? data : [];
 
-    if (loading) {
-        return (
-            <div className="flex w-full justify-center items-center">
-                    <Spin tip="Loading..." size="large" />
-            </div>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <div className="flex w-full justify-center items-center">
+    //                 <Spin tip="Loading..." size="large" />
+    //         </div>
+    //     );
+    // }
 
-    else if (error) {
-        return (
-            <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description={
-                    <span>No Tenants Found</span>
-                }
-            />
-        );
-    }
+    // else if (error) {
+    //     return (
+    //         <Empty
+    //             image={Empty.PRESENTED_IMAGE_SIMPLE}
+    //             description={
+    //                 <span>No Tenants Found</span>
+    //             }
+    //         />
+    //     );
+    // }
 
     return (
         <div className="z-0">
             {
-                getAllTenants.map((tenant, index) => {
+                // getAllTenants.map((tenant, index) => {
+                tenants.map((tenant, index) => {
                     return <SwipeableList key={index}>
                         <TenantListItem content={tenant} checkboxVisible={checkboxVisibility} auditable={myInstitutions.includes(tenant.institution)}/>
                     </SwipeableList>
@@ -58,6 +59,7 @@ const FETCH_ALL_TENANTS = gql`
         getAllTenants {
             id
             name
+            type
             institution
         }
     }
