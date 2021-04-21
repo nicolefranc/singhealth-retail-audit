@@ -95,6 +95,7 @@ const FETCH_ALL_TENANTS = gql`
             email
             type
             institution
+            email
         }
         getTenantsByAuditor(auditorId: $getTenantsByAuditorAuditorId) {
             id
@@ -102,6 +103,7 @@ const FETCH_ALL_TENANTS = gql`
             email
             type
             institution
+            email
         }
     }
 `

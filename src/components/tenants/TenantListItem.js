@@ -15,6 +15,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
 
     const tenantId = content.id;
     const tenantEmail = content.email;
+    console.log(tenantEmail);
     const { loading, error, data } = useQuery(FETCH_REPORT_BY_TENANT, {
         variables: { getAllReportsByTenantTenantId: tenantId}
     });
