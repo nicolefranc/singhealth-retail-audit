@@ -6,6 +6,7 @@ import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import { tokenValidator } from "../../utils/tokenValidator";
 
 export default function SendPdf({
+    close,
     reportId,
     sendSelf,
     sendTenant,
@@ -62,6 +63,7 @@ export default function SendPdf({
           }
           console.log(remarks);
           sendEmail();
+          close();
     }
 
     const [sendEmail] = useMutation(SEND_EMAIL, {

@@ -229,31 +229,3 @@ export default function TenantDetail({}) {
         </>
     )
 }
-
-
-{/* {( () => {
-    if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-        return (
-            <ReportModal 
-                id={getAllReportsByTenant[0].id}
-                title="Email Report PDF to..."
-                visible = {visible}
-                actions={[
-                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                    <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
-                ]}
-                functions={handleCancel}
-                maskClosable={false}  
-            >
-                <div className="flex flex-col">
-                    <Row>
-                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
-                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
-                    </Row>
-
-                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
-                </div>
-        </ReportModal>
-        )
-    }
-} ) ()} */}

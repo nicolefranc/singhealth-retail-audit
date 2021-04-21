@@ -95,7 +95,7 @@ export default function ReportListItem({ content }) {
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
                         // <Button key="save" className="" onClick={handleOk}>Send</Button>,
                         // <Pdf checklistData={{somth: "smth", total: 98, item1: "not dusty", item1score: 1, item2: "not wet", item2score: 0}}/>,
-                        <SendPdf reportId="6060d37dc9fd5a18c33be070" sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
+                        <SendPdf close={handleCancel} reportId="6060d37dc9fd5a18c33be070" sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["toh.kai.feng.2015@vjc.sg"]}/>
                     ]}
                 >
                     <div className="flex flex-col">
