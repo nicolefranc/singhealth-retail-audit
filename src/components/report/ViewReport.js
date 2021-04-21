@@ -69,6 +69,7 @@ export default function ViewReport() {
     let statusColor;
     if (report.status === AUDIT_ACTIONS.AUDITED) statusColor = "text-green-400";
     else if (report.status === AUDIT_ACTIONS.UNRECTIFIED_AUDIT) statusColor = "text-red-400";
+    else if (report.status === AUDIT_ACTIONS.RECTIFIED_AUDIT) statusColor = "text-blue-400";
     else if (report.status === AUDIT_ACTIONS.DRAFT_AUDIT) statusColor = "text-yellow-400";
     
     let scoreColor;

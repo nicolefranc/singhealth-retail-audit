@@ -14,9 +14,13 @@ export default function SendPdf({
     addressee,
 }) 
 {
-    const { data } = useQuery(FETCH_REPORT_BY_ID, {
-        variables: { reportId: reportId },
+    const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, {
+        variables: { getReportByIdReportId: reportId },
     });
+
+    if(error){
+        console.log("hi",error);
+    }
 
     if (data) {
         var tenantEmail = data.getReportById.tenantId.email;
@@ -27,7 +31,7 @@ export default function SendPdf({
     let isAuthenticated = localStorage.getItem("jwt");
     let validatorResult = tokenValidator(isAuthenticated);
 
-    console.log("my id is : ", validatorResult.id);
+    console.log("my report id is : ", reportId);
 
     const myEmailResult = useQuery(
         gql`
@@ -60,7 +64,7 @@ export default function SendPdf({
           sendEmail();
     }
 
-    const [sendEmail, { loading }] = useMutation(SEND_EMAIL, {
+    const [sendEmail] = useMutation(SEND_EMAIL, {
         update(cache, result) {
             console.log(result);
         },

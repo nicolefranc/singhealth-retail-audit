@@ -18,6 +18,7 @@ import SendPdf from "../components/audit/SendPdf";
 import Checkbox from "../components/audit/Checkbox";
 import TextArea from "antd/lib/input/TextArea";
 import { AUDIT_ACTIONS } from "../const";
+import { round } from '../utils/utils';
 
 const { Text } = Typography;
 
@@ -39,9 +40,11 @@ export default function DashboardTenant() {
         console.log(getAllReportsByTenant);
     }
 
+    console.log("gtid",getTenantById)
+
     const unrectLength = getAllReportsByTenant.filter(report => report.status === AUDIT_ACTIONS.UNRECTIFIED_AUDIT).length;
     const auditedLength = getAllReportsByTenant.filter(report => report.status === AUDIT_ACTIONS.AUDITED).length;
-    const progress = (auditedLength / getAllReportsByTenant.length) * 100;
+    const progress = round((auditedLength / getAllReportsByTenant.length) * 100, 0);
 
     return (    
         <>

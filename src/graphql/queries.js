@@ -20,6 +20,7 @@ export const FETCH_TENANT_DETAILS = gql`
         getTenantById(id: $getTenantByIdId) {
             name
             id
+            type
             institution
             email
             expiry
@@ -112,6 +113,7 @@ export const FETCH_REPORT_BY_ID = gql`
                 name
                 institution
                 type
+                email
             }
             auditorId {
                 id

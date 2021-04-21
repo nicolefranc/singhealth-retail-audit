@@ -4,7 +4,7 @@ export const routes = {
     DASHBOARD: '/dashboard',
     TENANTS: '/tenants',
     NOTIFICATIONS: '/notifications',
-    SETTINGS: '/settings',
+    SETTINGS: '/profile',
     CHECKLIST_NONFB: '/checklist-nonfb',
     CHECKLIST_FB:'/checklist-fb',
     CHECKLIST_COVID:'/checklist-covid',

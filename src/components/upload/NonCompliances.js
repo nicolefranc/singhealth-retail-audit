@@ -2,16 +2,17 @@ import { useMutation } from "@apollo/client";
 import { Button, message } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { useDispatch, useSelector } from "react-redux";
-import { MULTIPLE_UPLOADS } from "../../graphql/mutations";
+import { MULTIPLE_UPLOADS, RECTIFICATION_UPLOADS } from "../../graphql/mutations";
 import { updateRemarks, updateUploadStatus } from "../../redux/actions/image";
 import CustomModal from "../modals/CustomModal";
 import ImageUpload from "./ImageUpload";
 
-export default function NonCompliances({ id, lineItem, modal: { title, visible, actions, functions } }) {
+export default function NonCompliances({ type, reportId, id, lineItem, modal: { title, visible, actions, functions } }) {
     const files = useSelector(state => state.images[id] ? state.images[id].images : [])
     const remarks = useSelector(state => state[id]?.remarks);
     const dispatch = useDispatch();
-    const [mutate, { loading, error }] = useMutation(MULTIPLE_UPLOADS);
+    const isRectification = type === 'rectification';
+    const [mutate, { loading, error }] = useMutation(isRectification ? RECTIFICATION_UPLOADS : MULTIPLE_UPLOADS);
 
     const handleRemarks = ({ target: { value } }) => {
         updateRemarks(id, value)(dispatch);
@@ -19,9 +20,10 @@ export default function NonCompliances({ id, lineItem, modal: { title, visible, 
 
     const handleUpload = async () => {
         // Upload to bucket
-        let { data: { multipleUploads }} = await mutate({ variables: { files, id }})
+        let { data } = await mutate({ variables: { files, id }})
         // console.log(multipleUploads);
         // Set state to uploaded, replace the image state values
+        let multipleUploads = isRectification ? data.rectificationUploads : data.multipleUploads;
         if (multipleUploads.length === files?.length) {
             updateUploadStatus(id, multipleUploads)(dispatch)
         }
