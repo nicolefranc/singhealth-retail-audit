@@ -85,18 +85,19 @@ export default function TenantDetail({}) {
         history.push(`${routes.REPORT}/${getAllReportsByTenant[0].id}`)
     }
 
-    const audit = () => {
-        history.push(`${routes.AUDIT}/${tenantId}`)
-    }
-
     if (loading) return <Spin />
     else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
     // if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
 
     const { getAllReportsByTenant, getTenantById } = data ? data : [] ;
     const tenant = getTenantById;
+    
     if (getAllReportsByTenant && getAllReportsByTenant.length>0){
         console.log(getAllReportsByTenant);
+    }
+
+    const audit = () => {
+        history.push(`${routes.AUDIT}/${tenantId}/${tenant.type}`);
     }
 
     console.log("gtid",tenant)
