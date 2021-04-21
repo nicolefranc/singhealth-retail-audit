@@ -1,4 +1,4 @@
-import { ContactsOutlined, LineChartOutlined, NotificationOutlined, SettingOutlined } from "@ant-design/icons";
+import { ContactsOutlined, LineChartOutlined, NotificationOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { routes } from "../../const";
@@ -33,11 +33,11 @@ export default function BottomNav() {
                     <Link to={routes.TENANTS}><ContactsOutlined style={iconStyle} /></Link>
                     </Menu.Item>
                 )}
-                <Menu.Item key={routes.NOTIFICATIONS} className="w-full">
+                {/* <Menu.Item key={routes.NOTIFICATIONS} className="w-full">
                     <Link to={routes.NOTIFICATIONS}><NotificationOutlined style={iconStyle} /></Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key={routes.SETTINGS} className="w-full">
-                    <Link to={routes.SETTINGS}><SettingOutlined style={iconStyle} /></Link>
+                    <Link to={routes.SETTINGS}><UserOutlined style={iconStyle} /></Link>
                 </Menu.Item>
             </Menu>
         </div>

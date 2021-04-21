@@ -1,10 +1,12 @@
 import { PropertySafetyFilled, UploadOutlined } from "@ant-design/icons";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Button, Descriptions, Input, message, Spin, Tabs,Tag, Upload } from "antd";
+import { Button, Descriptions, Divider, Input, message, Spin, Tabs,Tag, Upload } from "antd";
 import Title from "antd/lib/typography/Title";
 import { validate } from "graphql";
 import { useState } from "react";
 import { Redirect, useHistory } from "react-router";
+import { PageContent, PageHeading } from "../components/layout/PageLayout";
+import CrossInstitution from "../components/profile/CrossInstitution";
 import { routes } from "../const";
 import {
     CHANGE_AUDITOR_EMAIL,
@@ -104,52 +106,59 @@ export default function Settings() {
     const colours = ["magenta","red","volcano","orange","gold","lime","green","cyan","blue","geekblue","purple"]
     return (
         <>
-            <Title>Settings</Title>
-            {/* <input type="file" required onChange={onChange} /> */}
-            <Button onClick={handleLogout}>Logout</Button>
-            <Tabs defaultActiveKey="1" type="card">
-                <TabPane tab="Details" key="1">
-                    <Descriptions
-                        size="small"
-                        column={1}
-                        layout="horizontal"
-                        bordered
-                    >
-                        {/* TODO: auditor details */}
-                        <Descriptions.Item label="Name">
-                            {validatorResult.name}
-                        </Descriptions.Item>
-                        {isAuditor && (
-                            <Descriptions.Item label="Role">
-                                {validatorResult.type}
-                            </Descriptions.Item>
-                        )}
-                        {isTenant && (
-                            <Descriptions.Item label="Type">
+            <PageHeading title="Profile" />
+            <PageContent>
+                <Tabs defaultActiveKey="1" type="card">
+                    <TabPane tab="Details" key="1">
+                        <Descriptions
+                            size="small"
+                            column={1}
+                            layout="horizontal"
+                            bordered
+                        >
+                            {/* TODO: auditor details */}
+                            <Descriptions.Item label="Name">
                                 {validatorResult.name}
                             </Descriptions.Item>
-                        )}
-                        <Descriptions.Item label="Institutions">
-                        
-                            {isTenant ? validatorResult.institutions
-                                : validatorResult.institutions.map((item,idx) => <Tag color={colours[idx*2]}>{item}</Tag>)}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Email">
-                            <Input
-                                // value={"hi"}
-                                value={email}
-                                onChange={(e)=> {setEmail(e.target.value);
-                                console.log(e.target.value)}}
-                            />
-                        </Descriptions.Item>
-                    </Descriptions>
-                    <Button onClick={saveChanges}>Save Changes</Button>
-                </TabPane>
+                            {isAuditor && (
+                                <Descriptions.Item label="Role">
+                                    {validatorResult.type}
+                                </Descriptions.Item>
+                            )}
+                            {isTenant && (
+                                <Descriptions.Item label="Type">
+                                    {validatorResult.name}
+                                </Descriptions.Item>
+                            )}
+                            <Descriptions.Item label="Institutions">
+                            
+                                {isTenant ? validatorResult.institutions
+                                    : validatorResult.institutions.map((item,idx) => <>{item}{idx < validatorResult.institutions.length -1 && <Divider type="vertical" />}</>)}
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Email">
+                                <Input
+                                    // value={"hi"}
+                                    value={email}
+                                    onChange={(e)=> {setEmail(e.target.value);
+                                    console.log(e.target.value)}}
+                                />
+                            </Descriptions.Item>
+                        </Descriptions>
+                        <Button className="mt-4 float-right" type="primary" onClick={saveChanges}>Save Changes</Button>
+                    </TabPane>
 
-                <TabPane tab="New User" key="4">
-                    <CreateUser />
-                </TabPane>
-            </Tabs>
+                    <TabPane tab="New User" key="4">
+                        <CreateUser />
+                    </TabPane>
+                   
+                    { !isTenant && <TabPane tab="Cross-Institution" key="5">
+                        <CrossInstitution />
+                    </TabPane> }
+                </Tabs>
+
+                <Divider />
+                <Button className="mb-6" block type="primary" danger onClick={handleLogout}>Logout</Button>
+            </PageContent>
         </>
     );
 }

@@ -36,13 +36,13 @@ export default function MenuItems() {
                 </>
             )}
 
-            <Menu.Item
+            {/* <Menu.Item
                 key={routes.NOTIFICATIONS}
                 icon={<NotificationOutlined />}
             >
                 <Link to={routes.NOTIFICATIONS}>Notifications</Link>
-            </Menu.Item>
-            <Menu.Item key={routes.SETTINGS} icon={<SettingOutlined />}>
+            </Menu.Item> */}
+            <Menu.Item key={routes.SETTINGS} icon={<UserOutlined />}>
                 <Link to={routes.SETTINGS}>Settings</Link>
             </Menu.Item>
         </Menu>

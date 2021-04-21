@@ -12,6 +12,7 @@ import SendEmailDemo from './SendEmailDemo';
 export default function TenantStatusItem({ content, checkboxVisible }) {
 
     const tenantId = content.id;
+    const tenantEmail = content.email;
     console.log(tenantId);
 
     let history = useHistory();
@@ -86,7 +87,7 @@ export default function TenantStatusItem({ content, checkboxVisible }) {
                     visible = {visible}
                     actions={[
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        // <SendEmailDemo to={tenantId} subject={subject} body={remarks}/>
+                        <SendEmailDemo to={tenantEmail} title={subject} body={remarks}/>
                     ]}
                     functions={handleCancel}
                     maskClosable={false}
