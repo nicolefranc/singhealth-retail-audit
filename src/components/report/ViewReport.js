@@ -137,7 +137,7 @@ export default function ViewReport() {
                                 <Descriptions.Item label="Auditee">{ report.tenantId.name }</Descriptions.Item>
                                 <Descriptions.Item label="Institution">{ report.tenantId.institution }</Descriptions.Item>
                                 <Descriptions.Item label="Audit Date">{ report.auditDate }</Descriptions.Item>
-                                <Descriptions.Item label="Due Date">{ report.dueDate }</Descriptions.Item>
+                                <Descriptions.Item label="Due Date">{ report.extension.final.date }</Descriptions.Item>
 
                                 <Descriptions.Item label="Remarks">
                                     { report.remarks || 'No remarks'}

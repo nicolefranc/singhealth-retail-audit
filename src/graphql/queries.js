@@ -121,6 +121,9 @@ export const FETCH_REPORT_BY_ID = gql`
                 name
                 email
             }
+            extension {
+                final { date }
+            }
             auditDate
             auditScore
             status

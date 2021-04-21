@@ -6,6 +6,7 @@ import { validate } from "graphql";
 import { useState } from "react";
 import { Redirect, useHistory } from "react-router";
 import { PageContent, PageHeading } from "../components/layout/PageLayout";
+import CrossInstitution from "../components/profile/CrossInstitution";
 import { routes } from "../const";
 import {
     CHANGE_AUDITOR_EMAIL,
@@ -149,6 +150,10 @@ export default function Settings() {
                     <TabPane tab="New User" key="4">
                         <CreateUser />
                     </TabPane>
+                   
+                    { !isTenant && <TabPane tab="Cross-Institution" key="5">
+                        <CrossInstitution />
+                    </TabPane> }
                 </Tabs>
 
                 <Divider />
