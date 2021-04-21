@@ -9,6 +9,7 @@ import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { noOp } from '@sandstreamdev/std/function';
 import TenantStatusItem from "../components/tenants/TenantStatusItem";
 import TenantCard from "../components/tenants/TenantCard";
+import CustomSpin from "../components/layout/CustomSpin";
 
 export default function Notifications() {
 
@@ -33,7 +34,7 @@ export default function Notifications() {
                     </SwipeableList>
                 )) : 
                 <div className="flex w-full justify-center items-center">
-                    <Spin tip="Loading..." size="large" />
+                    <CustomSpin />
                 </div>
             }
             </div>

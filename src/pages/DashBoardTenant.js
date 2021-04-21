@@ -19,6 +19,7 @@ import Checkbox from "../components/audit/Checkbox";
 import TextArea from "antd/lib/input/TextArea";
 import { AUDIT_ACTIONS } from "../const";
 import { round } from '../utils/utils';
+import CustomSpin from "../components/layout/CustomSpin";
 
 const { Text } = Typography;
 
@@ -32,7 +33,7 @@ export default function DashboardTenant() {
         variables: { getAllReportsByTenantTenantId: tenant.id, getTenantByIdId: tenant.id }
     });
 
-    if (loading) return (<Spin />)
+    if (loading) return (<CustomSpin />)
     else if (error) return (<div>{JSON.stringify(error)}</div>)
 
     const { getAllReportsByTenant, getTenantById } = data;

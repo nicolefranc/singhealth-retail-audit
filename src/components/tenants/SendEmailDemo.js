@@ -4,7 +4,7 @@ import { useState } from 'react'
 import {SEND_EMAIL} from '../../graphql/mutations'
 import { tokenValidator } from "../../utils/tokenValidator";
 
-export default function SendEmailDemo({to, title, body}){
+export default function SendEmailDemo({close, to, title, body}){
 
     // const [from, setFrom] = useState();
 
@@ -17,6 +17,7 @@ export default function SendEmailDemo({to, title, body}){
         update(cache, result){
             console.log(result);
             message.success("Email Sent");
+            close();
         },
         onError(err){
             console.log(err);

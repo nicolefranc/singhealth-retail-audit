@@ -3,6 +3,7 @@ import { Button, message, Select, Spin } from "antd";
 import { gql } from "apollo-client-preset";
 import { useEffect, useMemo, useState } from "react";
 import { tokenValidator } from "../../utils/tokenValidator";
+import CustomSpin from "../layout/CustomSpin";
 
 export default function CrossInstitution() {
     const user = tokenValidator(localStorage.getItem('jwt'));
@@ -62,7 +63,7 @@ export default function CrossInstitution() {
         return null;
     }
 
-    if (loading) return <Spin />
+    if (loading) return <CustomSpin />
     else if (error) return <div>{JSON.stringify(error)}</div>
     console.log('all auditors');
     console.log(data.getAllAuditors);

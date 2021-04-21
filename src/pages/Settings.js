@@ -5,6 +5,7 @@ import Title from "antd/lib/typography/Title";
 import { validate } from "graphql";
 import { useState } from "react";
 import { Redirect, useHistory } from "react-router";
+import CustomSpin from "../components/layout/CustomSpin";
 import { PageContent, PageHeading } from "../components/layout/PageLayout";
 import CrossInstitution from "../components/profile/CrossInstitution";
 import { routes } from "../const";
@@ -83,7 +84,7 @@ export default function Settings() {
     if (loading || error) {
         return (
             <div className="flex w-full justify-center items-center">
-                <Spin tip="Loading..." size="large" />
+                <CustomSpin />
             </div>
         );
     }

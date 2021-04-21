@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import PerformanceGraph from "../components/dashboard/PerformanceGraph";
 import { useQuery } from '@apollo/client';
-import {Performance} from "../components/dashboard/TenantData";
 import { Typography, Button, Popconfirm,Popover, message, Layout, Empty, Tag, Row, Col,Spin, Result, PageHeader, Space, Statistic, Descriptions, Checkbox, Alert } from 'antd';
-import { SwipeContentAction1 } from '../components/swipe/SwipeContent';
 import { SwipeableListItem,SwipeableList } from '@sandstreamdev/react-swipeable-list';
-import { MailOutlined } from "@ant-design/icons";
-import SendPdf from '../components/audit/SendPdf';
-import ReportModal from '../components/report/ReportModal';
 import { routes } from '../const';
 import ReportCard from "../components/tenants/ReportCard";
 import { FETCH_TENANT_DETAILS } from "../graphql/queries";
@@ -17,6 +12,9 @@ import { PageTitle, SectionTitle, Section, PageSubtitle, PageContent, PageHeadin
 import TextArea from 'antd/lib/input/TextArea';
 import ExpiryPopover from "../components/tenants/ExpiryPopover";
 import { tokenValidator } from '../utils/tokenValidator'
+import CustomModal from '../components/modals/CustomModal';
+import SendEmailDemo from '../components/tenants/SendEmailDemo';
+import CustomSpin from '../components/layout/CustomSpin';
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
@@ -43,24 +41,18 @@ export default function TenantDetail({}) {
         console.log(e);
         message.success('Tenant Deleted');
     }
-    
+
     // for modal
     const [visible,setVisible]=useState(false);
-    //for self checkbox
-    function onSelfChecked(e) {
-        console.log(`self = ${e.target.checked}`);
-        setSendSelf(e.target.checked);
+
+    function updateSubject(e){
+        setSubject(e.target.value);
     }
-    //for tenant checkbox
-    function onTenantChecked(e) {
-        console.log(`tenant = ${e.target.checked}`);
-        setSendTenant(e.target.checked);
-    }
+    const [subject, setSubject] = useState("");
+
     function updateRemarks(e){
         setRemarks(e.target.value);
     }
-    const [sendSelf, setSendSelf] = useState(false);
-    const [sendTenant, setSendTenant] = useState(false);
     const [remarks, setRemarks] = useState("");
 
     const showModal = () => {
@@ -69,24 +61,50 @@ export default function TenantDetail({}) {
     const handleCancel = () => {
         setVisible(false);
     };
+    
+    // // for modal
+    // const [visible,setVisible]=useState(false);
+    // //for self checkbox
+    // function onSelfChecked(e) {
+    //     console.log(`self = ${e.target.checked}`);
+    //     setSendSelf(e.target.checked);
+    // }
+    // //for tenant checkbox
+    // function onTenantChecked(e) {
+    //     console.log(`tenant = ${e.target.checked}`);
+    //     setSendTenant(e.target.checked);
+    // }
+    // function updateRemarks(e){
+    //     setRemarks(e.target.value);
+    // }
+    // const [sendSelf, setSendSelf] = useState(false);
+    // const [sendTenant, setSendTenant] = useState(false);
+    // const [remarks, setRemarks] = useState("");
 
-    // For swipe functionality  
-    const swipeLeftOptions = () => ({
-        content: (
-            <SwipeContentAction1
-            label="Email"
-            icon={<MailOutlined />}
-            />
-        ),
-        action: () => showModal()
-    });
+    // const showModal = () => {
+    //     setVisible(true);
+    // };
+    // const handleCancel = () => {
+    //     setVisible(false);
+    // };
+
+    // // For swipe functionality  
+    // const swipeLeftOptions = () => ({
+    //     content: (
+    //         <SwipeContentAction1
+    //         label="Email"
+    //         icon={<MailOutlined />}
+    //         />
+    //     ),
+    //     action: () => showModal()
+    // });
 
     const history = useHistory();
-    const goToReport = () => {
-        history.push(`${routes.REPORT}/${getAllReportsByTenant[0].id}`)
-    }
+    // const goToReport = () => {
+    //     history.push(`${routes.REPORT}/${getAllReportsByTenant[0].id}`)
+    // }
 
-    if (loading) return <Spin />
+    if (loading) return <CustomSpin />
     else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
     // if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
 
@@ -112,7 +130,7 @@ export default function TenantDetail({}) {
         <>
             <PageHeading title={tenant.name} node={
                 auditable ? <div className="flex mt-4">
-                    <Button block className="mr-2">Notify</Button>
+                    <Button block className="mr-2" onClick={() => showModal()}>Notify</Button>
                     <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
                 </div> : <></>
             }>
@@ -126,7 +144,7 @@ export default function TenantDetail({}) {
                 </Descriptions>
                 <div className="flex mt-6">
                     { auditable ? <>
-                        <Button block className="mr-2">Notify</Button>
+                        <Button block className="mr-2" onClick={() => showModal()}>Notify</Button>
                         <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
                         <div block className="ml-2">
                             <Popover
@@ -191,33 +209,51 @@ export default function TenantDetail({}) {
                     </Button>
                 </div> }
 
-                {( () => {
-                    if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
-                        return (
-                            <ReportModal 
-                                id={getAllReportsByTenant[0].id}
-                                title="Email Report PDF to..."
-                                visible = {visible}
-                                actions={[
-                                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                                    <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
-                                ]}
-                                functions={handleCancel}
-                                maskClosable={false}  
-                            >
-                                <div className="flex flex-col">
-                                    <Row>
-                                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
-                                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
-                                    </Row>
-
-                                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
-                                </div>
-                        </ReportModal>
-                        )
-                    }
-                } ) ()}
             </PageContent>
+
+
+            <CustomModal
+                title="Notify Tenant"
+                visible = {visible}
+                actions={[
+                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                    <SendEmailDemo close={handleCancel} to={tenant.email} title={subject} body={remarks}/>
+                ]}
+                functions={handleCancel}
+                maskClosable={false}
+            >
+                <TextArea onChange={updateSubject} placeholder="Subject" autoSize/>
+                <TextArea onChange={updateRemarks} placeholder="Message" autoSize={{ minRows: 4}} className="mt-5" />
+                    
+            </CustomModal>
         </>
     )
 }
+
+
+{/* {( () => {
+    if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
+        return (
+            <ReportModal 
+                id={getAllReportsByTenant[0].id}
+                title="Email Report PDF to..."
+                visible = {visible}
+                actions={[
+                    <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                    <SendPdf reportId={getAllReportsByTenant[0].id} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["deeni1299@gmail.com"]}/>
+                ]}
+                functions={handleCancel}
+                maskClosable={false}  
+            >
+                <div className="flex flex-col">
+                    <Row>
+                        <Col span={6}><Checkbox onChange={onSelfChecked}>Self</Checkbox></Col>
+                        <Col span={6}><Checkbox onChange={onTenantChecked}>Tenant</Checkbox></Col>
+                    </Row>
+
+                    <TextArea onChange={updateRemarks} placeholder="Remarks" autoSize className="mt-5" />
+                </div>
+        </ReportModal>
+        )
+    }
+} ) ()} */}
