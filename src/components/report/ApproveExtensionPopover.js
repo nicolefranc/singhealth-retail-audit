@@ -53,6 +53,9 @@ export default function ApproveExtensionPopover({ report, makeInvisible }) {
         requestExtension();
         makeInvisible(false);
     };
+
+    console.log(moment(report.extension.proposed.date, DATE_FORMAT));
+
     return (
         <>
             <h1>Approved Due Date</h1>
@@ -63,7 +66,8 @@ export default function ApproveExtensionPopover({ report, makeInvisible }) {
                 defaultValue={report.extension.final.date && moment(report.extension.final.date, DATE_FORMAT)}
                 
             />   */}
-             <DatePicker className="mb-2 mt-2" defaultValue={report.extension.proposed.date && moment(report.extension.proposed.date, DATE_FORMAT)} onChange={onAuditDateChange} showToday={false} dateRender={current => {
+            
+             <DatePicker format={DATE_FORMAT} className="mb-2 mt-2" defaultValue={report.extension.proposed.date && moment(report.extension.proposed.date, DATE_FORMAT)} onChange={onAuditDateChange} showToday={false} dateRender={current => {
                         const style = {};
                         if (current.format(DATE_FORMAT) === report.extension.final.date) {
                             style.backgroundColor = "rgba(252, 165, 165)";
