@@ -58,7 +58,7 @@ export default function ExpiryPopover({tenant, makeInvisible}){
     return (<>
         <h1>Expiry Date</h1>
 
-         <DatePicker className="mb-2 mt-2" defaultValue={tenant.expiry && moment(tenant.expiry, DATE_FORMAT)} onChange={onChange} showToday={false} dateRender={current => {
+         <DatePicker format={DATE_FORMAT} className="mb-2 mt-2" defaultValue={tenant.expiry && moment(tenant.expiry, DATE_FORMAT)} onChange={onChange} showToday={false} dateRender={current => {
                     const style = {};
                     if (current.format(DATE_FORMAT) === tenant.expiry) {
                         style.backgroundColor = "rgba(252, 165, 165)";

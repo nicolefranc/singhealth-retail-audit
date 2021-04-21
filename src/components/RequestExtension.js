@@ -3,6 +3,7 @@ import { DeleteOutlined,PictureOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Title from "antd/lib/typography/Title";
 import moment from 'moment';
+import { DATE_FORMAT } from '../const';
 
 
 export default function RequestExtension() {
@@ -97,7 +98,7 @@ export default function RequestExtension() {
             >
                 <h3>select date</h3>
 
-                <DatePicker className='mb-16' onChange={onChange} showToday={false} dateRender={current => {
+                <DatePicker format={DATE_FORMAT} className='mb-16' onChange={onChange} showToday={false} dateRender={current => {
                         const style = {};
                         if (current.toDate().toISOString().substring(0,10) === "2021-04-22") {
                             style.backgroundColor = "rgba(252, 165, 165)";

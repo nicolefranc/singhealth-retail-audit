@@ -62,7 +62,7 @@ export default function SendPdf({
             addressee.push(tenantEmail);
           }
           console.log(remarks);
-          await sendEmail();
+          sendEmail();
           message.success("sent")
     }
 
