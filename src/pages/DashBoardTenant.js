@@ -84,7 +84,7 @@ export default function DashboardTenant() {
                     
                 <div>
                     <SectionTitle title="Performance Graph" />
-                    <PerformanceGraph content={getTenantById.performance} type={undefined}/>
+                    <PerformanceGraph content={getTenantById.performance} type={"performance"}/>
                 </div>
 
                 <Section>
