@@ -50,7 +50,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
     // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
-        console.log(data);
+        console.log(content);
         if (auditable)
             history.push(`audit/${tenantId}/${content.type}`);
         else
