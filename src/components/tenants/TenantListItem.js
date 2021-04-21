@@ -156,7 +156,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
                     visible = {visible}
                     actions={[
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        <SendEmailDemo to={tenantEmail} title={subject} body={remarks}/>
+                        <SendEmailDemo close={handleCancel} to={tenantEmail} title={subject} body={remarks}/>
                     ]}
                     functions={handleCancel}
                     maskClosable={false}
