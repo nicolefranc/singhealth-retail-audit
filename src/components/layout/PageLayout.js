@@ -19,27 +19,42 @@ export const PageHeading = ({ title, node, children }) => {
         if (y > 50) setScrolled(true);
         else setScrolled(false);
     }
-
-    if (!node)
-        return (
-            <div className={`bg-gray-100 p-6 sticky top-0 z-2  ${!scrolled && `rounded-b-2xl`}`} onScroll={handleScroll}>
-                { scrolled ? <h1 className="text-xl font-semibold">{ title }</h1>
-                    : <PageTitle title={title} /> }
-                { !scrolled && children }
+    
+    return (
+        <div onScroll={handleScroll}>
+            <div className="bg-gray-100 p-6 z-0">
+                { !node && <PageTitle title={title} /> }
+                { children }
             </div>
-        )
+            
 
-    else return (
-        <div className={`bg-gray-100 p-6 sticky top-0 z-2  ${!scrolled && `rounded-b-2xl`}`} onScroll={handleScroll}>
-            {/* { scrolled &&  } */}
-            { scrolled ?
-                <> 
-                    <h1 className="text-xl font-semibold">{ title }</h1>
-                    {node} 
-                </>
-                : children }
+            {/* Overlay */}
+            <div className={`bg-gray-100 fixed top-0 z-2 w-full p-6 ${scrolled ? 'visible' : 'invisible'}`}>
+                <h1 className="text-xl font-semibold">{ title }</h1>
+                { node }
+            </div>
         </div>
     )
+
+    // if (!node)
+    //     return (
+    //         <div className={`bg-gray-100 p-6 sticky top-0 z-2  ${!scrolled && `rounded-b-2xl`}`} onScroll={handleScroll}>
+    //             { scrolled ? <h1 className="text-xl font-semibold">{ title }</h1>
+    //                 : <PageTitle title={title} /> }
+    //             { !scrolled && children }
+    //         </div>
+    //     )
+
+    // else return (
+    //     <div className={`bg-gray-100 p-6 sticky top-0 z-2  ${!scrolled && `rounded-b-2xl`}`} onScroll={handleScroll}>
+    //         { scrolled ?
+    //             <> 
+    //                 <h1 className="text-xl font-semibold">{ title }</h1>
+    //                 {node} 
+    //             </>
+    //             : children }
+    //     </div>
+    // )
 }
 
 export const BackHeader = ({ title }) => {

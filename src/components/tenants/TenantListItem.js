@@ -14,9 +14,12 @@ import { FETCH_REPORT_BY_TENANT } from "../../graphql/queries";
 export default function TenantListItem({ content, checkboxVisible, auditable }) {
 
     const tenantId = content.id;
+    const tenantEmail = content.email;
     const { loading, error, data } = useQuery(FETCH_REPORT_BY_TENANT, {
         variables: { getAllReportsByTenantTenantId: tenantId}
     });
+
+    const [itemSelected, setItemSelected] = useState(null);
 
     const handleClick = () => {
         console.log(`TenantDetail/${tenantId}`)
@@ -40,8 +43,9 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
     }
     const [remarks, setRemarks] = useState("");
 
-    const showModal = () => {
-        setVisible(content );
+    const showModal = (index) => {
+        setVisible(true);
+        setItemSelected(index);
     };
     const handleCancel = () => {
         setVisible(false);
@@ -50,7 +54,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
     // swipe functionalities
     let history = useHistory();
     const swipeToAudit = () => {
-        console.log(data);
+        console.log(content);
         if (auditable)
             history.push(`audit/${tenantId}/${content.type}`);
         else
@@ -64,7 +68,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
             icon={<NotificationOutlined />}
             />
         ),
-        action: () => showModal()
+        action: () => showModal(tenantId)
     });
     
     const swipeAuditOptions = () => ({
@@ -152,7 +156,7 @@ export default function TenantListItem({ content, checkboxVisible, auditable }) 
                     visible = {visible}
                     actions={[
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        <SendEmailDemo to={tenantId} subject={subject} body={remarks}/>
+                        <SendEmailDemo to={tenantEmail} title={subject} body={remarks}/>
                     ]}
                     functions={handleCancel}
                     maskClosable={false}

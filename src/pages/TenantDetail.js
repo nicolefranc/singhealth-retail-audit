@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PerformanceGraph from "../components/dashboard/PerformanceGraph";
 import { useQuery } from '@apollo/client';
 import {Performance} from "../components/dashboard/TenantData";
-import { Typography, Button, Popconfirm,Popover, message, Layout, Empty, Tag, Row, Col,Spin, Result, PageHeader, Space, Statistic, Descriptions, Checkbox, Divider } from 'antd';
+import { Typography, Button, Popconfirm,Popover, message, Layout, Empty, Tag, Row, Col,Spin, Result, PageHeader, Space, Statistic, Descriptions, Checkbox, Alert } from 'antd';
 import { SwipeContentAction1 } from '../components/swipe/SwipeContent';
 import { SwipeableListItem,SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import { MailOutlined } from "@ant-design/icons";
@@ -16,6 +16,7 @@ import { useHistory } from 'react-router';
 import { PageTitle, SectionTitle, Section, PageSubtitle, PageContent, PageHeading, BackHeader } from "../components/layout/PageLayout";
 import TextArea from 'antd/lib/input/TextArea';
 import ExpiryPopover from "../components/tenants/ExpiryPopover";
+import { tokenValidator } from '../utils/tokenValidator'
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
@@ -85,31 +86,35 @@ export default function TenantDetail({}) {
         history.push(`${routes.REPORT}/${getAllReportsByTenant[0].id}`)
     }
 
-    const audit = () => {
-        history.push(`${routes.AUDIT}/${tenantId}`)
-    }
-
     if (loading) return <Spin />
     else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
     // if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
 
     const { getAllReportsByTenant, getTenantById } = data ? data : [] ;
     const tenant = getTenantById;
+    
     if (getAllReportsByTenant && getAllReportsByTenant.length>0){
         console.log(getAllReportsByTenant);
+    }
+
+    const audit = () => {
+        history.push(`${routes.AUDIT}/${tenantId}/${tenant.type}`);
     }
 
     console.log("gtid",tenant)
 
     console.log(getAllReportsByTenant[0]);
+    let user = tokenValidator(localStorage.getItem("jwt"));
+    const auditable = user.institutions.includes(tenant.institution);
+    console.log(auditable);
 
     return (    
         <>
             <PageHeading title={tenant.name} node={
-                <div className="flex mt-4">
+                auditable ? <div className="flex mt-4">
                     <Button block className="mr-2">Notify</Button>
                     <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
-                </div>
+                </div> : <></>
             }>
                 <BackHeader title="Tenant Details" />
                 <PageTitle title={tenant.name} />
@@ -120,19 +125,26 @@ export default function TenantDetail({}) {
                     
                 </Descriptions>
                 <div className="flex mt-6">
-                    <Button block className="mr-2">Notify</Button>
-                    <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
-                    <div block className="ml-2">
-                        <Popover
-                            content={<a><ExpiryPopover tenant={tenant} makeInvisible={makeInvisible}/></a>}
-                            title="Extension Request"
-                            trigger="click"
-                            visible={visible1}
-                            onVisibleChange={handleVisibleChange}
-                        >
-                            <Button type="ghost" disabled={tenant.expiry === "Pending Approval"}>Edit Expiry</Button>
-                        </Popover>
-                    </div>
+                    { auditable ? <>
+                        <Button block className="mr-2">Notify</Button>
+                        <Button block className="ml-2" type="primary" onClick={audit}>Audit</Button>
+                        <div block className="ml-2">
+                            <Popover
+                                content={<a><ExpiryPopover tenant={tenant} makeInvisible={makeInvisible}/></a>}
+                                title="Extension Request"
+                                trigger="click"
+                                visible={visible1}
+                                onVisibleChange={handleVisibleChange}
+                            >
+                                <Button type="ghost" disabled={tenant.expiry === "Pending Approval"}>Edit Expiry</Button>
+                            </Popover>
+                        </div>
+                    </> : <Alert
+                        message="Viewing Rights"
+                        description="You are only allowed to view this tenant from this institution."
+                        type="info"
+                        showIcon className="w-full"
+                    /> }
                 </div>
             </PageHeading>
             <PageContent>
@@ -167,7 +179,7 @@ export default function TenantDetail({}) {
                     }
                 </Section>
 
-                <div className="my-6">
+                { auditable && <div className="my-6">
                     <Button type="primary" danger block size="large">
                         <Popconfirm
                             title="Are you sure to delete tenant x?"
@@ -177,7 +189,7 @@ export default function TenantDetail({}) {
                             cancelText="No"
                         >Delete Tenant</Popconfirm>
                     </Button>
-                </div>
+                </div> }
 
                 {( () => {
                     if (getAllReportsByTenant && getAllReportsByTenant.length>0) {
