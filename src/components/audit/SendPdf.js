@@ -1,20 +1,21 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 
 import { FETCH_REPORT_BY_ID } from "../../graphql/queries";
 import { tokenValidator } from "../../utils/tokenValidator";
+import { useHistory } from "react-router";
 
 export default function SendPdf({
     reportId,
     sendSelf,
     sendTenant,
     remarks,
-    download,
+    setVisible,
     addressee,
 }) 
 {
-    const { data, loading, error } = useQuery(FETCH_REPORT_BY_ID, {
+    const { data, error } = useQuery(FETCH_REPORT_BY_ID, {
         variables: { getReportByIdReportId: reportId },
     });
 
@@ -52,7 +53,7 @@ export default function SendPdf({
     }
     //getting my email end
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if (sendSelf && !addressee.includes(userEmail)) {
             addressee.push(userEmail);
           }
@@ -61,15 +62,21 @@ export default function SendPdf({
             addressee.push(tenantEmail);
           }
           console.log(remarks);
-          sendEmail();
+          await sendEmail();
+          message.success("sent")
     }
 
-    const [sendEmail] = useMutation(SEND_EMAIL, {
+    const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {
         update(cache, result) {
             console.log(result);
+            setVisible();
         },
         onError(err) {
             console.log(err);
+        },
+        onCompleted(data){
+            console.log(data);
+            // message.success("PDF report sent!");
         },
         variables: { reportId, addressee, remarks },
     });
@@ -82,7 +89,11 @@ export default function SendPdf({
 
 const SEND_EMAIL = gql`
     mutation($reportId: String!, $addressee: [String!], $remarks: String!) {
-        sendReportPDFById(reportId: $reportId, addressee: $addressee, remarks: $remarks)
+        sendReportPDFById(reportId: $reportId, addressee: $addressee, remarks: $remarks){
+            id
+        }
     }
+        
+    
 `;
 
