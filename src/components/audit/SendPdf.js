@@ -7,6 +7,7 @@ import { tokenValidator } from "../../utils/tokenValidator";
 import { useHistory } from "react-router";
 
 export default function SendPdf({
+    close,
     reportId,
     sendSelf,
     sendTenant,
@@ -63,7 +64,7 @@ export default function SendPdf({
           }
           console.log(remarks);
           sendEmail();
-          message.success("sent")
+          close();
     }
 
     const [sendEmail, {loading}] = useMutation(SEND_EMAIL, {

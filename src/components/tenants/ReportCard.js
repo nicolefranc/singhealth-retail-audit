@@ -127,7 +127,7 @@ export default function ReportCard({ content }) {
                     visible = {visible}
                     actions={[
                         <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                        <SendPdf reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={[]} setVisible={invisible}/>  //toh.kai.feng.2015@vjc.sg
+                        <SendPdf close={handleCancel} reportId={itemSelected} sendSelf={sendSelf} sendTenant={sendTenant} remarks={remarks} addressee={["roxaswen@gmail.com"]}/>  //toh.kai.feng.2015@vjc.sg
                     ]}
                     functions={handleCancel}
                     maskClosable={false}
