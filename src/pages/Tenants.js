@@ -92,11 +92,13 @@ const FETCH_ALL_TENANTS = gql`
         getAllTenants {
             id
             name
+            type
             institution
         }
         getTenantsByAuditor(auditorId: $getTenantsByAuditorAuditorId) {
             id
             name
+            type
             institution
         }
     }
