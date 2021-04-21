@@ -216,7 +216,7 @@ export default function TenantDetail({}) {
                 visible = {visible}
                 actions={[
                     <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
-                    <SendEmailDemo to={tenant.email} title={subject} body={remarks}/>
+                    <SendEmailDemo close={handleCancel} to={tenant.email} title={subject} body={remarks}/>
                 ]}
                 functions={handleCancel}
                 maskClosable={false}
