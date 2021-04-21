@@ -16,6 +16,7 @@ import { FETCH_ALL_TENANTS_PERFORMANCE } from '../graphql/queries';
 import unrectified from "../assets/images/unrectified.png";
 import draft from "../assets/images/draft.png";
 import { useState } from "react";
+import CustomSpin from "../components/layout/CustomSpin";
 
 const bgColor = { backgroundColor: "#f0f2f5"};
 
@@ -29,7 +30,7 @@ export default function Dashboard() {
 
   const { loading, error, data } = useQuery(FETCH_ALL_TENANTS_PERFORMANCE);
 
-  if (loading) return <Spin size="large" />
+  if (loading) return <CustomSpin />
 
   else if(error) {
       return <div>{ JSON.stringify(error) }</div>

@@ -24,7 +24,7 @@ export default function TenantCard({ tenants }) {
     // if (loading) {
     //     return (
     //         <div className="flex w-full justify-center items-center">
-    //                 <Spin tip="Loading..." size="large" />
+    //                 <CustomSpin />
     //         </div>
     //     );
     // }

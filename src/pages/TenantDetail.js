@@ -14,6 +14,7 @@ import ExpiryPopover from "../components/tenants/ExpiryPopover";
 import { tokenValidator } from '../utils/tokenValidator'
 import CustomModal from '../components/modals/CustomModal';
 import SendEmailDemo from '../components/tenants/SendEmailDemo';
+import CustomSpin from '../components/layout/CustomSpin';
 
 const { Footer, Content } = Layout;
 const { Text } = Typography;
@@ -103,7 +104,7 @@ export default function TenantDetail({}) {
     //     history.push(`${routes.REPORT}/${getAllReportsByTenant[0].id}`)
     // }
 
-    if (loading) return <Spin />
+    if (loading) return <CustomSpin />
     else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
     // if (error) return <div>{ JSON.stringify(error, null, 2) }</div>
 

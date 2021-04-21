@@ -15,6 +15,7 @@ import { round } from '../../utils/utils';
 import { tokenValidator } from '../../utils/tokenValidator';
 import DownloadPdf from '../audit/DownloadPdf';
 import { AUDIT_ACTIONS, routes } from '../../const';
+import CustomSpin from '../layout/CustomSpin';
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -57,7 +58,7 @@ export default function ViewReport() {
         setVisible(false);
     };
 
-    if (loading) return <Spin size="large" />
+    if (loading) return <CustomSpin />
 
     // else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
     else if (error) return <div>{ JSON.stringify(error) }</div>
