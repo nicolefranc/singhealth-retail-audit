@@ -2,7 +2,7 @@ import { useState } from "react";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import { Button, Col, Row, Input, Divider, Spin, Tabs } from "antd";
-import { SelectOutlined, CloseOutlined, FilterOutlined } from "@ant-design/icons";
+import { SelectOutlined, CloseOutlined, FilterOutlined, LoadingOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import { RESPONSIVE_GUTTER } from "../const";
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
@@ -11,6 +11,7 @@ import TenantSearchFilter from "../components/tenants/TenantSearchFilter";
 import { PageContent, PageHeading, Section, SectionTitle } from "../components/layout/PageLayout";
 import { useMemo } from "react";
 import { tokenValidator } from "../utils/tokenValidator";
+import CustomSpin from "../components/layout/CustomSpin";
 
 const { Search } = Input;
 
@@ -47,7 +48,7 @@ export default function Tenants() {
         return tenantsByInstitution;
     }, [data])
     
-    if (loading) return <Spin size="large" />
+    if (loading) return <CustomSpin />
 
     else if(error) {
         return <div>{ JSON.stringify(error) }</div>
@@ -92,14 +93,18 @@ const FETCH_ALL_TENANTS = gql`
         getAllTenants {
             id
             name
+            email
             type
             institution
+            email
         }
         getTenantsByAuditor(auditorId: $getTenantsByAuditorAuditorId) {
             id
             name
+            email
             type
             institution
+            email
         }
     }
 `
@@ -110,7 +115,7 @@ const FETCH_ALL_TENANTS = gql`
 //     </Col>
 // )) : 
 // <div className="flex w-full justify-center items-center">
-//     <Spin tip="Loading..." size="large" />
+//     <CustomSpin />
 // </div>
 
 // <SwipeableList>

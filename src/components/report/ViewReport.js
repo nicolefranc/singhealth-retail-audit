@@ -15,6 +15,7 @@ import { round } from '../../utils/utils';
 import { tokenValidator } from '../../utils/tokenValidator';
 import DownloadPdf from '../audit/DownloadPdf';
 import { AUDIT_ACTIONS, routes } from '../../const';
+import CustomSpin from '../layout/CustomSpin';
 
 const { TabPane } = Tabs;
 const infoContent = (
@@ -57,7 +58,7 @@ export default function ViewReport() {
         setVisible(false);
     };
 
-    if (loading) return <Spin size="large" />
+    if (loading) return <CustomSpin />
 
     // else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
     else if (error) return <div>{ JSON.stringify(error) }</div>
@@ -137,7 +138,7 @@ export default function ViewReport() {
                                 <Descriptions.Item label="Auditee">{ report.tenantId.name }</Descriptions.Item>
                                 <Descriptions.Item label="Institution">{ report.tenantId.institution }</Descriptions.Item>
                                 <Descriptions.Item label="Audit Date">{ report.auditDate }</Descriptions.Item>
-                                <Descriptions.Item label="Due Date">{ report.dueDate }</Descriptions.Item>
+                                <Descriptions.Item label="Due Date">{ report.extension.final.date }</Descriptions.Item>
 
                                 <Descriptions.Item label="Remarks">
                                     { report.remarks || 'No remarks'}

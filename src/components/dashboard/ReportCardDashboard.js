@@ -9,6 +9,7 @@ import ReportCard from "../tenants/ReportCard";
 import {FETCH_REPORT_BY_AUDITOR_STATUS} from "../../graphql/queries";
 import { tokenValidator } from "../../utils/tokenValidator";
 import gql from "graphql-tag";
+import CustomSpin from '../layout/CustomSpin';
 
 
 export default function ReportCardDashboard({ status, setLength }) {
@@ -23,7 +24,7 @@ export default function ReportCardDashboard({ status, setLength }) {
         variables: { getReportByAuditorAndStatusAuditorId: auditorId, getReportByAuditorAndStatusStatus: reportStatus }
     });
 
-    if (loading) return <Spin />
+    if (loading) return <CustomSpin />
     else if (error) return <Result status="500" title="500" subTitle="Sorry, something went wrong" />
 
     const { getReportByAuditorAndStatus } = data ? data : [] ;
